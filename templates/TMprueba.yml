@@ -1,0 +1,39 @@
+prefixes:
+  rr: http://www.w3.org/ns/r2rml#
+  rml: http://semweb.mmlab.be/ns/rml#
+  ql: http://semweb.mmlab.be/ns/ql#
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  owl: http://www.w3.org/2002/07/owl#
+  dcterms: http://purl.org/dc/terms/
+  xsd: http://www.w3.org/2001/XMLSchema#
+  fno: http://w3id.org/function/ontology#
+  sql: http://dchaves.oeg-upm.net/resources/function/sql.ttl#
+  bv: http://bio2rdf.org/bio2rdf_vocabulary:
+  wbv: http://bio2rdf.org/wormbase_vocabulary:
+
+mappings:
+  TMprueba1:
+    sources:
+      access: ftp://ftp.wormbase.org/pub/wormbase/releases/current-production-release/species/c_elegans/PRJNA13758/annotation/c_elegans.PRJNA13758.WS269.geneIDs.txt.gz
+      referenceFormulation: csv
+    s: http://bio2rdf.org/wormbase:$(gene_id)
+    po:
+      - [rdf:type, wbv:Resource]
+      - [rdf:type, wbv:Gene]
+      - [rdfs:label, $(gene_id) ($(symbol)) [wormbase:$(gene_id)]]
+      - [dcterms:title, $(gene_id) ($(symbol))]
+      - [dcterms:identifier, wormbase:$(gene_id)]
+      - p: wbv:x-taxid
+        o:
+          - mapping: TMtaxonomy-names1
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(taxid)]
+                - [str2, $(tax_id)]
+      - [rdfs:seeAlso, http://wormbase.org/db/gene/gene?name=$(gene_id)]
+      - [wbv:cosmid, $(cosmid)]
+      - [wbv:approved-gene-name, $(symbol)]
+
+
