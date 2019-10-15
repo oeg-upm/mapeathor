@@ -12,5 +12,5 @@ In the code repository it's the file ready to run:
 
 ```
 cd code/
-python main_translator.py -i <input_file> -o <output_path> -n <triples_map_name> -o <mapping_language>
+python main_translator.py -i <input_file> -o <output_path> -n <triples_map_name> -l <mapping_language>
 ```
