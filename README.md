@@ -1,6 +1,6 @@
-# Excel mapping translator
+# Mapeathor
 
-Translator of Excel mappings into R2RML, RML or YARRRML. 
+Translator of mapping rules written in spreadsheets into R2RML, RML or YARRRML. 
 
 ## Guide
 
