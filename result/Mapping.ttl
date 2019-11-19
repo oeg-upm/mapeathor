@@ -1,0 +1,69 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix schema: <https://schema.org/>
+@prefix ex: <http://ex.com/>
+@prefix sql: <http://w3.org/ns/sql#>
+<#EMPLOYED>
+  rr:subjectMap[
+    a rr:Subject;
+    rr:termType rr:IRI;
+    rr:class  schema:Person;
+    rr:template "http://ex.com/employed/{id}";
+  ];
+  rr:logicalTable [
+    rml:source "data/employeds.csv"
+  ]
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:name];
+    rr:objectMap  [ rr:column "name"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:jobTitle];
+    rr:objectMap  [ rr:column "role"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:description];
+    rr:objectMap  [ rr:column "bio"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:image];
+    rr:objectMap  [ rr:column "img"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+.
+<#NEW>
+  rr:subjectMap[
+    a rr:Subject;
+    rr:termType rr:IRI;
+    rr:class  schema:Article;
+    rr:template "http://ex.com/news/{news_id}";
+  ];
+  rr:logicalTable [
+    rml:source "data/news.csv"
+  ]
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:name];
+    rr:objectMap  [ rr:column "title"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:creator];
+    rr:objectMap  [ rr:column "author"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:image];
+    rr:objectMap  [ rr:column "img"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:about];
+    rr:objectMap  [ rr:column "preview"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:contentReferenceTime];
+    rr:objectMap  [ rr:column "date"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate  [ rr:constant schema:articleBody];
+    rr:objectMap  [ rr:column "article"; rr:termType rr:literal; rr:datatype xsd:string;]
+  ];
+.

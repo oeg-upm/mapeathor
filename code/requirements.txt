@@ -1,0 +1,4 @@
+pandas==0.24.1
+go_template
+argparse
+xlrd

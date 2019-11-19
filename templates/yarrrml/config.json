@@ -1,0 +1,21 @@
+{
+	"variable":{
+		"template":{
+			"before":"$(",
+			"after":")"
+			
+		},
+		"reference":{
+			"before":"$(",
+			"after":")"
+		}
+	},
+	"tab":{
+		"size":2
+	},
+	"iterator":{
+		"before":", ",
+		"after":""
+	},
+	"extension":"yml"
+}

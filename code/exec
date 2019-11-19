@@ -1,0 +1,1 @@
+rm ../tmp/*;rm ../tmp/.*;rm ../result/.*; rm ../result/*; python3 main.py
