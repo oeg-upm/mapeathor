@@ -7,25 +7,29 @@
 **Mapeathor it's a simple spreadSheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
 ![WorkFlow Image](./imgs/workflow.png)    
 ## Example:    
-- #### First Step: Fill the xlsx template with your own information.  
-The template has four mandatory sheets (*Prefixes, LogicalSource, SubjectMap and PredicateObjectMap*). 
+### First Step: Fill the xlsx template with your own information.  
+The template has four mandatory sheets, *Prefixes, LogicalSource, SubjectMap and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
 #### Prefixes:  
-![Prefixes img](./imgs/ex1.png)  
+![Prefixes img](./imgs/sheet_prefix.pdf)  
   
- #### LogicalSource:  
-![LogicalSource img](./imgs/ex2.png)  
+ #### Source:  
+![Source img](./imgs/sheet_source.pdf)  
   
- #### SubjectMap:  
-![SubjectMap img](./imgs/ex3.png)  
+ #### Subject:  
+![Subject img](./imgs/sheet_subject.pdf)  
   
  #### PredicateObjectMaps:  
-![PredicateObjectMaps img](./imgs/ex4.png)  
+![PredicateObjectMaps img](./imgs/sheet_poms.pdf)  
   
+ #### Functions:
+![Function img](./imgs/sheet_function.pdf)
 
-- #### Second Step: Choose the output langauge that you prefer. [Avaible Languages](./templates)  
-- #### Third Step: Execute these commands:
+### Second Step: Choose the output language that you prefer. 
+Here you can see the [Available Languages](./templates).
+
+### Third Step: Execute these commands:
 ```BASH
-$ git clone https://github.com/w0xter/Mapeathor
+$ git clone https://github.com/oeg-upm/Mapeathor
 $ cd Mapeathor/code/
 $ pip3 install -r dependencies.txt
 $ python3 main.py -i /PATH/OF/YOUR/XLSX/FILE -l MappingLanguageNameChoosed
