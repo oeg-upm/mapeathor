@@ -5,7 +5,7 @@
 ###### Right now is under development, the only supported languages are **RML** **YARRRML** and **R2RML** and the Functions are not implemeted.  
 ## How it works:  
 **Mapeathor it's a simple spreadSheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
-![WorkFlow Image](./imgs/workflow.png)    
+![WorkFlow Image](./imgs/general_schema.png)    
 ## Example:    
 ### First Step: Fill the xlsx template with your own information.  
 The template has four mandatory sheets, *Prefixes, LogicalSource, SubjectMap and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
