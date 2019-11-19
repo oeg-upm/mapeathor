@@ -10,19 +10,19 @@
 ### First Step: Fill the xlsx template with your own information.  
 The template has four mandatory sheets, *Prefixes, LogicalSource, SubjectMap and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
 #### Prefixes:  
-![Prefixes img](./imgs/sheet_prefix.pdf)  
+![Prefixes img](./imgs/sheet_prefix.png)  
   
  #### Source:  
-![Source img](./imgs/sheet_source.pdf)  
+![Source img](./imgs/sheet_source.png)  
   
  #### Subject:  
-![Subject img](./imgs/sheet_subject.pdf)  
+![Subject img](./imgs/sheet_subject.png)  
   
  #### PredicateObjectMaps:  
-![PredicateObjectMaps img](./imgs/sheet_poms.pdf)  
+![PredicateObjectMaps img](./imgs/sheet_pom.png)  
   
  #### Functions:
-![Function img](./imgs/sheet_function.pdf)
+![Function img](./imgs/sheet_function.png)
 
 ### Second Step: Choose the output language that you prefer. 
 Here you can see the [Available Languages](./templates).
