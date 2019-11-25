@@ -1,0 +1,8 @@
+version: "2.4"
+services:
+  mapeathor:
+    container_name: mapeathor
+    image: oegdataintegration/mapeathor:1.0.0
+    volumes:
+      - ./data:/Mapeathor/data
+      - ./result/:/Mapeathor/result

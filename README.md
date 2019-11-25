@@ -31,6 +31,7 @@ The template has four mandatory sheets, *Prefixes, LogicalSource, SubjectMap and
 Here you can see the [Available Languages](./templates).
 
 ### Third Step: Execute these commands:
+With python:
 ```BASH
 # Clone the repository
 $ git clone https://github.com/oeg-upm/Mapeathor
@@ -47,4 +48,20 @@ $ python3 main.py -h
 
 # Example
 $ python3 main.py -i ../data/default.xlsx -l yarrrml
+```
+With docker:
+```BASH
+# Clone the repository
+$ git clone https://github.com/oeg-upm/Mapeathor
+
+# Install the docker image with docker-compose
+$ docker-compose up -d
+
+# Copy the XLSX files to data repository
+$ cp yourfiles ./data/
+
+# Execute it
+$ docker exec -it './run.sh /PATH/OF/YOUR/XLSX/FILE MappingLanguageNameChoosed' mapeathor
+
+# Results will appear in result folder
 ```
