@@ -65,3 +65,7 @@ $ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE MappingLanguageNam
 
 # Results will appear in result folder
 ```
+
+### Authors and contact
+- Ana Iglesias-Molina (ana.iglesiasm@upm.es)
+- Luis Pozo
