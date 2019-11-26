@@ -41,13 +41,13 @@ $ cd Mapeathor/code/
 $ pip3 install -r requirements.txt
 
 # How to execute it
-$ python3 main.py -i /PATH/OF/YOUR/XLSX/FILE -l MappingLanguageNameChoosed
+$ python3 main.py -i /Mapeathor/data/YOURFILE -l [RML | R2RML | YARRRML]
 
 # Help Menu
 $ python3 main.py -h 
 
 # Example
-$ python3 main.py -i ../data/default.xlsx -l yarrrml
+$ python3 main.py -i /Mapeathor/data/default.xlsx -l yarrrml
 ```
 With docker:
 ```BASH
@@ -61,7 +61,7 @@ $ docker-compose up -d
 $ cp yourfiles ./data/
 
 # Execute it
-$ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE MappingLanguageNameChoosed
+$ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE [RML | R2RML | YARRRML]
 
 # Results will appear in result folder
 ```
