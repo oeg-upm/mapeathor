@@ -61,7 +61,7 @@ $ docker-compose up -d
 $ cp yourfiles ./data/
 
 # Execute it
-$ docker exec -it './run.sh /PATH/OF/YOUR/XLSX/FILE MappingLanguageNameChoosed' mapeathor
+$ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE MappingLanguageNameChoosed
 
 # Results will appear in result folder
 ```
