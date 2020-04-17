@@ -1,4 +1,4 @@
-pandas==0.24.1
+pandas
 go_template
 argparse
 xlrd

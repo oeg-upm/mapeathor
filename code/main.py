@@ -12,6 +12,7 @@ import shutil
 import go_template
 import json
 import argparse
+import re
 
 tmpDir = '../tmp/'
 templatesDir = '../templates/'
@@ -45,6 +46,7 @@ def generateJsonCols(data):
                 element[col] = str(data[col][row])
             result.append(element)
         return result
+
 def organizeJson(data):
     json = {}
     json['Prefixes'] = data['Prefixes']
@@ -111,6 +113,7 @@ def reFormatPredicateObject(data):
             result['ReferenceObject'].append(element)
            #print(element['Object'])
     return result
+
 def termTypeIdentifier(element):
     if(len(str(element).split(":")) == 2):
         return 'IRI'
@@ -254,12 +257,15 @@ def recursiveWrite(tabs, parent, finalFile, id_):
                 final = open(finalFile, 'a+')
                 final.write(parent[data]["after"] + '\n')
                 final.close()
+
 def cleanDir(path):
     Dir = os.listdir(path)
     for f in Dir:
         os.remove(path + f)
+
 def generateMapping(inputFile):
-    cleanDir("../result/")
+    #cleanDir("../result/")
+    fileName = re.findall(r'\/(\w+)\.','../data/default.xlsx')
     json = generateJson(inputFile)
     # print("First JSON: ")
     # print(str(json).replace('\'', '\"'))
@@ -268,7 +274,7 @@ def generateMapping(inputFile):
     #print(str(json).replace('\'', '\"'))
     # sys.exit()
     writeValues(json,tmpDir)
-    writeFinalFile(resultDir + 'Mapping', json['TriplesMap'].keys())
+    writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys())
     #print(json)
 
 def main():
