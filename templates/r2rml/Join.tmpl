@@ -1,10 +1,10 @@
 rr:predicateObjectMap [
-    rr:predicate {{.Predicate}}
-    rr:objectMap [
-        rr:parentTriplesMap <#{{.ID}}>;
-        rr:joinCondition [
-            rr:child "{{.InnerRef}}";
-            rr:parent "{{.OuterRef}}";
+    rr:predicateMap	[ rr:constant {{.Predicate}} ];
+    rr:objectMap 	[
+        rr:parentTriplesMap <#{{.ReferenceID}}>;
+        rr:joinCondition	[
+            rr:child	"{{.InnerRef}}";
+            rr:parent	"{{.OuterRef}}";
         ];
     ];
-].
+];

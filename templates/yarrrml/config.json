@@ -8,6 +8,10 @@
 		"reference":{
 			"before":"$(",
 			"after":")"
+		},
+		"join_condition":{
+			"before":"$(",
+			"after":")"
 		}
 	},
 	"tab":{

@@ -4,7 +4,7 @@
 		"file":"Prefixes",
 		"tabs":1,
 		"childs":[],
-		"after":""
+		"after":"\n"
 	}],
 	"variable":[
 		{
@@ -25,6 +25,14 @@
 				"tabs":1,
 				"childs":[],
 				"after":""
+			},
+			{
+				"before":"",
+				"file":"ConstantObject",
+				"tabs":1,
+				"childs":[],
+				"after":""
+	
 			},
 			{
 				"before":"",
@@ -56,7 +64,7 @@
 				"after":""
 			}
 		],
-		"after":"."
+		"after":".\n"
 		}
 	]
 	

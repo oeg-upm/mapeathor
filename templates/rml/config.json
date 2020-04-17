@@ -8,15 +8,18 @@
 		"reference":{
 			"before":"\"",
 			"after":"\""
+		},
+		"join_condition":{
+			"before":"",
+			"after":""
 		}
 	},
 	"tab":{
-		"size":2
+		"size":4
 	},
 	"iterator":{
 		"before":"",
 		"after":""
 	},
-	"extension":"ttl"
-
+	"extension":"rml.ttl"
 }

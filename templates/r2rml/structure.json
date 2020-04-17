@@ -1,10 +1,10 @@
 {
 	"unique":[		{
-		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix rml: <http://semweb.mmlab.be/ns/rml#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
+		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
 		"file":"Prefixes",
 		"tabs":1,
 		"childs":[],
-		"after":""
+		"after":"\n"
 	}],
 	"variable":[
 		{
@@ -28,6 +28,14 @@
 			},
 			{
 				"before":"",
+				"file":"ConstantObject",
+				"tabs":1,
+				"childs":[],
+				"after":""
+	
+			},
+			{
+				"before":"",
 				"file":"ReferenceObject",
 				"tabs":1,
 				"childs":[],
@@ -47,16 +55,9 @@
 				"tabs":1,
 				"childs":[],
 				"after":""
-			},
-			{
-				"before":"",
-				"file":"Function",
-				"tabs":1,
-				"childs":[],
-				"after":""
 			}
 		],
-		"after":"."
+		"after":".\n"
 		}
 	]
 	
