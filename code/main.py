@@ -24,7 +24,7 @@ def checkFile(path):
         data = pandas.ExcelFile(path)
         return True
     except:
-        print("Algo salio mal")
+        print("Not able to open excel file, check the format")
         return False
 
 def generateJson(path):
@@ -182,8 +182,8 @@ def writePredicateObjects(data, path):
                 predicateObjects['Object'] = replaceVars(str(predicateObjects['Object']), str(predicateObjects['ObjectType']))
                 predicateObjects['Predicate'] = replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']))
                 if( 'InnerRef' in predicateObjects.keys() and 'OuterRef' in predicateObjects.keys()):
-                    predicateObjects['InnerRef'] = replaceVars(str(predicateObjects['InnerRef']), 'template')
-                    predicateObjects['OuterRef'] = replaceVars(str(predicateObjects['OuterRef']), 'template')
+                    predicateObjects['InnerRef'] = replaceVars(str(predicateObjects['InnerRef']), 'join_condition')
+                    predicateObjects['OuterRef'] = replaceVars(str(predicateObjects['OuterRef']), 'join_condition')
 
                 for element in predicateObjects:
                     #print(str(element) + ': ' + str(value) + '\n')
@@ -264,14 +264,14 @@ def cleanDir(path):
         os.remove(path + f)
 
 def generateMapping(inputFile):
-    #cleanDir("../result/")
-    fileName = re.findall(r'\/(\w+)\.','../data/default.xlsx')
+    cleanDir("../result/")
+    fileName = re.findall(r'\/(\w+)\.',inputFile)
     json = generateJson(inputFile)
     # print("First JSON: ")
     # print(str(json).replace('\'', '\"'))
     json = organizeJson(json)
-    #print("Second JSON: ")
-    #print(str(json).replace('\'', '\"'))
+    # print("Second JSON: ")
+    # print(str(json).replace('\'', '\"'))
     # sys.exit()
     writeValues(json,tmpDir)
     writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys())
