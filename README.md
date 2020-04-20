@@ -11,7 +11,7 @@
 
 ## Example:    
 ### First Step: Fill the xlsx template with your own information.  
-The template has four mandatory sheets, *Prefixes, LogicalSource, SubjectMap and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
+The template has four mandatory sheets, *Prefixes, Source, Subject and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
 #### Prefixes:  
 ![Prefixes img](./imgs/sheet_prefix.png)  
   
@@ -66,7 +66,7 @@ $ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE [RML | R2RML | YAR
 # Results will appear in result folder
 ```
 ### Publications
-Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Towards the Definition of a Language-Independent Mapping Template for Knowledge Graph Creation. *In Proceedings of the Third International Workshop on Capturing Scientific Knowledge co-located with the 10th International Conference on Knowledge Capture (K-CAP 2019)* (pp. 33-36).
+Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Towards the Definition of a Language-Independent Mapping Template for Knowledge Graph Creation. *In Proceedings of the Third International Workshop on Capturing Scientific Knowledge co-located with the 10th International Conference on Knowledge Capture (K-CAP 2019)* (pp. 33-36). [Online version](https://sciknow.github.io/sciknow2019/papers/SciKnow_2019_paper_4.pdf)
 
 ### Authors and contact
 - Ana Iglesias-Molina (ana.iglesiasm@upm.es)
