@@ -97,15 +97,15 @@ def reFormatPredicateObject(data):
             element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference' 
             result['Function'].append(element)
-        elif(len(str(element['Object']).split(" ")) > 1):
-            element['TermType'] = termTypeIdentifier(element['Object'])
-            element['ObjectType'] = 'template'
-            result['Template'].append(element)
-        elif(str(element['Object'])[:1] != '{' and str(element['Object'])[-1:] != '}' ):
+        elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
             element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'constant' 
             #element['Object'] = str(element['Object'])[1:-1]
             result['ConstantObject'].append(element)
+        elif(bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
+            element['TermType'] = termTypeIdentifier(element['Object'])
+            element['ObjectType'] = 'template'
+            result['Template'].append(element)
         else:
             element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference' 
@@ -125,10 +125,11 @@ def predicateTypeIdentifier(element):
         return 'constant'
     elif(str(element)[:1] == '{' and str(element)[-1:] == '}' and str(element).split(" ")  == 1):
         return 'reference'
-    elif(len(str(element).split(" ")) > 1 or len(str(element).split(":")) == 2 and "{" in str(element) and "}" in str(element)):
+    #elif(len(str(element).split(" ")) > 1 or len(str(element).split(":")) == 2 and "{" in str(element) and "}" in str(element)):
+    elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
         return 'template'
     else:
-        print("¡¡Revisa TermpredicateTypeIdentifier!!")
+        print("¡¡Revisa predicateTypeIdentifier!!")
         sys.exit()
  
 def reFormatSource(data):
