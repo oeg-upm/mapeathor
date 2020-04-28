@@ -1,4 +1,0 @@
-rml:logicalSource [
-	rml:source "data/news.csv";
-	rml:referenceFormulation ql:csv
-];

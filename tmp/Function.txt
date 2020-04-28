@@ -1,4 +1,0 @@
-rr:predicateObjectMap [
-	rr:predicateMap	[ rr:constant schema:about] ;
-	rr:objectMap	<#Fun1>
-];

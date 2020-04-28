@@ -1,4 +1,0 @@
-rr:predicateObjectMap [
-	rr:predicateMap	[ rr:constant schema:name];
-	rr:objectMap	[ rr:constant "kk"; rr:termType rr:literal; rr:datatype xsd:string ]
-];

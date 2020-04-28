@@ -1,4 +1,0 @@
-rr:predicateObjectMap [
-	rr:predicateMap	[ rr:constant schema:articleBody];
-	rr:objectMap	[ rml:reference "article"; rr:termType rr:literal; rr:datatype xsd:string]
-];

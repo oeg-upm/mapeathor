@@ -1,1 +1,0 @@
-@prefix sql: <http://w3.org/ns/sql#>.
