@@ -67,5 +67,5 @@ $ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE [RML | R2RML | YAR
 ```
 
 ### Authors and contact
-- Ana Iglesias-Molina (ana.iglesiasm@upm.es)
-- Luis Pozo
+- [Ana Iglesias-Molina](https://github.com/anaigmo) (ana.iglesiasm@upm.es)
+- [Luis Pozo](https://github.com/w0xter) (luis.pozo@upm.es)

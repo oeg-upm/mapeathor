@@ -1,0 +1,10 @@
+rr:predicateObjectMap [
+	rr:predicateMap	[ rr:constant schema:image ];
+	rr:objectMap	[
+		rr:parentTriplesMap	<#NEW>;
+		rr:joinCondition	[ 
+			rr:child	"img"; 
+			rr:parent	"img";
+		];
+	];
+];

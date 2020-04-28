@@ -50,6 +50,7 @@ def generateJsonCols(data):
 def organizeJson(data):
     json = {}
     json['Prefixes'] = data['Prefixes']
+    json['Functions'] = reFormatFunction(data['Functions'])
     json['TriplesMap'] = {}
     for subject in data['Subject']:
         json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID']) 
@@ -57,7 +58,26 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
+
     return json
+
+"""
+    json['Functions'] = {}
+    for function in data['Functions']:
+        function['FunctionID'] = str(function['FunctionID'])[1:-1]
+        json['Functions'][function['FunctionID']] = function
+        json['Functions'][function['FunctionID']].pop('FunctionID')
+"""
+
+
+def reFormatFunction(data):
+    result = {}
+    for function in data:
+        function['FunctionID'] = str(function['FunctionID'])[1:-1]
+        result[function['FunctionID']] = function
+        result[function['FunctionID']].pop('FunctionID')
+
+    return result
 
 def replaceVars(element, type_):
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -96,6 +116,7 @@ def reFormatPredicateObject(data):
         elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
             element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference' 
+            element['Object'] = str(element['Object'])[1:-1]
             result['Function'].append(element)
         elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
             element['TermType'] = termTypeIdentifier(element['Object'])
@@ -157,6 +178,7 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
+        #writeFunctionMaps()
 
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
@@ -222,12 +244,13 @@ def writeResult(ID, name):
     final.writelines(delete.readlines())
     delete.close()
     final.close()
+    """
     try:
         os.remove(tmpDir + name + '.txt')
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-
+    """
 def writeFinalFile(path_, idList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -268,11 +291,11 @@ def generateMapping(inputFile):
     cleanDir("../result/")
     fileName = re.findall(r'\/(\w+)\.',inputFile)
     json = generateJson(inputFile)
-    # print("First JSON: ")
-    # print(str(json).replace('\'', '\"'))
+    print("First JSON: ")
+    print(str(json).replace('\'', '\"'))
     json = organizeJson(json)
-    # print("Second JSON: ")
-    # print(str(json).replace('\'', '\"'))
+    print("Second JSON: ")
+    print(str(json).replace('\'', '\"'))
     # sys.exit()
     writeValues(json,tmpDir)
     writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys())
