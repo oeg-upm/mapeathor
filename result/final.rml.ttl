@@ -23,8 +23,8 @@
     	rr:objectMap	[ rr:constant "kk"; rr:termType rr:literal; rr:datatype xsd:string ]
     ];
     rr:predicateObjectMap [
-    	rr:predicateMap	[ rr:constant schema:description];
-    	rr:objectMap	[ rml:reference "bio"; rr:termType rr:literal; rr:datatype xsd:string]
+    	rr:predicateMap	[ rr:constant schema:description ];
+    	rr:objectMap	[ rml:reference "bio"; rr:termType rr:literal; rr:datatype xsd:string ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant schema:image ];
@@ -53,16 +53,16 @@
     	rml:referenceFormulation ql:csv
     ];
     rr:predicateObjectMap [
-    	rr:predicateMap	[ rr:constant schema:name];
-    	rr:objectMap	[ rml:reference "title"; rr:termType rr:literal; rr:datatype xsd:string]
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "title"; rr:termType rr:literal; rr:datatype xsd:string ]
     ];
     rr:predicateObjectMap [
-    	rr:predicateMap	[ rr:constant schema:contentReferenceTime];
-    	rr:objectMap	[ rml:reference "date"; rr:termType rr:literal; rr:datatype xsd:date]
+    	rr:predicateMap	[ rr:constant schema:contentReferenceTime ];
+    	rr:objectMap	[ rml:reference "date"; rr:termType rr:literal; rr:datatype xsd:date ]
     ];
     rr:predicateObjectMap [
-    	rr:predicateMap	[ rr:constant schema:articleBody];
-    	rr:objectMap	[ rml:reference "article"; rr:termType rr:literal; rr:datatype xsd:string]
+    	rr:predicateMap	[ rr:constant schema:articleBody ];
+    	rr:objectMap	[ rml:reference "article"; rr:termType rr:literal; rr:datatype xsd:string ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant schema:creator];

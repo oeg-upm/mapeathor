@@ -50,7 +50,6 @@ def generateJsonCols(data):
 def organizeJson(data):
     json = {}
     json['Prefixes'] = data['Prefixes']
-    json['Functions'] = reFormatFunction(data['Functions'])
     json['TriplesMap'] = {}
     for subject in data['Subject']:
         json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID']) 
@@ -58,26 +57,8 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
-
+    json['Functions'] = reFormatFunction(data['Functions'])
     return json
-
-"""
-    json['Functions'] = {}
-    for function in data['Functions']:
-        function['FunctionID'] = str(function['FunctionID'])[1:-1]
-        json['Functions'][function['FunctionID']] = function
-        json['Functions'][function['FunctionID']].pop('FunctionID')
-"""
-
-
-def reFormatFunction(data):
-    result = {}
-    for function in data:
-        function['FunctionID'] = str(function['FunctionID'])[1:-1]
-        result[function['FunctionID']] = function
-        result[function['FunctionID']].pop('FunctionID')
-
-    return result
 
 def replaceVars(element, type_):
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -94,15 +75,35 @@ def findChilds(data, ID):
     keys.remove('Subject')
     keys.remove('Prefixes')
     keys.remove('Functions')
+    keys.remove('Functions_old')  ##!! ESTO HAY QUE ELIMINARLO LUEGO !!##
     for key in keys:
         result[key] =  []
         for element in data[key]:
-#           print("New Element: ")
-#           print(element)
+            #print("New Element: ")
+            #print(element)
             if(element['ID'] == ID):
                 result[key].append(element)
     return result
 
+def reFormatFunction(data):
+    result = {}
+    #print(data)
+    for element in data:
+        element['FunctionID'] = str(element['FunctionID'])[1:-1]
+        if element['FunctionID'] not in result.keys():
+            result[element['FunctionID']] = []
+            FID = element['FunctionID']
+
+        if element['FunctionID'] == FID:
+            if("{" not in str(element['Object']) and "}" not in str(element['Object'])):
+                element['ObjectType'] = 'constant'
+            elif(str(element['Object'])[:1] == '{' and str(element['Object'])[-1:] == '}'):
+                element['ObjectType'] = 'rml:reference'
+            else:
+                print('WARNING: Wrong element in Function', FID)
+                element['ObjectType'] = 'rr:constant'
+            result[element['FunctionID']].append(element)
+    return(result)
 
 def reFormatPredicateObject(data):
     result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
@@ -244,13 +245,12 @@ def writeResult(ID, name):
     final.writelines(delete.readlines())
     delete.close()
     final.close()
-    """
     try:
         os.remove(tmpDir + name + '.txt')
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-    """
+    
 def writeFinalFile(path_, idList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -291,11 +291,11 @@ def generateMapping(inputFile):
     cleanDir("../result/")
     fileName = re.findall(r'\/(\w+)\.',inputFile)
     json = generateJson(inputFile)
-    print("First JSON: ")
-    print(str(json).replace('\'', '\"'))
+    #print("First JSON: ")
+    #print(str(json).replace('\'', '\"'))
     json = organizeJson(json)
-    print("Second JSON: ")
-    print(str(json).replace('\'', '\"'))
+    #print("Second JSON: ")
+    #print(str(json).replace('\'', '\"'))
     # sys.exit()
     writeValues(json,tmpDir)
     writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys())
