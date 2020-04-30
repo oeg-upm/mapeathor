@@ -179,8 +179,11 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-        #writeFunctionMaps()
-
+    
+    for function in data['Functions']:
+        writeFunctionMap(function, path)
+        writeFunctionPOM(data['Functions'][function], path)
+    
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
         f = open(path + 'Prefixes.yml', 'a+')
@@ -239,18 +242,35 @@ def writeSubject(data, path):
     go_template.render_template(templatesDir + 'Subject.tmpl',tmpDir + 'Subject.yml', tmpDir + 'Subject.txt')
     writeResult(data['ID'], 'Subject')
 
+def writeFunctionMap(data, path):
+    f = open(path + 'FunctionMap.yml', 'a+')
+    f.write('FunctionID: ' + str(data) + '\n')
+    f.close()
+    go_template.render_template(templatesDir + 'FunctionMap.tmpl', tmpDir + 'FunctionMap.yml', tmpDir + 'FunctionMap.txt')
+    writeResult(str(data), 'FunctionMap')
+
+def writeFunctionPOM(data, path):
+    for pom in data:
+        f = open(path + 'FunctionPOM.yml', 'a+')
+        for element in pom:
+            f.write(str(element) + ': \'' + pom[element] + '\'\n')
+        f.close()
+        go_template.render_template(templatesDir + 'FunctionPOM.tmpl', tmpDir + 'FunctionPOM.yml', tmpDir + 'FunctionPOM.txt')
+        writeResult(pom['FunctionID'], 'FunctionPOM')
+
 def writeResult(ID, name):
     delete = open(tmpDir + name + '.txt', 'r')
     final = open(resultDir + ID + '.' + name + '.' + 'result.txt', 'a+')
     final.writelines(delete.readlines())
     delete.close()
     final.close()
+    """
     try:
         os.remove(tmpDir + name + '.txt')
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-    
+    """
 def writeFinalFile(path_, idList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
