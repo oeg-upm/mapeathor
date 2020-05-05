@@ -75,7 +75,6 @@ def findChilds(data, ID):
     keys.remove('Subject')
     keys.remove('Prefixes')
     keys.remove('Functions')
-    keys.remove('Functions_old')  ##!! ESTO HAY QUE ELIMINARLO LUEGO !!##
     for key in keys:
         result[key] =  []
         for element in data[key]:
@@ -179,11 +178,11 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-    
+    """
     for function in data['Functions']:
         writeFunctionMap(function, path)
         writeFunctionPOM(data['Functions'][function], path)
-    
+    """
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
         f = open(path + 'Prefixes.yml', 'a+')
