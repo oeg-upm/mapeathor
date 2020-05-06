@@ -65,6 +65,21 @@
 			}
 		],
 		"after":".\n"
+		},
+		{
+		"before":"",
+		"file":"FunctionMap",
+		"tabs":1,
+		"childs":[
+			{
+				"before":"",
+				"file":"FunctionPOM",
+				"tabs":2,
+				"childs":[],
+				"after":""
+			}
+		],
+		"after":"    ]\n.\n"
 		}
 	]
 	

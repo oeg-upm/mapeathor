@@ -1,8 +1,7 @@
 '''
 TO DO:
-    * Create 2 more PredicateObject Templates: Constant
-    * Implement the functions SpreadSheet
-    * Dockerize
+    * rr:language in pom
+    * functions
 '''
 
 import pandas
@@ -95,8 +94,9 @@ def reFormatFunction(data):
 
         if element['FunctionID'] == FID:
             if("{" not in str(element['Object']) and "}" not in str(element['Object'])):
-                element['ObjectType'] = 'constant'
+                element['ObjectType'] = 'rr:constant'
             elif(str(element['Object'])[:1] == '{' and str(element['Object'])[-1:] == '}'):
+                element['Object'] = str(element['Object'])[1:-1]
                 element['ObjectType'] = 'rml:reference'
             else:
                 print('WARNING: Wrong element in Function', FID)
@@ -178,11 +178,12 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-    """
-    for function in data['Functions']:
-        writeFunctionMap(function, path)
-        writeFunctionPOM(data['Functions'][function], path)
-    """
+    
+    if templatesDir == '../templates/rml/':
+        for function in data['Functions']:
+            writeFunctionMap(function, path)
+            writeFunctionPOM(data['Functions'][function], path)
+    
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
         f = open(path + 'Prefixes.yml', 'a+')
@@ -251,6 +252,8 @@ def writeFunctionMap(data, path):
 def writeFunctionPOM(data, path):
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
+        if pom['Predicate'] != 'fno:executes':
+            pom['Object'] = '\"' + pom['Object'] + '\"'
         for element in pom:
             f.write(str(element) + ': \'' + pom[element] + '\'\n')
         f.close()
@@ -263,23 +266,25 @@ def writeResult(ID, name):
     final.writelines(delete.readlines())
     delete.close()
     final.close()
-    """
     try:
         os.remove(tmpDir + name + '.txt')
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-    """
-def writeFinalFile(path_, idList):
+    
+def writeFinalFile(path_, idTMList, idFList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
     path = path_ + '.' +  str(config['extension'])
     recursiveWrite(0,data['unique'], path, '')
-    for id_ in idList:
-        recursiveWrite(0,data['variable'], path, id_)
+    for id_ in idTMList:
+        recursiveWrite(0, data['variable'], path, id_)
+    for id_ in idFList:
+        recursiveWrite(0, data['variable'], path, id_)
 
 def recursiveWrite(tabs, parent, finalFile, id_):
     for data in range(0, len(parent)):
+        #print(parent, '\n')
         file_ = resultDir + id_ + '.' + parent[data]['file'] + '.result.txt'
         config = json.loads(open(templatesDir + 'config.json').read())
         #print(file_)
@@ -317,7 +322,7 @@ def generateMapping(inputFile):
     #print(str(json).replace('\'', '\"'))
     # sys.exit()
     writeValues(json,tmpDir)
-    writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys())
+    writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys(), json['Functions'].keys())
     #print(json)
 
 def main():
@@ -341,7 +346,7 @@ def main():
     else:
         global templatesDir
         templatesDir += args.language.lower() + "/"
-        print(templatesDir)
+        #print(templatesDir)
         generateMapping(inputFile)
         print("Your Mapping File is in ../result/")
 
