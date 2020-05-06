@@ -2,7 +2,7 @@ version: "2"
 services:
   mapeathor:
     container_name: mapeathor
-    image: oegdataintegration/mapeathor:1.0.0
+    image: oegdataintegration/mapeathor:latest
     volumes:
       - ./data:/Mapeathor/data
       - ./result/:/Mapeathor/result
