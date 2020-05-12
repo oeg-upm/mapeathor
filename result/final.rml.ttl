@@ -77,3 +77,27 @@
     	rr:objectMap	<#Fun1>
     ];.
 
+<#Fun1>
+    a rr:TriplesMap;
+    a fnml:FunctionTermMap;
+
+    fnml:functionValue [
+        rr:predicateObjectMap [
+            rr:predicate fno:executes ;
+            rr:objectMap [ rr:constant grel:string_replace ]
+        ];
+        rr:predicateObjectMap [
+            rr:predicate grel:valueParameter ;
+            rr:objectMap [ rml:reference "sport" ]
+        ];
+        rr:predicateObjectMap [
+            rr:predicate grel:p_string_find ;
+            rr:objectMap [ rr:constant ";" ]
+        ];
+        rr:predicateObjectMap [
+            rr:predicate grel:p_string_replace ;
+            rr:objectMap [ rr:constant ":" ]
+        ];
+    ]
+.
+

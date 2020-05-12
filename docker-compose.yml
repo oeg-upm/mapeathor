@@ -4,5 +4,6 @@ services:
     container_name: mapeathor
     image: oegdataintegration/mapeathor:latest
     volumes:
+      - ./examples:/Mapeathor/examples
       - ./data:/Mapeathor/data
       - ./result/:/Mapeathor/result
