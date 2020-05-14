@@ -157,13 +157,13 @@ def reFormatSource(data):
     result = {}
     for element in data:
         if(element['Feature'] == 'source'):
-            result['Source'] = str(element['Value']).lower()
+            result['Source'] = str(element['Value'])
         elif(element['Feature'] == 'format'):
-            result['Format'] = str(element['Value']).lower()
+            result['Format'] = str(element['Value'])
         elif(element['Feature'] == 'iterator'):
-            result['Iterator'] = str(element['Value']).lower()
+            result['Iterator'] = str(element['Value'])
         elif(element['Feature'] == 'table'):
-            result['Source'] = str(element['Value']).lower()
+            result['Source'] = str(element['Value'])
     if('Iterator' not in result.keys()):
             result['Iterator'] = ''
     result['ID'] = data[0]['ID']
