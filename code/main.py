@@ -271,7 +271,7 @@ def writeResult(ID, name):
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-    
+        
 def writeFinalFile(path_, idTMList, idFList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
