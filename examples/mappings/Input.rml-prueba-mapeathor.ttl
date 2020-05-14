@@ -31,7 +31,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant espresup:creditoPreuspuestarioInicial ];
-    	rr:objectMap	[ rml:reference "ProyPpto2018"; rr:termType rr:literal; rr:datatype xsd:float ]
+    	rr:objectMap	[ rml:reference "ProyPpto2018"; rr:termType rr:literal; rr:datatype xsd:decimal ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant espresup:clasificacionEconomicaGasto ];
@@ -44,11 +44,11 @@
     	];
     ];    rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant espresup:clasificacionOrganica];
-    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:iri];
+    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant espresup:clasificacionProgramaGasto];
-    	rr:objectMap	[ rr:template "econ-gasto-madrid:{Programa}"; rr:termType rr:IRI; rr:datatype xsd:iri];
+    	rr:objectMap	[ rr:template "econ-gasto-madrid:{Programa}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
     ];
 .
 
@@ -61,11 +61,11 @@
     ];
     rml:logicalSource [
     	rml:source "data/clasificacion-economica-gasto-madrid.csv";
-    	rml:referenceFormulation ql:clasificacion-economica-gasto-madrid.csv
+    	rml:referenceFormulation ql:csv
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:inScheme];
-    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid"; rr:termType rr:IRI; rr:datatype xsd:iri ]
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:prefLabel ];
@@ -86,7 +86,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:inScheme];
-    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:iri ]
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:prefLabel ];
@@ -94,7 +94,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:narrower];
-    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:iri];
+    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
     ];
 .
 
@@ -111,7 +111,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:inScheme];
-    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:iri ]
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:prefLabel ];
@@ -119,7 +119,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:broader];
-    	rr:objectMap	[ rr:template "organica-madrid:{Centro}"; rr:termType rr:IRI; rr:datatype xsd:iri];
+    	rr:objectMap	[ rr:template "organica-madrid:{Centro}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
     ];
 .
 
@@ -136,7 +136,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:inScheme];
-    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/prog-gasto-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:iri ]
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/prog-gasto-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant skos:prefLabel ];
