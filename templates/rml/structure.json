@@ -12,16 +12,16 @@
 		"file":"TriplesMap",
 		"tabs":1,
 		"childs":[
-			{
-				"before":"",
-				"file":"Subject",
-				"tabs":1,
-				"childs":[],
-				"after":""
-			},
+			
 			{
 				"before":"",
 				"file":"Source",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			},{
+				"before":"",
+				"file":"Subject",
 				"tabs":1,
 				"childs":[],
 				"after":""
