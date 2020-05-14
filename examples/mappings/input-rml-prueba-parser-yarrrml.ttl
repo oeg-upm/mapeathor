@@ -198,7 +198,8 @@ map:source_0 a rml:LogicalSource;
     rml:source "data/presupuesto_2018_gastos_madrid.csv";
     rml:referenceFormulation ql:CSV.
 map:source_1 a rml:LogicalSource;
-    rml:source "data/clasificacion-economica-gasto-madrid.csv".
+    rml:source "data/clasificacion-economica-gasto-madrid.csv";
+    rml:referenceFormulation ql:CSV.
 map:source_2 a rml:LogicalSource;
     rml:source "data/presupuesto_2018_gastos_madrid.csv";
     rml:referenceFormulation ql:CSV.

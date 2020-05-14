@@ -34,7 +34,7 @@ mappings:
                 - [str2, $(Economico)]
   IdClasifEconomicaGasto:
     sources: 
-      - [data/clasificacion-economica-gasto-madrid.csv~clasificacion-economica-gasto-madrid.csv]
+      - [data/clasificacion-economica-gasto-madrid.csv~csv]
     s: econ-gasto-madrid:$(subconcepto)
     po:
       - [a, skos:Concept]
