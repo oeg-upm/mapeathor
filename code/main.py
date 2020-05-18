@@ -178,11 +178,12 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-    
+    """
     if templatesDir == '../templates/rml/':
         for function in data['Functions']:
             writeFunctionMap(function, path)
             writeFunctionPOM(data['Functions'][function], path)
+    """
     
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
