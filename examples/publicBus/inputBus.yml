@@ -1,0 +1,61 @@
+prefixes:
+  foaf: "http//xmlns.com/foaf/0.1/"
+  xsd: "http//www.w3.org/2001/XMLSchema#"
+  rdfs: "http//www.w3.org/2000/01/rdf-schema#"
+  dc: "http//purl.org/dc/elements/1.1/"
+  dct: "http://purl.org/dc/terms/"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  dc: "http://purl.org/dc/elements/1.1/"
+  dcterms: "http://purl.org/dc/terms/"
+  esautob: "http://vocab.ciudadesabiertas.es/def/transporte/autobus#"
+  esdir: "http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/direccion-postal#"
+  estraf: "http://vocab.ciudadesabiertas.es/def/transporte/trafico#"
+  geo: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  geosparql: "http://www.opengis.net/doc/IS/geosparql/1.0#"
+  owl: "http://www.w3.org/2002/07/owl#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  schema: "http://schema.org/"
+  tmkoscommons: "http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/commons/"
+  tmkosjourney: "http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/"
+  tmjourney: "https://w3id.org/transmodel/journeys#"
+  tmcommons: "https://w3id.org/transmodel/commons#"
+  tmorg: "https://w3id.org/transmodel/organisations#"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  locn: "http://www.w3.org/ns/locn#"
+
+mappings:
+  idParada:
+    sources: 
+      - [examples/publicBus/paradas.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/parada/$(stop_code)
+    po:
+      - [a, esautob:Parada]
+      - [esautob:wifi, "false"]
+      - [esautob:panelElectronico, "false"]
+      - [dcterms:identifier, $(stop_code)]
+      - [dcterms:description, $(stop_desc)]
+      - [schema:name, $(stop_name)]
+      - [schema:url, $(stop_url)]
+      - [esautob:zona, $(zone_id)]
+      - [esautob:ubicacion, "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/punto/p-$(stop_code)"]
+      - [schema:address, "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/direccion/a-$(stop_code)"]
+ 
+  idPoint:
+    sources: 
+      - [examples/publicBus/paradas.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/punto/p-$(stop_code)
+    po:
+      - [a, geosparql:Point]
+      - [geosparql:lat, $(stop_lat)]
+      - [geosparql:long, $(stop_lon)]
+ 
+  idAddress:
+    sources: 
+      - [examples/publicBus/paradas.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/direccion/a-$(stop_code)
+    po:
+      - [a, esdir:DireccionPostal]
+      - [locn:fullAddress, $(stop_desc)]
+ 
