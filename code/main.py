@@ -109,34 +109,35 @@ def reFormatPredicateObject(data):
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
+        element['TermType'] = termTypeIdentifier(element['Object'], element['DataType'])
+        if element['TermType'] == 'IRI':
+            element['isIRI'] = '~iri'
+        else: 
+            element['isIRI'] = ''
+
         if(str(element['Object'])in nullValues and str(element['InnerRef']) not in nullValues and str(element['OuterRef']) not in nullValues):
-            element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference'
             result['Join'].append(element)
         elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
-            element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference' 
             element['Object'] = str(element['Object'])[1:-1]
             result['Function'].append(element)
         elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
-            element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'constant' 
             #element['Object'] = str(element['Object'])[1:-1]
             result['ConstantObject'].append(element)
         elif(bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
-            element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'template'
             result['Template'].append(element)
         else:
-            element['TermType'] = termTypeIdentifier(element['Object'])
             element['ObjectType'] = 'reference' 
             #element['Object'] = str(element['Object'])[1:-1]
             result['ReferenceObject'].append(element)
            #print(element['Object'])
     return result
 
-def termTypeIdentifier(element):
-    if(len(str(element).split(":")) == 2):
+def termTypeIdentifier(element, dataType):
+    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri"):
         return 'IRI'
     else: 
         return 'literal'
