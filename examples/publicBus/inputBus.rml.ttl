@@ -2,10 +2,10 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
-@prefix foaf: <http//xmlns.com/foaf/0.1/>.
-@prefix xsd: <http//www.w3.org/2001/XMLSchema#>.
-@prefix rdfs: <http//www.w3.org/2000/01/rdf-schema#>.
-@prefix dc: <http//purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
 @prefix dct: <http://purl.org/dc/terms/>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
