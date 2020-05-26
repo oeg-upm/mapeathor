@@ -2,6 +2,9 @@
 TO DO:
     * rr:language in pom
     * functions
+    * se podría poner un array con las posibilidades de xsd más comunes como valor a keys con su valor correcto
+       y hacer así la correccion
+
 '''
 
 import pandas
@@ -109,11 +112,8 @@ def reFormatPredicateObject(data):
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
-        element['TermType'] = termTypeIdentifier(element['Object'], element['DataType'])
-        if element['TermType'] == 'IRI':
-            element['isIRI'] = '~iri'
-        else: 
-            element['isIRI'] = ''
+        element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
+        element['DataType'] = dataTypeIdentifier(element['DataType'])
 
         if(str(element['Object'])in nullValues and str(element['InnerRef']) not in nullValues and str(element['OuterRef']) not in nullValues):
             element['ObjectType'] = 'reference'
@@ -136,11 +136,17 @@ def reFormatPredicateObject(data):
            #print(element['Object'])
     return result
 
-def termTypeIdentifier(element, dataType):
-    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri"):
-        return 'IRI'
+def dataTypeIdentifier(element):
+    if(element.lower() == "iri"):
+        return 'anyURI'
     else: 
-        return 'literal'
+        return element
+
+def termTypeIdentifier(element, dataType):
+    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri" or dataType.lower() == "anyuri"):
+        return 'IRI', '~iri'
+    else: 
+        return 'literal', ''
         
 def predicateTypeIdentifier(element):
     if(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
