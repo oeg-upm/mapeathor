@@ -3,8 +3,13 @@
       "string"
    ],
    "decimal":[
-      "decimal", 
+      "decimal"
+   ],
+   "float":[  
       "float"
+   ],
+   "double":[
+      "double"
    ],
    "integer":[
       "integer",
