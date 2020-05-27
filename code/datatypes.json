@@ -3,7 +3,8 @@
       "string"
    ],
    "decimal":[
-      "decimal, float"
+      "decimal", 
+      "float"
    ],
    "integer":[
       "integer",
