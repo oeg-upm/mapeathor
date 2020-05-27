@@ -2,9 +2,6 @@
 TO DO:
     * rr:language in pom
     * functions
-    * se podría poner un array con las posibilidades de xsd más comunes como valor a keys con su valor correcto
-       y hacer así la correccion
-
 '''
 
 import pandas
@@ -137,20 +134,11 @@ def reFormatPredicateObject(data):
     return result
 
 def dataTypeIdentifier(element):
-    dataTypes = {
-        'string': ['string'],
-        'decimal': ['decimal, float'],
-        'integer': ['integer', 'number'],
-        'boolean': ['boolean', 'bool'],
-        'date': ['date'],
-        'time': ['time'],
-        'anyURI': ['anyuri', 'iri', 'uri', 'url']
-    }
+    dataTypes = json.loads(open('datatypes.json').read())
     for key in dataTypes.keys():
-        print('key', key)
         if element.lower() in dataTypes[key]:
-            return key    
-    print('WARNING: datatype not recognized, check XSD datatypes')
+            return key
+    print('WARNING: datatype not recognized (' + element + '), check XSD datatypes')
     return element
 
 def termTypeIdentifier(element, dataType):
