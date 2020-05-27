@@ -137,10 +137,21 @@ def reFormatPredicateObject(data):
     return result
 
 def dataTypeIdentifier(element):
-    if(element.lower() == "iri"):
-        return 'anyURI'
-    else: 
-        return element
+    dataTypes = {
+        'string': ['string'],
+        'decimal': ['decimal, float'],
+        'integer': ['integer', 'number'],
+        'boolean': ['boolean', 'bool'],
+        'date': ['date'],
+        'time': ['time'],
+        'anyURI': ['anyuri', 'iri', 'uri', 'url']
+    }
+    for key in dataTypes.keys():
+        print('key', key)
+        if element.lower() in dataTypes[key]:
+            return key    
+    print('WARNING: datatype not recognized, check XSD datatypes')
+    return element
 
 def termTypeIdentifier(element, dataType):
     if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri" or dataType.lower() == "anyuri"):
@@ -157,7 +168,7 @@ def predicateTypeIdentifier(element):
     elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
         return 'template'
     else:
-        print("¡¡Revisa predicateTypeIdentifier!!")
+        print("Revisa predicateTypeIdentifier")
         sys.exit()
  
 def reFormatSource(data):
