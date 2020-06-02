@@ -176,9 +176,10 @@ def reFormatSource(data):
     return result
 
 def writeValues(data, path):
+    if not os.path.isdir(tmpDir):
+        os.mkdir(tmpDir)
+
     writePrefix(data,path)
-    #data.remove('Prefixes')
-    #f = open('result.txt', 'a+')
     for triplesmap in data['TriplesMap']:
         writeTriplesMap(triplesmap, path)
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
@@ -319,7 +320,11 @@ def cleanDir(path):
         os.remove(path + f)
 
 def generateMapping(inputFile):
-    cleanDir("../result/")
+    if os.path.isdir(resultDir):
+        cleanDir(resultDir)
+    else:
+        os.mkdir(resultDir)
+    
     fileName = re.findall(r'\/(\w+)\.',inputFile)
     json = generateJson(inputFile)
     #print("First JSON: ")
