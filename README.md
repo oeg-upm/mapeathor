@@ -1,9 +1,13 @@
  [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)  
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
+ [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
+ [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
+
+
 
 # Mapeathor: One mapping to rule them all
 #### Mapeathor translates your mapping rules specified in spreadsheets to any mapping language.  
-###### Right now it is under development, the supported languages are **R2RML**, **RML** and **YARRRML**; and the Functions are not implemented.  
+###### Right now it is under development, the supported languages are **R2RML**, **RML** and **YARRRML**; the Functions are being implemented.  
 
 ## How it works:  
 **Mapeathor is a simple spreadsheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
@@ -16,16 +20,16 @@ The template has four mandatory sheets, *Prefixes, Source, Subject and Predicate
 #### Prefixes:  
 ![Prefixes img](./imgs/sheet_prefix.png)  
   
- #### Source:  
+#### Source:  
 ![Source img](./imgs/sheet_source.png)  
   
- #### Subject:  
+#### Subject:  
 ![Subject img](./imgs/sheet_subject.png)  
   
- #### PredicateObjectMaps:  
+#### PredicateObjectMaps:  
 ![PredicateObjectMaps img](./imgs/sheet_pom.png)  
   
- #### Functions:
+#### Functions:
 ![Function img](./imgs/sheet_function.png)
 
 ### Second Step: Choose the output language that you prefer. 
