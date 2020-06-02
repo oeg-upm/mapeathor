@@ -40,7 +40,6 @@ The template has four mandatory sheets, *Prefixes, Source, Subject and Predicate
 </p>
 
 #### Functions:
-![Function img](./imgs/sheet_function.png)
 <p align="center"> 
  <img src="./imgs/sheet_function.png" alt="function" width="400"/> 
 </p>
