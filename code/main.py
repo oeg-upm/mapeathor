@@ -109,8 +109,8 @@ def reFormatPredicateObject(data):
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
-        element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
         element['DataType'] = dataTypeIdentifier(element['DataType'])
+        element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
 
         if(str(element['Object'])in nullValues and str(element['InnerRef']) not in nullValues and str(element['OuterRef']) not in nullValues):
             element['ObjectType'] = 'reference'
@@ -136,13 +136,13 @@ def reFormatPredicateObject(data):
 def dataTypeIdentifier(element):
     dataTypes = json.loads(open('datatypes.json').read())
     for key in dataTypes.keys():
-        if element.lower() in dataTypes[key]:
+        if element.lower().strip() in dataTypes[key]:
             return key
     print('WARNING: datatype not recognized (' + element + '), check XSD datatypes')
     return element
 
 def termTypeIdentifier(element, dataType):
-    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri" or dataType.lower() == "anyuri"):
+    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType == "anyURI"):
         return 'IRI', '~iri'
     else: 
         return 'literal', ''
