@@ -12,25 +12,38 @@
 ## How it works:  
 **Mapeathor is a simple spreadsheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
 
-![WorkFlow Image](./imgs/general_schema.png)
+<p align="center"> 
+ <img src="./imgs/general_schema.png" alt="workflow" width="600"/> 
+</p>
 
 ## Example:    
 ### First Step: Fill the xlsx template with your own information.  
 The template has four mandatory sheets, *Prefixes, Source, Subject and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
-#### Prefixes:  
-![Prefixes img](./imgs/sheet_prefix.png)  
-  
+#### Prefixes:   
+<p align="center"> 
+ <img src="./imgs/sheet_prefix.png" alt="prefixes" width="300"/> 
+</p>
+
 #### Source:  
-![Source img](./imgs/sheet_source.png)  
-  
-#### Subject:  
-![Subject img](./imgs/sheet_subject.png)  
-  
-#### PredicateObjectMaps:  
-![PredicateObjectMaps img](./imgs/sheet_pom.png)  
-  
+<p align="center"> 
+ <img src="./imgs/sheet_source.png" alt="source" width="370"/> 
+</p>
+ 
+#### Subject:    
+<p align="center"> 
+ <img src="./imgs/sheet_subject.png" alt="subject" width="460"/> 
+</p>
+
+#### PredicateObjectMaps:    
+<p align="center"> 
+ <img src="./imgs/sheet_pom.png" alt="pom" width="800"/> 
+</p>
+
 #### Functions:
 ![Function img](./imgs/sheet_function.png)
+<p align="center"> 
+ <img src="./imgs/sheet_function.png" alt="function" width="400"/> 
+</p>
 
 ### Second Step: Choose the output language that you prefer. 
 Here you can see the [Available Languages](./templates).
