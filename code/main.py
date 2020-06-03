@@ -56,7 +56,7 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
-    json['Functions'] = reFormatFunction(data['Functions'])
+    json['Functions'] = reFormatFunction(data['Functions'], json)
     return json
 
 def replaceVars(element, type_):
@@ -83,13 +83,12 @@ def findChilds(data, ID):
                 result[key].append(element)
     return result
 
-def reFormatFunction(data):
+def reFormatFunction(data_function, data):
     result = {}
-    #print(data)
-    for element in data:
+    for element in data_function:
         element['FunctionID'] = str(element['FunctionID'])[1:-1]
         if element['FunctionID'] not in result.keys():
-            result[element['FunctionID']] = []
+            result[element['FunctionID']] = {'PredicateObjectMaps':[], 'Source':[]}
             FID = element['FunctionID']
 
         if element['FunctionID'] == FID:
@@ -101,8 +100,22 @@ def reFormatFunction(data):
             else:
                 print('WARNING: Wrong element in Function', FID)
                 element['ObjectType'] = 'rr:constant'
-            result[element['FunctionID']].append(element)
+            result[element['FunctionID']]['PredicateObjectMaps'].append(element)
+
+    for fun in result:
+        result[fun]['Source'] = find_source(fun, data)
+        #print(fun)
+        #find_source(fun, data)
+
     return(result)
+
+def find_source(function, data):
+    for tm in data['TriplesMap']:
+        if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
+            for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
+                if fun['Object'] == function:
+                    return(data['TriplesMap'][tm]['Source'])
+
 
 def reFormatPredicateObject(data):
     result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
@@ -188,6 +201,7 @@ def writeValues(data, path):
     """
     if templatesDir == '../templates/rml/':
         for function in data['Functions']:
+            print(function)
             writeFunctionMap(function, path)
             writeFunctionPOM(data['Functions'][function], path)
     """
