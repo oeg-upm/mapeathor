@@ -92,29 +92,37 @@ def reFormatFunction(data_function, data):
             FID = element['FunctionID']
 
         if element['FunctionID'] == FID:
-            if("{" not in str(element['Object']) and "}" not in str(element['Object'])):
+            if("{" not in str(element['Object']) and "}" not in str(element['Object']) and '<' != str(element['Object'])[0]):
                 element['ObjectType'] = 'rr:constant'
             elif(str(element['Object'])[:1] == '{' and str(element['Object'])[-1:] == '}'):
                 element['Object'] = str(element['Object'])[1:-1]
                 element['ObjectType'] = 'rml:reference'
+            elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
+                print('holi')
+                element['Object'] = '<#' + str(element['Object'])[1:]
+                element['ObjectType'] = ''
             else:
                 print('WARNING: Wrong element in Function', FID)
                 element['ObjectType'] = 'rr:constant'
             result[element['FunctionID']]['PredicateObjectMaps'].append(element)
 
     for fun in result:
-        result[fun]['Source'] = find_source(fun, data)
+        result[fun]['Source'] = find_source(fun, data, result)
+        result[fun]['Source']['FunctionID'] = fun
 
     return(result)
 
-def find_source(function, data):
+def find_source(function_key, data, functions):
     for tm in data['TriplesMap']:
         if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
             for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
-                if fun['Object'] == function:
-                    data['TriplesMap'][tm]['Source']['FunctionID'] = function
+                if fun['Object'] == function_key:
                     return(data['TriplesMap'][tm]['Source'])
-
+    for fun in functions:
+        if len(functions[fun]['Source']) != 0:
+            for element in functions[fun]['PredicateObjectMaps']:
+                if element['Object'][2:-1] == function_key:
+                    return(functions[fun]['Source'])
 
 def reFormatPredicateObject(data):
     result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
@@ -284,7 +292,7 @@ def writeFunctionSource(data, path):
 def writeFunctionPOM(data, path):
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
-        if pom['Predicate'] != 'fno:executes':
+        if pom['Predicate'] != 'fno:executes' and str(pom['Object'])[0] != '<':
             pom['Object'] = '\"' + pom['Object'] + '\"'
         for element in pom:
             f.write(str(element) + ': \'' + pom[element] + '\'\n')

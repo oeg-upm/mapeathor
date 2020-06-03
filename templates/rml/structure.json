@@ -73,13 +73,13 @@
 		"childs":[
 			{
 				"before":"",
-				"file":"FunctionPOM",
+				"file":"FunctionSource",
 				"tabs":2,
 				"childs":[],
 				"after":""
 			},{
 				"before":"",
-				"file":"FunctionSource",
+				"file":"FunctionPOM",
 				"tabs":2,
 				"childs":[],
 				"after":""
