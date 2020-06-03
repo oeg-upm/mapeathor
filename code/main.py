@@ -104,8 +104,6 @@ def reFormatFunction(data_function, data):
 
     for fun in result:
         result[fun]['Source'] = find_source(fun, data)
-        #print(fun)
-        #find_source(fun, data)
 
     return(result)
 
@@ -114,6 +112,7 @@ def find_source(function, data):
         if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
             for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
                 if fun['Object'] == function:
+                    data['TriplesMap'][tm]['Source']['FunctionID'] = function
                     return(data['TriplesMap'][tm]['Source'])
 
 
@@ -198,13 +197,13 @@ def writeValues(data, path):
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-    """
+    
     if templatesDir == '../templates/rml/':
         for function in data['Functions']:
-            print(function)
             writeFunctionMap(function, path)
-            writeFunctionPOM(data['Functions'][function], path)
-    """
+            writeFunctionPOM(data['Functions'][function]['PredicateObjectMaps'], path)
+            writeFunctionSource(data['Functions'][function]['Source'], path)
+    
     
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
@@ -271,6 +270,17 @@ def writeFunctionMap(data, path):
     go_template.render_template(templatesDir + 'FunctionMap.tmpl', tmpDir + 'FunctionMap.yml', tmpDir + 'FunctionMap.txt')
     writeResult(str(data), 'FunctionMap')
 
+def writeFunctionSource(data, path):
+    f = open(path + 'FunctionSource.yml', 'a+')
+    config  = json.loads(open(templatesDir + 'config.json').read())
+    if(data['Iterator'] != ''):
+        data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
+    for element in data:
+        f.write(str(element) + ': \'' + data[element] + '\'\n')
+    f.close()
+    go_template.render_template(templatesDir + 'FunctionSource.tmpl',tmpDir + 'FunctionSource.yml', tmpDir + 'FunctionSource.txt')
+    writeResult(data['FunctionID'], 'FunctionSource')
+
 def writeFunctionPOM(data, path):
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
@@ -293,7 +303,7 @@ def writeResult(ID, name):
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-        
+
 def writeFinalFile(path_, idTMList, idFList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())

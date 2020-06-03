@@ -77,6 +77,12 @@
 				"tabs":2,
 				"childs":[],
 				"after":""
+			},{
+				"before":"",
+				"file":"FunctionSource",
+				"tabs":2,
+				"childs":[],
+				"after":""
 			}
 		],
 		"after":"    ]\n.\n"
