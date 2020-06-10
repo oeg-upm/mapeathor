@@ -7,7 +7,7 @@
 
 # Mapeathor: One mapping to rule them all
 #### Mapeathor translates your mapping rules specified in spreadsheets to any mapping language.  
-###### Right now it is under development, the supported languages are **R2RML**, **RML** and **YARRRML**; the Functions are being implemented.  
+###### Right now it is under development, the supported languages are **R2RML**, **RML+FnO** and **YARRRML**.
 
 ## How it works:  
 **Mapeathor is a simple spreadsheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
@@ -18,7 +18,7 @@
 
 ## Example:    
 ### First Step: Fill the xlsx template with your own information.  
-The template has four mandatory sheets, *Prefixes, Source, Subject and PredicateObjectMap*, and it can include an additional optional sheet, *Functions*.
+The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions.
 #### Prefixes:   
 <p align="center"> 
  <img src="./imgs/sheet_prefix.png" alt="prefixes" width="300"/> 
