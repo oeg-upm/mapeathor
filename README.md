@@ -6,11 +6,10 @@
 
 
 # Mapeathor: One mapping to rule them all
-#### Mapeathor translates your mapping rules specified in spreadsheets to any mapping language.  
-###### Right now it is under development, the supported languages are **R2RML**, **RML+FnO** and **YARRRML**.
+#### Mapeathor translates your mapping rules specified in spreadsheets to a mapping language.  
 
 ## How it works:  
-**Mapeathor is a simple spreadsheet parser that identifies the basic structures of the mappings and create a new file in a specific mapping language.**  
+Mapeathor is a simple spreadsheet parser able to generate mapping rules in three mapping languages: R2RML, RML (with extension to functions from FnO) and YARRRML. It takes the mapping rules expressed in a spreadsheet and transforms them into the desired language. The spreadsheet template is designed to facilitate the mapping rules' writting, with the aim of being language independent, and thus, lowering the barrier of generating mappings for non-expert users. 
 
 <p align="center"> 
  <img src="./imgs/general_schema.png" alt="workflow" width="600"/> 
