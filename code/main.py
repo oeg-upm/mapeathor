@@ -56,7 +56,7 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
-    json['Functions'] = reFormatFunction(data['Functions'])
+    json['Functions'] = reFormatFunction(data['Functions'], json)
     return json
 
 def replaceVars(element, type_):
@@ -83,37 +83,54 @@ def findChilds(data, ID):
                 result[key].append(element)
     return result
 
-def reFormatFunction(data):
+def reFormatFunction(data_function, data):
     result = {}
-    #print(data)
-    for element in data:
+    for element in data_function:
         element['FunctionID'] = str(element['FunctionID'])[1:-1]
         if element['FunctionID'] not in result.keys():
-            result[element['FunctionID']] = []
+            result[element['FunctionID']] = {'PredicateObjectMaps':[], 'Source':[]}
             FID = element['FunctionID']
 
         if element['FunctionID'] == FID:
-            if("{" not in str(element['Object']) and "}" not in str(element['Object'])):
+            if("{" not in str(element['Object']) and "}" not in str(element['Object']) and '<' != str(element['Object'])[0]):
                 element['ObjectType'] = 'rr:constant'
             elif(str(element['Object'])[:1] == '{' and str(element['Object'])[-1:] == '}'):
                 element['Object'] = str(element['Object'])[1:-1]
                 element['ObjectType'] = 'rml:reference'
+            elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
+                print('holi')
+                element['Object'] = '<#' + str(element['Object'])[1:]
+                element['ObjectType'] = ''
             else:
                 print('WARNING: Wrong element in Function', FID)
                 element['ObjectType'] = 'rr:constant'
-            result[element['FunctionID']].append(element)
+            result[element['FunctionID']]['PredicateObjectMaps'].append(element)
+
+    for fun in result:
+        result[fun]['Source'] = find_source(fun, data, result)
+        result[fun]['Source']['FunctionID'] = fun
+
     return(result)
+
+def find_source(function_key, data, functions):
+    for tm in data['TriplesMap']:
+        if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
+            for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
+                if fun['Object'] == function_key:
+                    return(data['TriplesMap'][tm]['Source'])
+    for fun in functions:
+        if len(functions[fun]['Source']) != 0:
+            for element in functions[fun]['PredicateObjectMaps']:
+                if element['Object'][2:-1] == function_key:
+                    return(functions[fun]['Source'])
 
 def reFormatPredicateObject(data):
     result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
-        element['TermType'] = termTypeIdentifier(element['Object'], element['DataType'])
-        if element['TermType'] == 'IRI':
-            element['isIRI'] = '~iri'
-        else: 
-            element['isIRI'] = ''
+        element['DataType'] = dataTypeIdentifier(element['DataType'])
+        element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
 
         if(str(element['Object'])in nullValues and str(element['InnerRef']) not in nullValues and str(element['OuterRef']) not in nullValues):
             element['ObjectType'] = 'reference'
@@ -136,11 +153,19 @@ def reFormatPredicateObject(data):
            #print(element['Object'])
     return result
 
+def dataTypeIdentifier(element):
+    dataTypes = json.loads(open('datatypes.json').read())
+    for key in dataTypes.keys():
+        if element.lower().strip() in dataTypes[key]:
+            return key
+    print('WARNING: datatype not recognized (' + element + '), check XSD datatypes')
+    return element
+
 def termTypeIdentifier(element, dataType):
-    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType.lower() == "iri"):
-        return 'IRI'
+    if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType == "anyURI"):
+        return 'IRI', '~iri'
     else: 
-        return 'literal'
+        return 'literal', ''
         
 def predicateTypeIdentifier(element):
     if(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
@@ -151,7 +176,7 @@ def predicateTypeIdentifier(element):
     elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
         return 'template'
     else:
-        print("¡¡Revisa predicateTypeIdentifier!!")
+        print("Revisa predicateTypeIdentifier")
         sys.exit()
  
 def reFormatSource(data):
@@ -171,20 +196,22 @@ def reFormatSource(data):
     return result
 
 def writeValues(data, path):
+    if not os.path.isdir(tmpDir):
+        os.mkdir(tmpDir)
+
     writePrefix(data,path)
-    #data.remove('Prefixes')
-    #f = open('result.txt', 'a+')
     for triplesmap in data['TriplesMap']:
         writeTriplesMap(triplesmap, path)
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
-    """
+    
     if templatesDir == '../templates/rml/':
         for function in data['Functions']:
             writeFunctionMap(function, path)
-            writeFunctionPOM(data['Functions'][function], path)
-    """
+            writeFunctionPOM(data['Functions'][function]['PredicateObjectMaps'], path)
+            writeFunctionSource(data['Functions'][function]['Source'], path)
+    
     
 def writePrefix(data, path):
     for prefix in data['Prefixes']:
@@ -251,10 +278,21 @@ def writeFunctionMap(data, path):
     go_template.render_template(templatesDir + 'FunctionMap.tmpl', tmpDir + 'FunctionMap.yml', tmpDir + 'FunctionMap.txt')
     writeResult(str(data), 'FunctionMap')
 
+def writeFunctionSource(data, path):
+    f = open(path + 'FunctionSource.yml', 'a+')
+    config  = json.loads(open(templatesDir + 'config.json').read())
+    if(data['Iterator'] != ''):
+        data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
+    for element in data:
+        f.write(str(element) + ': \'' + data[element] + '\'\n')
+    f.close()
+    go_template.render_template(templatesDir + 'FunctionSource.tmpl',tmpDir + 'FunctionSource.yml', tmpDir + 'FunctionSource.txt')
+    writeResult(data['FunctionID'], 'FunctionSource')
+
 def writeFunctionPOM(data, path):
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
-        if pom['Predicate'] != 'fno:executes':
+        if pom['Predicate'] != 'fno:executes' and str(pom['Object'])[0] != '<':
             pom['Object'] = '\"' + pom['Object'] + '\"'
         for element in pom:
             f.write(str(element) + ': \'' + pom[element] + '\'\n')
@@ -273,7 +311,7 @@ def writeResult(ID, name):
         os.remove(tmpDir + name + '.yml')
     except:
         pass
-        
+
 def writeFinalFile(path_, idTMList, idFList):
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -314,7 +352,11 @@ def cleanDir(path):
         os.remove(path + f)
 
 def generateMapping(inputFile):
-    cleanDir("../result/")
+    if os.path.isdir(resultDir):
+        cleanDir(resultDir)
+    else:
+        os.mkdir(resultDir)
+    
     fileName = re.findall(r'\/(\w+)\.',inputFile)
     json = generateJson(inputFile)
     #print("First JSON: ")
