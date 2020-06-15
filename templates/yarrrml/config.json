@@ -12,6 +12,10 @@
 		"join_condition":{
 			"before":"$(",
 			"after":")"
+		},
+		"constant":{
+			"before":"\"",
+			"after":"\""
 		}
 	},
 	"tab":{

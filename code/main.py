@@ -59,9 +59,12 @@ def organizeJson(data):
     json['Functions'] = reFormatFunction(data['Functions'], json)
     return json
 
-def replaceVars(element, type_):
+def replaceVars(element, type_, datatype_):
     config = json.loads(open(templatesDir + 'config.json').read())
-    if(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
+    if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and datatype_ == 'literal'):
+        print('holi', element)
+        result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
+    elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
     else:
         result = element
@@ -98,7 +101,6 @@ def reFormatFunction(data_function, data):
                 element['Object'] = str(element['Object'])[1:-1]
                 element['ObjectType'] = 'rml:reference'
             elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
-                print('holi')
                 element['Object'] = '<#' + str(element['Object'])[1:]
                 element['ObjectType'] = ''
             else:
@@ -235,11 +237,11 @@ def writePredicateObjects(data, path):
         if(len(data[key]) > 0):
             for predicateObjects in data[key]:
                 f = open(path + key + '.yml', 'a+')
-                predicateObjects['Object'] = replaceVars(str(predicateObjects['Object']), str(predicateObjects['ObjectType']))
-                predicateObjects['Predicate'] = replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']))
+                predicateObjects['Object'] = replaceVars(str(predicateObjects['Object']), str(predicateObjects['ObjectType']), str(predicateObjects['TermType']))
+                predicateObjects['Predicate'] = replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']), 'nan')
                 if( 'InnerRef' in predicateObjects.keys() and 'OuterRef' in predicateObjects.keys()):
-                    predicateObjects['InnerRef'] = replaceVars(str(predicateObjects['InnerRef']), 'join_condition')
-                    predicateObjects['OuterRef'] = replaceVars(str(predicateObjects['OuterRef']), 'join_condition')
+                    predicateObjects['InnerRef'] = replaceVars(str(predicateObjects['InnerRef']), 'join_condition', 'nan')
+                    predicateObjects['OuterRef'] = replaceVars(str(predicateObjects['OuterRef']), 'join_condition', 'nan')
 
                 for element in predicateObjects:
                     #print(str(element) + ': ' + str(value) + '\n')
@@ -264,7 +266,7 @@ def writeSource(data, path):
    
 def writeSubject(data, path):
     f = open(path + 'Subject.yml', 'a+')
-    data['URI'] = replaceVars(data['URI'], data['SubjectType'])
+    data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
     for element in data:
         f.write(element + ': ' + data[element] + '\n')
     f.close()
