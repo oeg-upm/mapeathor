@@ -3,9 +3,12 @@
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
+<p align="center"> 
+ <img src="./imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/> 
+</p>
 
 
-# Mapeathor: One mapping to rule them all
+# Mapeathor
 #### Mapeathor translates your mapping rules specified in spreadsheets to a mapping language.  
 
 ## How it works:  
