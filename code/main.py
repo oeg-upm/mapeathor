@@ -12,6 +12,7 @@ import go_template
 import json
 import argparse
 import re
+import gdrive_api
 
 tmpDir = '../tmp/'
 templatesDir = '../templates/'
@@ -23,7 +24,6 @@ def checkFile(path):
         data = pandas.ExcelFile(path)
         return True
     except:
-        print("Not able to open excel file, check the format")
         return False
 
 def generateJson(path):
@@ -378,9 +378,12 @@ def main():
     args = parser.parse_args()
     inputFile = ''
 
-    exist = checkFile(args.input_file)
-    if(exist):
-            inputFile = str(args.input_file)
+    local_excel = checkFile(args.input_file)
+    if(local_excel):
+        inputFile = str(args.input_file)
+    elif(str(args.input_file)[-4:] == '.ini'):
+        gdrive_api.download_sheet(args.input_file)
+        inputFile = 'driveAPI/drive_sheet.xlsx'
     else:
         print("Not input file selected. Using the default xlsx file (data/default.xlsx)")
         inputFile = '../data/default.xlsx'
