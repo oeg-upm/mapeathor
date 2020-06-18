@@ -378,24 +378,26 @@ def main():
     args = parser.parse_args()
     inputFile = ''
 
-    local_excel = checkFile(args.input_file)
-    if(local_excel):
+    if(checkFile(args.input_file)):
         inputFile = str(args.input_file)
     elif(str(args.input_file)[-4:] == '.ini'):
         gdrive_api.download_sheet(args.input_file)
-        inputFile = 'driveAPI/drive_sheet.xlsx'
+        if checkFile('../data/drive_sheet.xlsx'):
+            inputFile = '../data/drive_sheet.xlsx'
+        else:
+            print("ERROR: The downloaded document is not a spreadsheet")
+            sys.exit()
     else:
-        print("Not input file selected. Using the default xlsx file (data/default.xlsx)")
+        print("WARNING: Not input file selected or not valid. Using the default xlsx file (data/default.xlsx)")
         inputFile = '../data/default.xlsx'
 
     if(args.language.lower() not in supportedLanguages):
-        print("The selected Language is not supported by the moment.")
+        print("ERROR: The selected Language is not supported by the moment.")
         print("Suporteds Languages: " + str(supportedLanguages))
         sys.exit()
     else:
         global templatesDir
         templatesDir += args.language.lower() + "/"
-        #print(templatesDir)
         generateMapping(inputFile)
         print("Your Mapping File is in ../result/")
 
