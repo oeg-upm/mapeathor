@@ -2,7 +2,7 @@ pandas
 go_template
 argparse
 xlrd
-googleapiclient
+google-api-python-client
 httplib2
 oauth2client
 configparser

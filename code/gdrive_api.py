@@ -2,7 +2,6 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from httplib2 import Http
 from oauth2client import file, client, tools
-from urllib.error import HTTPError
 import configparser
 import sys
 
@@ -29,7 +28,7 @@ def download_sheet(config_file):
     if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets(cred_file, scopes)
         creds = tools.run_flow(flow, store)
-        
+
     drive = build('drive', 'v3', http=creds.authorize(Http()))
     request = drive.files().export_media(fileId=file_id, mimeType=mimeType)
     try:

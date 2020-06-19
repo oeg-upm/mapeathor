@@ -62,7 +62,6 @@ def organizeJson(data):
 def replaceVars(element, type_, datatype_):
     config = json.loads(open(templatesDir + 'config.json').read())
     if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and datatype_ == 'literal'):
-        print('holi', element)
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
