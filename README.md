@@ -60,13 +60,13 @@ $ cd Mapeathor/code/
 $ pip3 install -r requirements.txt
 
 # How to execute it
-$ python3 main.py -i /Mapeathor/data/YOURFILE -l [RML | R2RML | YARRRML]
+$ python3 main.py -i path/to/YOURFILE -l [RML | R2RML | YARRRML]
 
 # Help Menu
 $ python3 main.py -h 
 
 # Example
-$ python3 main.py -i /Mapeathor/data/default.xlsx -l yarrrml
+$ python3 main.py -i ../data/default.xlsx -l rml
 ```
 With docker:
 ```BASH
@@ -86,9 +86,9 @@ $ docker exec -it mapeathor ./run.sh /Mapeathor/data/YOURFILE [RML | R2RML | YAR
 ```
 
 #### Google Spreadsheet
-Before using this option, you have need to have a Google account and configure the Google Drive API. First, you need to habilitate the Drive API as described [here](https://developers.google.com/drive/api/v3/enable-drive-api). Once enabled, you need to create a [OAuth 2.0 client credential](https://developers.google.com/identity/protocols/oauth2/) in the left sidebar, in Credentials; and download the credentials.json file. 
+Before using this option, you have need to have a Google account and configure the Google Drive API. First, you need to habilitate the Drive API as described [here](https://developers.google.com/drive/api/v3/enable-drive-api). Once enabled, you need to create a [OAuth 2.0 client credential](https://developers.google.com/identity/protocols/oauth2/) in the left sidebar, in Credentials; and download the `credentials.json` file.
 
-Then, you need to create a config.ini file as it is shown below, where credentials_path is the path to the credentials.json file, and spreadsheet_id the unique id of the google spreadsheet. The last one can be extracted from the URI of the spreadsheet, the long id between '/' '/'. 
+Then, you need to create a `config.ini` file as it is shown below, where credentials_path is the path to the credentials.json file, and spreadsheet_id the unique id of the google spreadsheet. The last one can be extracted from the URI of the spreadsheet, the long id between '/' '/'. 
 ```
 [drive_config]
 credentials_path = path/to/credentials/file.json
@@ -97,10 +97,16 @@ spreadsheet_id = unique id of google spreadsheet
 
 Then, you can run Mapeathor:
 ```BASH
-$ python3 main.py -i /Mapeathor/data/YOURCONFIGFILE -l [RML | R2RML | YARRRML]
+$ python3 main.py -i path/to/YOURCONFIGFILE -l [RML | R2RML | YARRRML]
 
 # Example
-$ python3 main.py -i /Mapeathor/data/code/driveAPI/config.ini -l rml
+$ python3 main.py -i driveAPI/config.ini -l rml
+```
+
+And with Docker:
+```BASH
+$ docker exec -it mapeathor ./run.sh /Mapeathor/code/driveAPI/YOURCONFIGFILE [RML | R2RML | YARRRML]
+
 ```
 
 ### Publications
