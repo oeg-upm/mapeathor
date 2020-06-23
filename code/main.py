@@ -218,6 +218,8 @@ def writePrefix(data, path):
     for prefix in data['Prefixes']:
         f = open(path + 'Prefixes.yml', 'a+')
         for element in prefix:
+            if element == 'Prefix' and ':' in str(prefix[element]):
+                prefix[element] = re.sub(':', '', str(prefix[element]))
             f.write(str(element) + ': ' + str(prefix[element]) + '\n')
         f.close()
         go_template.render_template(templatesDir + 'Prefixes.tmpl',tmpDir + 'Prefixes.yml', tmpDir + 'Prefixes.txt')
@@ -359,13 +361,18 @@ def generateMapping(inputFile):
         os.mkdir(resultDir)
     
     fileName = re.findall(r'\/(\w+)\.',inputFile)
-    json = generateJson(inputFile)
-    #print("First JSON: ")
-    #print(str(json).replace('\'', '\"'))
-    json = organizeJson(json)
-    #print("Second JSON: ")
-    #print(str(json).replace('\'', '\"'))
-    # sys.exit()
+    try:
+        json = generateJson(inputFile)
+        #print("First JSON: ")
+        #print(str(json).replace('\'', '\"'))
+        json = organizeJson(json)
+        #print("Second JSON: ")
+        #print(str(json).replace('\'', '\"'))
+        # sys.exit()
+    except KeyError:
+        print("ERROR: The spreadsheet template is not correct. Check the sheet and column names are correct.")
+        sys.exit()
+
     writeValues(json,tmpDir)
     writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys(), json['Functions'].keys())
     #print(json)
@@ -397,8 +404,9 @@ def main():
     else:
         global templatesDir
         templatesDir += args.language.lower() + "/"
+        print('Generating mapping file')
         generateMapping(inputFile)
-        print("Your Mapping File is in ../result/")
+        print("Your mapping file is in ../result/")
 
 if __name__ == '__main__':
     main()

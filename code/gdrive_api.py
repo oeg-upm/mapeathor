@@ -4,18 +4,22 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import configparser
 import sys
+from os import path
 
 def get_config(config_file):
     config = configparser.ConfigParser()
     config.read(config_file)
-
+    if not path.exists(config_file):
+        print('ERROR: Config file cannot be found')
+        sys.exit()
+    print('Downloading the Google Spreadsheet requested')
     try:
         cred_file = config['drive_config']['credentials_path']
         file_id = config['drive_config']['spreadsheet_id']
-    except:
+    except KeyError:
         print('ERROR: Config file not valid')
         sys.exit()
-
+    
     return cred_file, file_id
 
 def download_sheet(config_file):
