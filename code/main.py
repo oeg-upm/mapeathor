@@ -20,6 +20,9 @@ resultDir = '../result/'
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
 
 def checkFile(path):
+    """
+    Checks if the input 'path' is an excel file an can be correctly read, returns a boolean
+    """
     try:
         data = pandas.ExcelFile(path)
         return True
@@ -27,6 +30,9 @@ def checkFile(path):
         return False
 
 def generateJson(path):
+    """
+    The input excel file 'path' is translated into JSON format, returns the json
+    """
     data = pandas.ExcelFile(path)
     json = {}
     for sheet_ in data.sheet_names:
@@ -36,17 +42,23 @@ def generateJson(path):
     return json
 
 def generateJsonCols(data):
-        rng = len(data[data.columns[0]])
-        result = []
-        for row in range(0, rng):
-            element = {}
-            for col_ in data.columns:
-                col = str(col_)
-                element[col] = str(data[col][row])
-            result.append(element)
-        return result
+    """
+    Arranges correctly the input pandas dataframe into a json, which is returned as output
+    """
+    rng = len(data[data.columns[0]])
+    result = []
+    for row in range(0, rng):
+        element = {}
+        for col_ in data.columns:
+            col = str(col_)
+            element[col] = str(data[col][row])
+        result.append(element)
+    return result
 
 def organizeJson(data):
+    """
+    Rearranges the data in JSON format into the desired structure, returns the resulting json
+    """
     json = {}
     json['Prefixes'] = data['Prefixes']
     json['TriplesMap'] = {}
@@ -60,27 +72,34 @@ def organizeJson(data):
     return json
 
 def replaceVars(element, type_, datatype_):
+    """
+    Writes the objects 'element' correctly according to their termtype 'type_' and datatype 'datatype_', returns the 
+    corrected object
+    """
     config = json.loads(open(templatesDir + 'config.json').read())
+    # Add "" to the constant literal objects in YARRRML
     if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and datatype_ == 'literal'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
+    # Replace '{' and '}' in all but constant objects according to the config.json file of each language
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
     else:
         result = element
-#    print(str(data) + ":" + str(result))
     return result
             
 def findChilds(data, ID):
+    """
+    Finds the PredicateObjectMaps and Source in 'data' of the given 'ID' and returns it
+    """
     result = {}
     keys = sorted(data.keys())
     keys.remove('Subject')
     keys.remove('Prefixes')
     keys.remove('Functions')
+
     for key in keys:
         result[key] =  []
         for element in data[key]:
-            #print("New Element: ")
-            #print(element)
             if(element['ID'] == ID):
                 result[key].append(element)
     return result
