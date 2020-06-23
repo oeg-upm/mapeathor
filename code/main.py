@@ -73,7 +73,7 @@ def organizeJson(data):
 
 def replaceVars(element, type_, datatype_):
     """
-    Writes the objects 'element' correctly according to their termtype 'type_' and datatype 'datatype_', returns the 
+    Writes the objects 'element' correctly according to their type 'type_' and datatype 'datatype_', returns the 
     corrected object
     """
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -105,6 +105,10 @@ def findChilds(data, ID):
     return result
 
 def reFormatFunction(data_function, data):
+    """
+    Rearranges the data of functions 'data_function' into the desired structure and adds the source of each function
+    with 'data'. The rearranged json is returned.
+    """
     result = {}
     for element in data_function:
         element['FunctionID'] = str(element['FunctionID'])[1:-1]
@@ -133,6 +137,9 @@ def reFormatFunction(data_function, data):
     return(result)
 
 def find_source(function_key, data, functions):
+    """
+    Finds the source of the 'function_key' in 'data' or in 'functions', and returns it
+    """
     for tm in data['TriplesMap']:
         if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
             for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
@@ -145,6 +152,9 @@ def find_source(function_key, data, functions):
                     return(functions[fun]['Source'])
 
 def reFormatPredicateObject(data):
+    """
+    Rearranges the json contained in 'data' for the Triple Object Maps, and returns it
+    """
     result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
@@ -152,28 +162,34 @@ def reFormatPredicateObject(data):
         element['DataType'] = dataTypeIdentifier(element['DataType'])
         element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
 
+        # Populate Join key
         if(str(element['Object'])in nullValues and str(element['InnerRef']) not in nullValues and str(element['OuterRef']) not in nullValues):
             element['ObjectType'] = 'reference'
             result['Join'].append(element)
+        # Populate Function key
         elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
             element['ObjectType'] = 'reference' 
             element['Object'] = str(element['Object'])[1:-1]
             result['Function'].append(element)
+        # Populate Constant key
         elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
-            element['ObjectType'] = 'constant' 
-            #element['Object'] = str(element['Object'])[1:-1]
+            element['ObjectType'] = 'constant'
             result['ConstantObject'].append(element)
+        # Populate Template key
         elif(bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
             element['ObjectType'] = 'template'
             result['Template'].append(element)
+        # Populate Reference key when none of the conditions above are fulfilled
         else:
-            element['ObjectType'] = 'reference' 
-            #element['Object'] = str(element['Object'])[1:-1]
+            element['ObjectType'] = 'reference'
             result['ReferenceObject'].append(element)
-           #print(element['Object'])
     return result
 
 def dataTypeIdentifier(element):
+    """
+    Identifies the datatype of the object 'element' and returns it
+    """
+    # Load the json with some xsd datatypes predefined
     dataTypes = json.loads(open('datatypes.json').read())
     for key in dataTypes.keys():
         if element.lower().strip() in dataTypes[key]:
@@ -182,40 +198,59 @@ def dataTypeIdentifier(element):
     return element
 
 def termTypeIdentifier(element, dataType):
+    """
+    Identifies the termtype of the object 'element' based on itself and its datatype 'dataType' and returns it 
+    """
     if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType == "anyURI"):
         return 'IRI', '~iri'
     else: 
         return 'literal', ''
         
 def predicateTypeIdentifier(element):
+    """
+    Identifies the type of the predicate, distinguishing between constant, reference and template, and returns it
+    """
+    # For constant
     if(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
         return 'constant'
+    # For reference 
     elif(str(element)[:1] == '{' and str(element)[-1:] == '}' and str(element).split(" ")  == 1):
         return 'reference'
-    #elif(len(str(element).split(" ")) > 1 or len(str(element).split(":")) == 2 and "{" in str(element) and "}" in str(element)):
+    # For template
     elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
         return 'template'
+    # Constant when not recognized
     else:
-        print("Revisa predicateTypeIdentifier")
-        sys.exit()
+        print("WARNING: type not identified for predicate '" + element + "', 'constant' assigned")
+        return 'constant'
  
 def reFormatSource(data):
+    """
+    Rearranges the format of the 'Source' sheet in 'data' and returns it
+    """
     result = {}
     for element in data:
-        if(element['Feature'] == 'source'):
+        if(element['Feature'].lower() == 'source'):
             result['Source'] = str(element['Value'])
-        elif(element['Feature'] == 'format'):
+        elif(element['Feature'].lower() == 'format'):
             result['Format'] = str(element['Value'])
-        elif(element['Feature'] == 'iterator'):
+        elif(element['Feature'].lower() == 'iterator'):
             result['Iterator'] = str(element['Value'])
-        elif(element['Feature'] == 'table'):
+        elif(element['Feature'].lower() == 'table'):
             result['Source'] = str(element['Value'])
+        else:
+            print("ERROR: " + element + " feature not recognized. The recognized values for the \
+                column 'Feature' in 'Source' are 'source', 'format', 'iterator' and 'table'")
+            sys.exit()
     if('Iterator' not in result.keys()):
             result['Iterator'] = ''
     result['ID'] = data[0]['ID']
     return result
 
 def writeValues(data, path):
+    """
+    Redirects the data to the specific functions to write the 'data' into the file 'path'
+    """
     if not os.path.isdir(tmpDir):
         os.mkdir(tmpDir)
 
@@ -226,6 +261,7 @@ def writeValues(data, path):
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
     
+    # Functions implemented only in RML
     if templatesDir == '../templates/rml/':
         for function in data['Functions']:
             writeFunctionMap(function, path)
@@ -234,6 +270,9 @@ def writeValues(data, path):
     
     
 def writePrefix(data, path):
+    """
+    Writes the prefixes temporal file from the template with the information in 'data' into the path 'path'
+    """
     for prefix in data['Prefixes']:
         f = open(path + 'Prefixes.yml', 'a+')
         for element in prefix:
@@ -245,6 +284,9 @@ def writePrefix(data, path):
         writeResult('', 'Prefixes')
 
 def writeTriplesMap(data, path):
+    """
+    Writes the triples map temporal file from the template with the information in 'data' into the path 'path'
+    """
     f = open(path + 'TriplesMap.yml', 'a+')
     f.write('ID: ' + str(data) + '\n')
     f.close()
@@ -252,7 +294,9 @@ def writeTriplesMap(data, path):
     writeResult(str(data), 'TriplesMap')
 
 def writePredicateObjects(data, path):
-   # print(data)
+    """
+    Writes the predicateObjectMaps temporal file from the template with the information in 'data' into the path 'path'
+    """
     for key in data:
         if(len(data[key]) > 0):
             for predicateObjects in data[key]:
@@ -264,20 +308,20 @@ def writePredicateObjects(data, path):
                     predicateObjects['OuterRef'] = replaceVars(str(predicateObjects['OuterRef']), 'join_condition', 'nan')
 
                 for element in predicateObjects:
-                    #print(str(element) + ': ' + str(value) + '\n')
                     f.write(str(element) + ': \'' + predicateObjects[element] + '\'\n')
                 f.close()
                 go_template.render_template(templatesDir + key + '.tmpl',tmpDir + key + '.yml', tmpDir + key + '.txt')
                 writeResult(data[key][0]['ID'], key)
-            #print("Key: " + key + " ID: " + data[key][0]['ID'])
 
 def writeSource(data, path):
+    """
+    Writes the source temporal file from the template with the information in 'data' into the path 'path'
+    """
     f = open(path + 'Source.yml', 'a+')
     config  = json.loads(open(templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
         data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
     for element in data:
-#        value = replaceVars(data[element])
         f.write(str(element) + ': \'' + data[element] + '\'\n')
     f.close()
     go_template.render_template(templatesDir + 'Source.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
@@ -285,6 +329,9 @@ def writeSource(data, path):
 
    
 def writeSubject(data, path):
+    """
+    Writes the subject temporal file from the template with the information in 'data' into the path 'path'
+    """
     f = open(path + 'Subject.yml', 'a+')
     data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
     for element in data:
@@ -294,6 +341,9 @@ def writeSubject(data, path):
     writeResult(data['ID'], 'Subject')
 
 def writeFunctionMap(data, path):
+    """
+    Writes the function map temporal file from the template with the information in 'data' into the path 'path'
+    """
     f = open(path + 'FunctionMap.yml', 'a+')
     f.write('FunctionID: ' + str(data) + '\n')
     f.close()
@@ -301,6 +351,9 @@ def writeFunctionMap(data, path):
     writeResult(str(data), 'FunctionMap')
 
 def writeFunctionSource(data, path):
+    """
+    Writes the source of function temporal file from the template with the information in 'data' into the path 'path'
+    """
     f = open(path + 'FunctionSource.yml', 'a+')
     config  = json.loads(open(templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
@@ -312,6 +365,9 @@ def writeFunctionSource(data, path):
     writeResult(data['FunctionID'], 'FunctionSource')
 
 def writeFunctionPOM(data, path):
+    """
+    Writes the predicateObjectMaps of function temporal file from the template with the information in 'data' into the path 'path'
+    """
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
         if pom['Predicate'] != 'fno:executes' and str(pom['Object'])[0] != '<':
@@ -323,6 +379,9 @@ def writeFunctionPOM(data, path):
         writeResult(pom['FunctionID'], 'FunctionPOM')
 
 def writeResult(ID, name):
+    """
+    Writes the temporal files assigning ID and names for the different parts of the mapping
+    """
     delete = open(tmpDir + name + '.txt', 'r')
     final = open(resultDir + ID + '.' + name + '.' + 'result.txt', 'a+')
     final.writelines(delete.readlines())
@@ -335,6 +394,10 @@ def writeResult(ID, name):
         pass
 
 def writeFinalFile(path_, idTMList, idFList):
+    """
+    Gathers all the temporal files identified with 'idTMList' and 'idFList' and writes
+    it in the final mapping file in 'path_'
+    """
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
     path = path_ + '.' +  str(config['extension'])
@@ -345,11 +408,12 @@ def writeFinalFile(path_, idTMList, idFList):
         recursiveWrite(0, data['variable'], path, id_)
 
 def recursiveWrite(tabs, parent, finalFile, id_):
+    """
+    Writes the temporal files in one recursively
+    """
     for data in range(0, len(parent)):
-        #print(parent, '\n')
         file_ = resultDir + id_ + '.' + parent[data]['file'] + '.result.txt'
         config = json.loads(open(templatesDir + 'config.json').read())
-        #print(file_)
         exists = os.path.isfile(file_)
         if(exists):
             f = open(file_, 'r')    
@@ -369,11 +433,18 @@ def recursiveWrite(tabs, parent, finalFile, id_):
                 final.close()
 
 def cleanDir(path):
+    """
+    Cleans the results directory
+    """
     Dir = os.listdir(path)
     for f in Dir:
         os.remove(path + f)
 
 def generateMapping(inputFile):
+    """
+    General function with the flow of the script to generate and organize the JSON file with the data from 
+    'inputFile', and write it in the mapping file
+    """
     if os.path.isdir(resultDir):
         cleanDir(resultDir)
     else:
@@ -403,8 +474,10 @@ def main():
     args = parser.parse_args()
     inputFile = ''
 
+    # Local file
     if(checkFile(args.input_file)):
         inputFile = str(args.input_file)
+    # Google Spreadsheet file
     elif(str(args.input_file)[-4:] == '.ini'):
         gdrive_api.download_sheet(args.input_file)
         if checkFile('../data/drive_sheet.xlsx'):
