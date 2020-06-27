@@ -12,12 +12,57 @@ import go_template
 import json
 import argparse
 import re
-import gdrive_api
+import pkgutil
+import tempfile
+#from mapeathor import gdrive_api
+import requests
 
-tmpDir = '../tmp/'
-templatesDir = '../templates/'
-resultDir = '../result/'
+tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
+baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
+dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
+resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
+
+defaultDataTypes = {
+
+   "string":[
+      "string"
+   ],
+   "decimal":[
+      "decimal"
+   ],
+   "float":[  
+      "float"
+   ],
+   "double":[
+      "double"
+   ],
+   "integer":[
+      "integer",
+      "number"
+   ],
+   "boolean":[
+      "boolean",
+      "bool"
+   ],
+   "date":[
+      "date"
+   ],
+   "time":[
+      "time"
+   ],
+   "anyURI":[
+      "anyuri",
+      "iri",
+      "uri",
+      "url"
+   ],   
+   "nan":[
+      "nan",
+      " ",
+      ""
+   ]
+}
 
 def checkFile(path):
     """
@@ -190,7 +235,18 @@ def dataTypeIdentifier(element):
     Identifies the datatype of the object 'element' and returns it
     """
     # Load the json with some xsd datatypes predefined
-    dataTypes = json.loads(open('datatypes.json').read())
+    
+    try:
+        
+        data = open(dataTypesFile).read()
+        
+        dataTypes = json.loads()
+
+        
+    except:    
+    
+        dataTypes = defaultDataTypes
+    
     for key in dataTypes.keys():
         if element.lower().strip() in dataTypes[key]:
             return key
@@ -400,12 +456,18 @@ def writeFinalFile(path_, idTMList, idFList):
     """
     data = json.loads(open(templatesDir  + 'structure.json').read())
     config = json.loads(open(templatesDir + 'config.json').read())
-    path = path_ + '.' +  str(config['extension'])
+    
+    if not path_.endswith(str(config['extension'])):
+        path = path_ + '.' +  str(config['extension'])
+    else:
+        path = path_
+        
     recursiveWrite(0,data['unique'], path, '')
     for id_ in idTMList:
         recursiveWrite(0, data['variable'], path, id_)
     for id_ in idFList:
         recursiveWrite(0, data['variable'], path, id_)
+    return path
 
 def recursiveWrite(tabs, parent, finalFile, id_):
     """
@@ -440,7 +502,7 @@ def cleanDir(path):
     for f in Dir:
         os.remove(path + f)
 
-def generateMapping(inputFile):
+def generateMapping(inputFile, outputFile=None):
     """
     General function with the flow of the script to generate and organize the JSON file with the data from 
     'inputFile', and write it in the mapping file
@@ -450,7 +512,9 @@ def generateMapping(inputFile):
     else:
         os.mkdir(resultDir)
     
-    fileName = re.findall(r'\/(\w+)\.',inputFile)
+    if outputFile is None:   
+        outputFile = resultDir + re.findall(r'\/(\w+)\.',inputFile)[0]	
+	
     try:
         json = generateJson(inputFile)
         #print("First JSON: ")
@@ -464,12 +528,37 @@ def generateMapping(inputFile):
         sys.exit()
 
     writeValues(json,tmpDir)
-    writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys(), json['Functions'].keys())
+    outputFile = writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Functions'].keys())
+    return outputFile
     #print(json)
+    
+def setMappingLanguage(language):
+    global templatesDir
+    templatesDir = baseTemplatesDir + language.lower() + "/"
+    
+def gdriveToXMLX(url):
+    temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False)
+    
+    m = re.search(r'https://docs.google.com/spreadsheets/d/(.*)/', url)
+    
+    if not m:
+        
+        raise Exception("Malformed Google Spreadsheets URL")
+    
+    docid = m.groups()[0]
+    
+    url = 'https://docs.google.com/spreadsheets/d/'+docid+'/export?exportFormat=xlsx'
+    
+    r = requests.get(url)
+    temp.write(r.content)
+    return temp.name
+        
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--input_file", required=False, help="Input excel file")
+    parser = argparse.ArgumentParser("mapeathor")
+    parser.add_argument("-i", "--input_file", required=True, help="Input Excel file or Google SpreadSheet URL")
+    parser.add_argument("-o", "--output_file", required=False, help="Input Excel file or Google SpreadSheet URL", default="output")
+
     parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(supportedLanguages)))
     args = parser.parse_args()
     inputFile = ''
@@ -477,30 +566,27 @@ def main():
     # Local file
     if(checkFile(args.input_file)):
         inputFile = str(args.input_file)
+    
     # Google Spreadsheet file
-    elif(str(args.input_file)[-4:] == '.ini'):
-        gdrive_api.download_sheet(args.input_file)
-        if checkFile('../data/drive_sheet.xlsx'):
-            inputFile = '../data/drive_sheet.xlsx'
+    else:
+        temp = gdriveToXMLX(args.input_file)
+        
+        if checkFile(temp):
+            inputFile = temp
         else:
             print("ERROR: The downloaded document is not a spreadsheet")
             sys.exit()
-    else:
-        print("WARNING: Not input file selected or not valid. Using the default xlsx file (data/default.xlsx)")
-        inputFile = '../data/default.xlsx'
 
     if(args.language.lower() not in supportedLanguages):
         print("ERROR: The selected Language is not supported by the moment.")
         print("Suporteds Languages: " + str(supportedLanguages))
         sys.exit()
     else:
-        global templatesDir
-        templatesDir += args.language.lower() + "/"
+        setMappingLanguage(args.language)
         print('Generating mapping file')
-        generateMapping(inputFile)
-        print("Your mapping file is in ../result/")
+        outputFile = generateMapping(inputFile, args.output_file)
+        print("Your mapping file is in "+outputFile)
 
 if __name__ == '__main__':
     main()
-    
 

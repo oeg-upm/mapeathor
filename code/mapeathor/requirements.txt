@@ -6,3 +6,8 @@ google-api-python-client
 httplib2
 oauth2client
 configparser
+flask
+flask_swagger
+flask_swagger_ui
+flask_restful
+requests

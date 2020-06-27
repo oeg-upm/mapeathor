@@ -1,0 +1,21 @@
+{
+	"Prefixes":{},
+	"TriplesMap":{
+		"LogicalSource":{
+			"tabs":1
+		},
+		"SubjectMap":{
+			"tabs":1
+		},
+		"PredicateObject":{
+			"tabs":1
+		},
+		"Template":{
+			"tabs":1
+		},
+		"Join":{
+			"tabs":1
+		}
+	}
+
+}

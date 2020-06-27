@@ -1,0 +1,73 @@
+{
+  "unique":[
+    {
+      "before": "prefixes:",
+      "file": "Prefixes",
+      "tabs": 2,
+      "childs":[],
+      "after":"\nmappings:"
+    }
+  ],
+  "variable":[
+    {
+      "before": "",
+      "file": "TriplesMap",
+      "tabs": 2,
+      "childs": [
+            {
+              "before": "",
+              "file": "Source",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            },
+            {
+          "before": "",
+          "file": "Subject",
+          "tabs": 3,
+          "childs": [
+            {
+              "before": "",
+              "file": "ConstantObject",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            },
+            {
+              "before": "",
+              "file": "ReferenceObject",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            },
+            {
+              "before": "",
+              "file": "Template",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            },
+            {
+              "before": "",
+              "file": "Join",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            },
+            {
+              "before": "",
+              "file": "Function",
+              "tabs": 3,
+              "childs": [],
+              "after": ""
+            }
+          ],
+          "after": " "
+        }
+        
+      ],
+      "after": ""
+    }
+  ]
+
+}
