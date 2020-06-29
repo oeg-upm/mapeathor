@@ -450,7 +450,12 @@ def generateMapping(inputFile):
     else:
         os.mkdir(resultDir)
     
-    fileName = re.findall(r'\/(\w+)\.',inputFile)
+    # Assign input file name to output file name
+    fileName = re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.
+    if len(fileName) == 0:
+        print("WARNING: Your input file has a weird name, changing it to 'result_mapping'")
+        fileName = 'result_mapping'
+
     try:
         json = generateJson(inputFile)
         #print("First JSON: ")
@@ -464,8 +469,7 @@ def generateMapping(inputFile):
         sys.exit()
 
     writeValues(json,tmpDir)
-    writeFinalFile(resultDir + fileName[0], json['TriplesMap'].keys(), json['Functions'].keys())
-    #print(json)
+    writeFinalFile(resultDir + fileName, json['TriplesMap'].keys(), json['Functions'].keys())
 
 def main():
     parser = argparse.ArgumentParser()
