@@ -14,6 +14,7 @@ prefixes:
   skos-tipo-equipo: "http://vocab.linkeddata.es/datosabiertos/kos/transporte/trafico/tipo-equipo-trafico/"
   sosa: "http://www.w3.org/ns/sosa/"
   recurso-trafico: "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/"
+  sf: "http://www.opengis.net/ont/sf#"
 
 mappings:
   idEquipo:
@@ -22,12 +23,12 @@ mappings:
     s: http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/dispositivo-medicion-trafico/$(id)
     po:
       - [a, sosa:Sensor]
-      - [estraf:urbano, "true",xsd:boolean]
-      - [estraf:enServicio, "true",xsd:boolean]
-      - [estraf:frecuenciaMedicion, "M5",xsd:duration]
+      - [estraf:urbano, "true", xsd:boolean]
+      - [estraf:enServicio, "true", xsd:boolean]
+      - [estraf:frecuenciaMedicion, "M5", xsd:duration]
       - [estraf:tipoEquipoTrafico, skos-tipo-equipo:lazo-magnetico~iri]
-      - [dcterms:identifier, $(id)]
-      - [dcterms:description, $(nombre)]
+      - [dcterms:identifier, $(id), xsd:string]
+      - [dcterms:description, $(nombre), xsd:string]
       - [estraf:ubicacionEquipoTrafico, recurso-trafico:punto/p-$(id)~iri]
  
   idPunto:
@@ -35,9 +36,9 @@ mappings:
       - [examples/Traffic/estaciones.csv~csv]
     s: http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/punto/p-$(id)
     po:
-      - [a, geosparql:Point]
-      - [geosparql:lat, $(longitud),xsd:double]
-      - [geosparql:long, $(latitud),xsd:double]
+      - [a, sf:Point]
+      - [geo:lat, $(longitud), xsd:double]
+      - [geo:long, $(latitud), xsd:double]
  
   idObservacionCarga:
     sources: 
@@ -46,8 +47,8 @@ mappings:
     po:
       - [a, sosa:Observation]
       - [sosa:observedProperty, recurso-trafico:propiedadmediciontrafico/carga~iri]
-      - [sosa:resultTime, $(fecha_hora),xsd:dateTime]
-      - [sosa:hasSimpleResult, $(carga),xsd:double]
+      - [sosa:resultTime, $(fecha_hora), xsd:dateTime]
+      - [sosa:hasSimpleResult, $(carga), xsd:double]
       - p: sosa:madeBySensor
         o:
           - mapping: idEquipo
@@ -64,8 +65,8 @@ mappings:
     po:
       - [a, sosa:Observation]
       - [sosa:observedProperty, recurso-trafico:propiedadmediciontrafico/intensidad~iri]
-      - [sosa:resultTime, $(fecha_hora),xsd:dateTime]
-      - [sosa:hasSimpleResult, $(intensidad),xsd:double]
+      - [sosa:resultTime, $(fecha_hora), xsd:dateTime]
+      - [sosa:hasSimpleResult, $(intensidad), xsd:double]
       - p: sosa:madeBySensor
         o:
           - mapping: idEquipo
@@ -82,8 +83,8 @@ mappings:
     po:
       - [a, sosa:Observation]
       - [sosa:observedProperty, recurso-trafico:propiedadmediciontrafico/ocupacion~iri]
-      - [sosa:resultTime, $(fecha_hora),xsd:dateTime]
-      - [sosa:hasSimpleResult, $(ocupacion),xsd:double]
+      - [sosa:resultTime, $(fecha_hora), xsd:dateTime]
+      - [sosa:hasSimpleResult, $(ocupacion), xsd:double]
       - p: sosa:madeBySensor
         o:
           - mapping: idEquipo

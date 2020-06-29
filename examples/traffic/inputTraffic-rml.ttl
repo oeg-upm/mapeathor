@@ -20,6 +20,7 @@
 @prefix skos-tipo-equipo: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/trafico/tipo-equipo-trafico/>.
 @prefix sosa: <http://www.w3.org/ns/sosa/>.
 @prefix recurso-trafico: <http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
 
 :map_idEquipo_0 rml:logicalSource :source_0.
 :source_0 a rml:LogicalSource;
@@ -86,7 +87,8 @@
 :pom_5 rr:objectMap :om_5.
 :om_5 a rr:ObjectMap;
     rml:reference "id";
-    rr:termType rr:Literal.
+    rr:termType rr:Literal;
+    rr:datatype xsd:string.
 :pom_6 a rr:PredicateObjectMap.
 :map_idEquipo_0 rr:predicateObjectMap :pom_6.
 :pm_6 a rr:PredicateMap.
@@ -95,7 +97,8 @@
 :pom_6 rr:objectMap :om_6.
 :om_6 a rr:ObjectMap;
     rml:reference "nombre";
-    rr:termType rr:Literal.
+    rr:termType rr:Literal;
+    rr:datatype xsd:string.
 :pom_7 a rr:PredicateObjectMap.
 :map_idEquipo_0 rr:predicateObjectMap :pom_7.
 :pm_7 a rr:PredicateMap.
@@ -121,13 +124,13 @@
 :pm_8 rr:constant rdf:type.
 :pom_8 rr:objectMap :om_8.
 :om_8 a rr:ObjectMap;
-    rr:constant "http://www.opengis.net/doc/IS/geosparql/1.0#Point";
+    rr:constant "http://www.opengis.net/ont/sf#Point";
     rr:termType rr:IRI.
 :pom_9 a rr:PredicateObjectMap.
 :map_idPunto_0 rr:predicateObjectMap :pom_9.
 :pm_9 a rr:PredicateMap.
 :pom_9 rr:predicateMap :pm_9.
-:pm_9 rr:constant geosparql:lat.
+:pm_9 rr:constant geo:lat.
 :pom_9 rr:objectMap :om_9.
 :om_9 a rr:ObjectMap;
     rml:reference "longitud";
@@ -137,7 +140,7 @@
 :map_idPunto_0 rr:predicateObjectMap :pom_10.
 :pm_10 a rr:PredicateMap.
 :pom_10 rr:predicateMap :pm_10.
-:pm_10 rr:constant geosparql:long.
+:pm_10 rr:constant geo:long.
 :pom_10 rr:objectMap :om_10.
 :om_10 a rr:ObjectMap;
     rml:reference "latitud";
