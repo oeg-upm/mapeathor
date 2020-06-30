@@ -1,0 +1,9 @@
+line_id,route_id,trip_headsign,trip_short_name,direction_id
+52,52-ida,Cibeles-Banco de España,SOL SEVILLA,1
+52,52-vuelta,Santamarca,SANTAMARCA,0
+172,172-ida,Arequipa,MAR DE CRISTAL,1
+172,172-vuelta,Monte del Gozo,LAS TABLAS,0
+29,29-vuelta,Manoteras,MANOTERAS,0
+29,29-ida,Felipe II,FELIPE II,1
+51,51-vuelta,Plaza del Perú,PLAZA PERU,0
+51,51-ida,Sol,SOL,1
