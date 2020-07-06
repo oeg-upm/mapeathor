@@ -461,6 +461,9 @@ def writeFinalFile(path_, idTMList, idFList):
         path = path_ + '.' +  str(config['extension'])
     else:
         path = path_
+
+    if os.path.isfile(path):
+        os.remove(path)
         
     recursiveWrite(0,data['unique'], path, '')
     for id_ in idTMList:
@@ -558,7 +561,7 @@ def gdriveToXMLX(url):
 def main():
     parser = argparse.ArgumentParser("mapeathor")
     parser.add_argument("-i", "--input_file", required=True, help="Input Excel file or Google SpreadSheet URL")
-    parser.add_argument("-o", "--output_file", required=False, help="Input Excel file or Google SpreadSheet URL", default="output")
+    parser.add_argument("-o", "--output_file", required=False, help="Name and path for output file", default="output")
 
     parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(supportedLanguages)))
     args = parser.parse_args()
