@@ -1,0 +1,92 @@
+{
+	"unique":[		{
+		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix rml: <http://semweb.mmlab.be/ns/rml#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
+		"file":"Prefixes",
+		"tabs":1,
+		"childs":[],
+		"after":"\n"
+	}],
+	"variable":[
+		{
+		"before":"",
+		"file":"TriplesMap",
+		"tabs":1,
+		"childs":[
+			
+			{
+				"before":"",
+				"file":"Source",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			},{
+				"before":"",
+				"file":"Subject",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			},
+			{
+				"before":"",
+				"file":"ConstantObject",
+				"tabs":1,
+				"childs":[],
+				"after":""
+	
+			},
+			{
+				"before":"",
+				"file":"ReferenceObject",
+				"tabs":1,
+				"childs":[],
+				"after":""
+	
+			},
+			{
+				"before":"",
+				"file":"Join",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			},
+			{
+				"before":"",
+				"file":"Template",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			},
+			{
+				"before":"",
+				"file":"Function",
+				"tabs":1,
+				"childs":[],
+				"after":""
+			}
+		],
+		"after":".\n"
+		},
+		{
+		"before":"",
+		"file":"FunctionMap",
+		"tabs":1,
+		"childs":[
+			{
+				"before":"",
+				"file":"FunctionSource",
+				"tabs":2,
+				"childs":[],
+				"after":""
+			},{
+				"before":"",
+				"file":"FunctionPOM",
+				"tabs":2,
+				"childs":[],
+				"after":""
+			}
+		],
+		"after":"    ]\n.\n"
+		}
+	]
+	
+}
