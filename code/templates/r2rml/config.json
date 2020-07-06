@@ -1,0 +1,25 @@
+{
+	"variable":{
+		"template":{
+			"before":"{",
+			"after":"}"
+			
+		},
+		"reference":{
+			"before":"\"",
+			"after":"\""
+		},
+		"join_condition":{
+			"before":"",
+			"after":""
+		}
+	},
+	"tab":{
+		"size":4
+	},
+	"iterator":{
+		"before":"",
+		"after":""
+	},
+	"extension":"r2rml.ttl"
+}

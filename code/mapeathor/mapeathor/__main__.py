@@ -1,0 +1,3 @@
+import mapeathor
+
+mapeathor.main()

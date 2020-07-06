@@ -1,1 +1,1 @@
-rm ../tmp/*;rm ../tmp/.*;rm ../result/.*; rm ../result/*; python3 main.py
+rm ../tmp/*;rm ../tmp/.*;rm ../result/.*; rm ../result/*; python3 mapeathor/mapeathor/main.py

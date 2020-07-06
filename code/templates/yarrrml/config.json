@@ -1,0 +1,29 @@
+{
+	"variable":{
+		"template":{
+			"before":"$(",
+			"after":")"
+			
+		},
+		"reference":{
+			"before":"$(",
+			"after":")"
+		},
+		"join_condition":{
+			"before":"$(",
+			"after":")"
+		},
+		"constant":{
+			"before":"\"",
+			"after":"\""
+		}
+	},
+	"tab":{
+		"size":2
+	},
+	"iterator":{
+		"before":", ",
+		"after":""
+	},
+	"extension":"yml"
+}

@@ -1,0 +1,8 @@
+- p: {{.Predicate}}
+  o:
+    - mapping: {{.ReferenceID}}
+      condition:
+        function: equal
+        parameters:
+          - [str1, {{.InnerRef}}]
+          - [str2, {{.OuterRef}}]
