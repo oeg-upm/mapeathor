@@ -562,7 +562,6 @@ def main():
     parser = argparse.ArgumentParser("mapeathor")
     parser.add_argument("-i", "--input_file", required=True, help="Input Excel file or Google SpreadSheet URL")
     parser.add_argument("-o", "--output_file", required=False, help="Name and path for output file", default="output")
-
     parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(supportedLanguages)))
     args = parser.parse_args()
     inputFile = ''
