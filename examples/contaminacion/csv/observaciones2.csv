@@ -1,0 +1,6 @@
+idx,hasSimpleResult,hasResultTime,madeBySensor,observedProperty,validada,tipoMedicion,tipoEmisorPredominante,tipoIntervaloReferencia
+8734,57.9,2020-05-10T13:00:00,1002,nivelRuido,true,LAS50,ferrocarriles,D
+1955,37.4,2020-02-12T13:00:00,878,nivelVibracion,false,LAW,,
+6445,64.6,2020-05-08T13:00:00,123,nivelRuido,false,LAS99,obras,E
+203,77.5,2020-01-12T13:00:00,12,nivelRuido,true,LAeq24,vehiculos-automoviles,N
+9212,61.2,2020-05-12T13:00:00,421,nivelRuido,false,LAS10,actividades-comerciales,D

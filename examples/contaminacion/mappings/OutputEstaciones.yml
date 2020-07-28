@@ -1,0 +1,77 @@
+prefixes:
+  sosa: "http://www.w3.org/ns/sosa/"
+  noise: "http://vocab.ciudadesabiertas.es/def/medio-ambiente/contaminacion-acustica#"
+  schema: "http://schema.org/"
+  esequip: "http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/equipamiento-municipal/"
+  owl: "http://www.w3.org/2002/07/owl#"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  esequip-kos: "http://vocab.linkeddata.es/datosabiertos/kos/urbanismo-infraestructuras/equipamiento/tipo-equipamiento/"
+  geo: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  geo_core: "https://datos.ign.es/def/geo_core#"
+  geosparql: "http://www.opengis.net/doc/IS/geosparql/1.0#"
+  dc: "http://purl.org/dc/elements/1.1/"
+  emisor-kos: "http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-emisor-predominante/"
+  medicion-kos: "http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-medicion/"
+  intervalo-kos: "http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-intervalo-referencia/"
+  noise-recurso: "http://vocab.ciudadesabiertas.es/recurso/medio-ambiente/contaminacion-acustica/"
+  sf: "http://www.opengis.net/ont/sf#"
+  locn: "https://www.w3.org/ns/locn#"
+  esdir: "http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/direccion-postal#"
+
+mappings:
+  idEstacion:
+    sources: 
+      - [examples/contaminacion/csv/estaciones.csv~csv]
+    s: noise-recurso:estaciondemedida/$(identifier)
+    po:
+      - [a, noise:EstacionMedida]
+      - [esequip:tipoEquipamiento, esequip-kos:estacion-medida-contaminacion-acustica~iri, xsd:string]
+      - [schema:name, $(name), xsd:string]
+      - [esequip:fechaAlta, $(fechaAlta), xsd:dateTime]
+      - [esequip:fechaBaja, $(fechaBaja), xsd:dateTime]
+      - [dcterms:identifier, $(identifier) , xsd:string]
+      - [geosparql:hasGeometry, noise-recurso:punto/$(identifier)~iri, xsd:anyURI]
+ 
+  idObservacion:
+    sources: 
+      - [examples/contaminacion/csv/observaciones.csv~csv]
+    s: noise-recurso:observacion/xxx
+    po:
+      - [a, noise:Observacion]
+      - [noise:validada, "false", xsd:boolean]
+      - [sosa:resultTime, $(hasResultTime), xsd:dateTime]
+      - [sosa:hasSimpleResult, $(hasSimpleResult), xsd:double]
+      - [sosa:observedProperty, noise-recurso:propiedad-contaminacion/$(observedProperty)~iri, xsd:anyURI]
+      - [noise:tipoMedicion, medicion-kos:$(tipoEmisorPredominante)~iri, xsd:anyURI]
+      - [noise:tipoEmisorPredominante, emisor-kos:$(tipoEmisorPredominante)~iri, xsd:anyURI]
+      - [noise:tipoIntervaloReferencia, intervalo-kos:$(tipoEmisorPredominante)~iri, xsd:anyURI]
+      - p: sosa:madeBySensor
+        o:
+          - mapping: idEstacion
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(madeBySensor)]
+                - [str2, $(identifier)]
+ 
+  idPunto:
+    sources: 
+      - [examples/contaminacion/csv/estaciones.csv~csv]
+    s: noise-recurso:punto/$(identifier)
+    po:
+      - [a, sf:Point]
+      - [geo_core:xERTS89, $(xETRS89), xsd:double]
+      - [geo_core:yERTS90, $(yETRS89), xsd:double]
+      - [geo:lat, $(long), xsd:double]
+      - [geo:long, $(lat), xsd:double]
+ 
+  idDireccion:
+    sources: 
+      - [examples/contaminacion/csv/estaciones.csv~csv]
+    s: noise-recurso:direccion/$(identifier)
+    po:
+      - [a, esdir:DireccionPostal]
+      - [locn:fullAddress, $(streetAddress), xsd:string]
+ 
