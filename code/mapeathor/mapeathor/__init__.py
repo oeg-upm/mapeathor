@@ -107,7 +107,8 @@ def organizeJson(data):
     json = {}
     json['Prefixes'] = data['Prefixes']
     json['TriplesMap'] = {}
-    for subject in data['Subject']:
+    formated_subjects = reFormatSubject(data['Subject'])
+    for subject in formated_subjects:
         json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID']) 
         json['TriplesMap'][subject['ID']]['Subject'] = subject
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
@@ -115,6 +116,26 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
     json['Functions'] = reFormatFunction(data['Functions'], json)
     return json
+
+def reFormatSubject(data):
+    """
+    Reorganize subjects in case there is more than one class per ID
+    """
+    id_class = {}
+    for element in data:
+        if element['ID'] in id_class:
+            id_class[element['ID']].append(element['Class'])
+        else:
+            id_class[element['ID']] = [element['Class']]
+    
+    subjects = []
+    for element in data:
+        if element['ID'] in id_class:
+            element['Class'] = id_class[element['ID']]
+            del id_class[element['ID']]
+            subjects.append(element)
+
+    return(subjects)
 
 def replaceVars(element, type_, datatype_):
     """
@@ -318,7 +339,7 @@ def writeValues(data, path):
         writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
     
     # Functions implemented only in RML
-    if templatesDir == '../templates/rml/':
+    if templatesDir[-5:-1] == '/rml':
         for function in data['Functions']:
             writeFunctionMap(function, path)
             writeFunctionPOM(data['Functions'][function]['PredicateObjectMaps'], path)
@@ -383,18 +404,46 @@ def writeSource(data, path):
     go_template.render_template(templatesDir + 'Source.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
     writeResult(data['ID'], 'Source')
 
-   
-def writeSubject(data, path):
+ 
+def writeSubjectTemp(data, path):
     """
+    NOT IN USE
     Writes the subject temporal file from the template with the information in 'data' into the path 'path'
     """
     f = open(path + 'Subject.yml', 'a+')
     data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
     for element in data:
-        f.write(element + ': ' + data[element] + '\n')
+        if element != 'Class':
+            f.write(element + ': ' + data[element] + '\n')
+        else:
+            for i in range(0, len(data[element])):
+                f.write(element + str(i) + ': ' + data[element][i] + '\n')
     f.close()
     go_template.render_template(templatesDir + 'Subject.tmpl',tmpDir + 'Subject.yml', tmpDir + 'Subject.txt')
     writeResult(data['ID'], 'Subject')
+
+
+def writeSubject(data, path):
+    """
+    Writes the subject temporal file from the template with the information in 'data' into the path 'path'
+    """
+
+    f = open(tmpDir + 'Subject.txt', 'a+')
+    data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
+
+    if templatesDir[-8:-1] != 'yarrrml':
+        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\trr:template ' + data['URI'] + ';\n')
+        for class_s in data['Class']:
+            f.write('\trr:class ' + class_s + ';\n')
+        f.write('];\n')
+    else:
+        f.write('s: ' + data['URI'] + '\npo:\n')
+        for class_s in data['Class']:
+            f.write('  - [a, ' + class_s + ']\n')
+        
+    f.close()
+    writeResult(data['ID'], 'Subject')
+   
 
 def writeFunctionMap(data, path):
     """
