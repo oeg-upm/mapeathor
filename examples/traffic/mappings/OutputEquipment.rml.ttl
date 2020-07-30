@@ -1,0 +1,189 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix estraf: <http://vocab.ciudadesabiertas.es/def/transporte/trafico#>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix geosparql: <http://www.opengis.net/doc/IS/geosparql/1.0#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <http://schema.org/>.
+@prefix skos-tipo-equipo: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/trafico/tipo-equipo-trafico/>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix recurso-trafico: <http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
+
+
+<#idEquipo>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/estaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sosa:Sensor;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/dispositivo-medicion-trafico/{id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:urbano];
+    	rr:objectMap	[ rr:constant "true"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:enServicio];
+    	rr:objectMap	[ rr:constant "true"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:frecuenciaMedicion];
+    	rr:objectMap	[ rr:constant "M5"; rr:termType rr:literal; rr:datatype xsd:duration ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:tipoEquipoTrafico];
+    	rr:objectMap	[ rr:constant "skos-tipo-equipo:lazo-magnetico"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "id"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:description ];
+    	rr:objectMap	[ rml:reference "nombre"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:ubicacionEquipoTrafico];
+    	rr:objectMap	[ rr:template "recurso-trafico:punto/p-{id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPunto>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/estaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sf:Point;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/punto/p-{id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:lat ];
+    	rr:objectMap	[ rml:reference "longitud"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:long ];
+    	rr:objectMap	[ rml:reference "latitud"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+.
+
+<#idObservacionCarga>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/observaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sosa:Observation;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/observacion/{fechaid}-{idelem}-carga";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:observedProperty];
+    	rr:objectMap	[ rr:constant "recurso-trafico:propiedadmediciontrafico/carga"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:resultTime ];
+    	rr:objectMap	[ rml:reference "fecha_hora"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:hasSimpleResult ];
+    	rr:objectMap	[ rml:reference "carga"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:madeBySensor ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#idEquipo>;
+    		rr:joinCondition	[ 
+    			rr:child	"idelem"; 
+    			rr:parent	"id";
+    		];
+    	];
+    ];
+.
+
+<#idObservacionIntensidad>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/observaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sosa:Observation;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/observacion/{fechaid}-{idelem}-intensidad";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:observedProperty];
+    	rr:objectMap	[ rr:constant "recurso-trafico:propiedadmediciontrafico/intensidad"; rr:termType rr:IRI; rr:datatype xsd:nan ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:resultTime ];
+    	rr:objectMap	[ rml:reference "fecha_hora"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:hasSimpleResult ];
+    	rr:objectMap	[ rml:reference "intensidad"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:madeBySensor ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#idEquipo>;
+    		rr:joinCondition	[ 
+    			rr:child	"idelem"; 
+    			rr:parent	"id";
+    		];
+    	];
+    ];
+.
+
+<#idObservacionOcupacion>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/observaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sosa:Observation;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/observacion/{fechaid}-{idelem}-ocupacion";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:observedProperty];
+    	rr:objectMap	[ rr:constant "recurso-trafico:propiedadmediciontrafico/ocupacion"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:resultTime ];
+    	rr:objectMap	[ rml:reference "fecha_hora"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:hasSimpleResult ];
+    	rr:objectMap	[ rml:reference "ocupacion"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:madeBySensor ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#idEquipo>;
+    		rr:joinCondition	[ 
+    			rr:child	"idelem"; 
+    			rr:parent	"id";
+    		];
+    	];
+    ];
+.
+

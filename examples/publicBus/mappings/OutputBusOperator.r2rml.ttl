@@ -1,0 +1,93 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix esautob: <http://vocab.ciudadesabiertas.es/def/transporte/autobus#>.
+@prefix esdir: <http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/direccion-postal#>.
+@prefix estraf: <http://vocab.ciudadesabiertas.es/def/transporte/trafico#>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix geosparql: <http://www.opengis.net/doc/IS/geosparql/1.0#>.
+@prefix schema: <http://schema.org/>.
+@prefix tmkoscommons: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/commons/>.
+@prefix tmkosjourney: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/>.
+@prefix tmjourney: <https://w3id.org/transmodel/journeys#>.
+@prefix tmcommons: <https://w3id.org/transmodel/commons#>.
+@prefix tmorg: <https://w3id.org/transmodel/organisations#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix locn: <http://www.w3.org/ns/locn#>.
+@prefix geo_core: <https://datos.ign.es/def/geo_core#>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
+@prefix recurso-autobus: <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/>.
+
+
+<#idLine>
+    rr:logicalTable [
+    	rr:tableName "examples/publicBus/routes.csv"
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Line;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/{route_short_name}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier];
+    	rr:objectMap	[ rr:column "route_short_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name];
+    	rr:objectMap	[ rr:column "route_long_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:url];
+    	rr:objectMap	[ rr:column "route_uri"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:shortName];
+    	rr:objectMap	[ rr:column "route_short_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:presentedBy ];
+    	rr:objectMap	[ rr:template "recurso-autobus:presentacion/pres-{route_short_name}"; rr:termType rr:IRI; rr:datatype xsd:anyURI ];
+    ];
+.
+
+<#idPresentation>
+    rr:logicalTable [
+    	rr:tableName "examples/publicBus/routes.csv"
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmcommons:Presentation;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-{route_short_name}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:colour];
+    	rr:objectMap	[ rr:column "route_color"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:textcolour];
+    	rr:objectMap	[ rr:column "route_text_color"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#idOperator>
+    rr:logicalTable [
+    	rr:tableName "examples/publicBus/routes.csv"
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmorg:Operator;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/{agency_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmorg:operating ];
+    	rr:objectMap	[ rr:template "recurso-autobus:linea/{route_short_name}"; rr:termType rr:IRI; rr:datatype xsd:anyURI ];
+    ];
+.
+
