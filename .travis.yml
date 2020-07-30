@@ -1,0 +1,15 @@
+language: python
+
+python:
+- '3.7'
+
+script: true #Debe devolver "exit 0", no usado en este caso
+
+before_deploy:
+- cd code/mapeathor/
+
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: Yr09nJ5kQGdEgCof3Y6Nf65lRpBwS+8fq1KGfnXvjf5a2GKc95E3Odv1B+A8q3HK0Qzjzr+x8fpW+QaBCAiL3ftquBq+h14mrhFdhwsSB8uz0Ji5ayrpUlV1bcS5HN9tAnqsZXQFC5mYWJXglYU+gHrs98Um4Z/MS5qgTlBdNW6s8zFDjN0DqUBWXKDFEhtx2AEf4Y5LeclBNGfHbJ+x5E3/BdBEOm4jFGr4tkd0DQNQWLxv6G1dmp1mgPgK9DzVcx4Y3kFMCqEeNT6YCF/ej32RVvTfUMDXXzwG+pNEuOzthgNQJ1iLqunqoiQFhhn81Y+RGmibISKqnYjBktwqbgf2Bdea7wp6AIkc4h14VGsqJgAC9oUukAmFqSS4Ky5UECZBxv3lYY314xqIqT2sIbmRGoByKZLG1T45N28OS5/i6F+le2zgLK/bTINTGTIvlr4+4oYizMk/33WM3vxiagTfcmtrL1xeHWOg88wRZwHAFM3n7B6ER/X3T49P81uyfyOarQvRYIwBAtQQemgsAL0ovyCgCkIcj+et1az1nLOc1GW5qkDcNOErwUI6cr+2VCL5PiyISkH6dUQzjFBC3P4JVKmJFYTvnI5OeWHsL1Hzq9mj2X6VszAEyVJAuZrSxMYsuvzvyTkdhHpbv7dCdEnZmnED8zkgvc51ay9oK1M=
