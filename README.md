@@ -2,6 +2,7 @@
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
+ [![PyPi Build](https://api.travis-ci.com/daniel-dona/Mapeathor.svg)](https://travis-ci.com/github/daniel-dona/Mapeathor)
 
 <p align="center"> 
  <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/> 
