@@ -105,7 +105,7 @@ def organizeJson(data):
     Rearranges the data in JSON format into the desired structure, returns the resulting json
     """
     json = {}
-    json['Prefixes'] = data['Prefixes']
+    json['Prefix'] = data['Prefix']
     json['TriplesMap'] = {}
     formated_subjects = reFormatSubject(data['Subject'])
     for subject in formated_subjects:
@@ -113,8 +113,8 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject'] = subject
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = predicateTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
-        json['TriplesMap'][subject['ID']]['PredicateObjectMaps']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['PredicateObjectMaps']) 
-    json['Functions'] = reFormatFunction(data['Functions'], json)
+        json['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['Predicate_Object']) 
+    json['Function'] = reFormatFunction(data['Function'], json)
     return json
 
 def reFormatSubject(data):
@@ -155,13 +155,13 @@ def replaceVars(element, type_, datatype_):
             
 def findChilds(data, ID):
     """
-    Finds the PredicateObjectMaps and Source in 'data' of the given 'ID' and returns it
+    Finds the Predicate_Object and Source in 'data' of the given 'ID' and returns it
     """
     result = {}
     keys = sorted(data.keys())
     keys.remove('Subject')
-    keys.remove('Prefixes')
-    keys.remove('Functions')
+    keys.remove('Prefix')
+    keys.remove('Function')
 
     for key in keys:
         result[key] =  []
@@ -179,22 +179,22 @@ def reFormatFunction(data_function, data):
     for element in data_function:
         element['FunctionID'] = str(element['FunctionID'])[1:-1]
         if element['FunctionID'] not in result.keys():
-            result[element['FunctionID']] = {'PredicateObjectMaps':[], 'Source':[]}
+            result[element['FunctionID']] = {'Predicate_Object':[], 'Source':[]}
             FID = element['FunctionID']
 
         if element['FunctionID'] == FID:
-            if("{" not in str(element['Object']) and "}" not in str(element['Object']) and '<' != str(element['Object'])[0]):
-                element['ObjectType'] = 'rr:constant'
-            elif(str(element['Object'])[:1] == '{' and str(element['Object'])[-1:] == '}'):
-                element['Object'] = str(element['Object'])[1:-1]
-                element['ObjectType'] = 'rml:reference'
-            elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
-                element['Object'] = '<#' + str(element['Object'])[1:]
-                element['ObjectType'] = ''
+            if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
+                element['ValueType'] = 'rr:constant'
+            elif(str(element['Value'])[:1] == '{' and str(element['Value'])[-1:] == '}'):
+                element['Value'] = str(element['Value'])[1:-1]
+                element['ValueType'] = 'rml:reference'
+            elif(str(element['Value'])[:1] == '<' and str(element['Value'])[-1:] == '>'):
+                element['Value'] = '<#' + str(element['Value'])[1:]
+                element['ValueType'] = ''
             else:
                 print('WARNING: Wrong element in Function', FID)
-                element['ObjectType'] = 'rr:constant'
-            result[element['FunctionID']]['PredicateObjectMaps'].append(element)
+                element['ValueType'] = 'rr:constant'
+            result[element['FunctionID']]['Predicate_Object'].append(element)
 
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
@@ -207,14 +207,14 @@ def find_source(function_key, data, functions):
     Finds the source of the 'function_key' in 'data' or in 'functions', and returns it
     """
     for tm in data['TriplesMap']:
-        if len(data['TriplesMap'][tm]['PredicateObjectMaps']['Function']) != 0:
-            for fun in data['TriplesMap'][tm]['PredicateObjectMaps']['Function']:
+        if len(data['TriplesMap'][tm]['Predicate_Object']['Function']) != 0:
+            for fun in data['TriplesMap'][tm]['Predicate_Object']['Function']:
                 if fun['Object'] == function_key:
                     return(data['TriplesMap'][tm]['Source'])
     for fun in functions:
         if len(functions[fun]['Source']) != 0:
-            for element in functions[fun]['PredicateObjectMaps']:
-                if element['Object'][2:-1] == function_key:
+            for element in functions[fun]['Predicate_Object']:
+                if element['Value'][2:-1] == function_key:
                     return(functions[fun]['Source'])
 
 def reFormatPredicateObject(data):
@@ -336,29 +336,29 @@ def writeValues(data, path):
         writeTriplesMap(triplesmap, path)
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)       
-        writePredicateObjects(data['TriplesMap'][triplesmap]['PredicateObjectMaps'], path)
+        writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'], path)
     
     # Functions implemented only in RML
     if templatesDir[-5:-1] == '/rml':
-        for function in data['Functions']:
+        for function in data['Function']:
             writeFunctionMap(function, path)
-            writeFunctionPOM(data['Functions'][function]['PredicateObjectMaps'], path)
-            writeFunctionSource(data['Functions'][function]['Source'], path)
+            writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
+            writeFunctionSource(data['Function'][function]['Source'], path)
     
     
 def writePrefix(data, path):
     """
     Writes the prefixes temporal file from the template with the information in 'data' into the path 'path'
     """
-    for prefix in data['Prefixes']:
-        f = open(path + 'Prefixes.yml', 'a+')
+    for prefix in data['Prefix']:
+        f = open(path + 'Prefix.yml', 'a+')
         for element in prefix:
             if element == 'Prefix' and ':' in str(prefix[element]):
                 prefix[element] = re.sub(':', '', str(prefix[element]))
             f.write(str(element) + ': ' + str(prefix[element]) + '\n')
         f.close()
-        go_template.render_template(templatesDir + 'Prefixes.tmpl',tmpDir + 'Prefixes.yml', tmpDir + 'Prefixes.txt')
-        writeResult('', 'Prefixes')
+        go_template.render_template(templatesDir + 'Prefix.tmpl',tmpDir + 'Prefix.yml', tmpDir + 'Prefix.txt')
+        writeResult('', 'Prefix')
 
 def writeTriplesMap(data, path):
     """
@@ -372,7 +372,7 @@ def writeTriplesMap(data, path):
 
 def writePredicateObjects(data, path):
     """
-    Writes the predicateObjectMaps temporal file from the template with the information in 'data' into the path 'path'
+    Writes the Predicate_Object temporal file from the template with the information in 'data' into the path 'path'
     """
     for key in data:
         if(len(data[key]) > 0):
@@ -471,12 +471,12 @@ def writeFunctionSource(data, path):
 
 def writeFunctionPOM(data, path):
     """
-    Writes the predicateObjectMaps of function temporal file from the template with the information in 'data' into the path 'path'
+    Writes the Predicate_Object of function temporal file from the template with the information in 'data' into the path 'path'
     """
     for pom in data:
         f = open(path + 'FunctionPOM.yml', 'a+')
-        if pom['Predicate'] != 'fno:executes' and str(pom['Object'])[0] != '<':
-            pom['Object'] = '\"' + pom['Object'] + '\"'
+        if pom['Feature'] != 'fno:executes' and str(pom['Value'])[0] != '<':
+            pom['Value'] = '\"' + pom['Value'] + '\"'
         for element in pom:
             f.write(str(element) + ': \'' + pom[element] + '\'\n')
         f.close()
@@ -537,7 +537,7 @@ def recursiveWrite(tabs, parent, finalFile, id_):
             for line in f.readlines():
                 final.write(' ' * int(config['tab']['size']) * tabs + str(line))
             f.close()
-            os.remove(file_)
+            #os.remove(file_)
             final.close()
             if(len(parent[data]['childs']) > 0):
                 recursiveWrite(parent[data]['tabs'], parent[data]['childs'], finalFile, id_)
@@ -581,7 +581,7 @@ def generateMapping(inputFile, outputFile=None):
 
     writeValues(json,tmpDir)
 
-    outputFile = writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Functions'].keys())
+    outputFile = writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Function'].keys())
     return outputFile
     #print(json)
     
