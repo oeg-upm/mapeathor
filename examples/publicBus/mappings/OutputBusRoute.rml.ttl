@@ -1,0 +1,269 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix esautob: <http://vocab.ciudadesabiertas.es/def/transporte/autobus#>.
+@prefix esdir: <http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/direccion-postal#>.
+@prefix estraf: <http://vocab.ciudadesabiertas.es/def/transporte/trafico#>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix geosparql: <http://www.opengis.net/doc/IS/geosparql/1.0#>.
+@prefix schema: <http://schema.org/>.
+@prefix tmkoscommons: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/commons/>.
+@prefix tmkosjourney: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/>.
+@prefix tmjourney: <https://w3id.org/transmodel/journeys#>.
+@prefix tmcommons: <https://w3id.org/transmodel/commons#>.
+@prefix tmorg: <https://w3id.org/transmodel/organisations#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix locn: <http://www.w3.org/ns/locn#>.
+@prefix geo_core: <https://datos.ign.es/def/geo_core#>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
+@prefix recurso-autobus: <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/>.
+
+
+<#idParada>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopsNuestro.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class esautob:Parada;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/parada/{stop_code}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esautob:wifi];
+    	rr:objectMap	[ rr:constant "false"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esautob:panelElectronico];
+    	rr:objectMap	[ rr:constant "false"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "stop_code"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:description ];
+    	rr:objectMap	[ rml:reference "stop_desc"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "stop_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:url ];
+    	rr:objectMap	[ rml:reference "stop_url"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esautob:zona ];
+    	rr:objectMap	[ rml:reference "zone_id"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geosparql:hasGeometry];
+    	rr:objectMap	[ rr:template "recurso-autobus:punto/p-{stop_code}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:address];
+    	rr:objectMap	[ rr:template "recurso-autobus:direccion/a-{stop_code}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPoint>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopsNuestro.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sf:Point;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/punto/p-{stop_code}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:lat ];
+    	rr:objectMap	[ rml:reference "stop_lat"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:long ];
+    	rr:objectMap	[ rml:reference "stop_lon"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+.
+
+<#idAddress>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopsNuestro.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class esdir:DireccionPostal;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/direccion/a-{stop_code}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant locn:fullAddress ];
+    	rr:objectMap	[ rml:reference "stop_desc"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#idRuta>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/tripsReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Route;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "route_id"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "trip_short_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#idPatronViaje>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/tripsReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:JourneyPattern;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/patron-viaje/pv-{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:on];
+    	rr:objectMap	[ rr:template "recurso-autobus:ruta/{route_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:journeyPatternAdvertisedFor];
+    	rr:objectMap	[ rr:template "recurso-autobus:headsign/h-{route_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idHeadsign>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/tripsReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:DestinationDisplay;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/headsign/h-{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:frontText ];
+    	rr:objectMap	[ rml:reference "trip_headsign"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#idLinea>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/tripsReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class esautob:Linea;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/{line_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:madeUpOf];
+    	rr:objectMap	[ rr:template "recurso-autobus:ruta/{route_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPointLinkSequence>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopTimesReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:PointInLinkSequence;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/punto-en-secuencia/pls-{route_id}-{id_parada}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:order ];
+    	rr:objectMap	[ rml:reference "stop_sequence"; rr:termType rr:literal; rr:datatype xsd:xsd:integer ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier];
+    	rr:objectMap	[ rr:template "pls-{route_id}-{id_parada}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:viewedAs];
+    	rr:objectMap	[ rr:template "recurso-autobus:punto-parada/pp-{route_id}-{id_parada}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPuntoParada>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopTimesReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Point;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/punto-parada/pp-{route_id}-{id_parada}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier];
+    	rr:objectMap	[ rr:template "pp-{route_id}-{id_parada}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:functionalCentroidFor];
+    	rr:objectMap	[ rr:template "recurso-autobus:parada/{id_parada}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idRutaParada>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopTimesReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Route;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:madeUpOf];
+    	rr:objectMap	[ rr:template "recurso-autobus:punto-en-secuencia/pls-{route_id}-{id_parada}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPatronParada>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/stopTimesReducido.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:JourneyPattern;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/patron-viaje/pv-{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:madeUpOf];
+    	rr:objectMap	[ rr:template "recurso-autobus:punto-en-secuencia/pls-{route_id}-{id_parada}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+

@@ -1,0 +1,147 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix presup-recurso: <http://vocab.ciudadesabiertas.es/recurso/hacienda/presupuesto/>.
+@prefix espresup: <http://vocab.ciudadesabiertas.es/def/hacienda/presupuesto#>.
+@prefix time: <http://www.w3.org/2006/time/>.
+@prefix econ-gasto-madrid: <http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid/>.
+@prefix organica-madrid: <http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica/madrid/>.
+@prefix prog-gasto-madrid: <http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/programa-gasto/madrid/>.
+
+
+<#IdPresupuestoGasto>
+    rml:logicalSource [
+    	rml:source "data/Presupuesto_2018_gastos_Madrid.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class espresup:PresupuestoGasto;
+    	rr:template "presup-recurso:presupuestoGasto/{Centro}{Seccion}-{Programa}-{Economico}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant espresup:creditoPreuspuestarioInicial ];
+    	rr:objectMap	[ rml:reference "ProyPpto2018"; rr:termType rr:literal; rr:datatype xsd:float ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant espresup:clasificacionEconomicaGasto ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#IdClasifEconomicaGasto>;
+    		rr:joinCondition	[ 
+    			rr:child	"Economico"; 
+    			rr:parent	"subconcepto";
+    		];
+    	];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant espresup:clasificacionOrganica];
+    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant espresup:clasificacionProgramaGasto];
+    	rr:objectMap	[ rr:template "econ-gasto-madrid:{Programa}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#IdClasifEconomicaGasto>
+    rml:logicalSource [
+    	rml:source "data/clasificacion-economica-gasto-madrid.csv";
+    	rml:referenceFormulation ql:clasificacion-economica-gasto-madrid.csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class skos:Concept;
+    	rr:template "econ-gasto-madrid:{subconcepto}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:inScheme];
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:prefLabel ];
+    	rr:objectMap	[ rml:reference "denominacion"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#IdGastoCentro>
+    rml:logicalSource [
+    	rml:source "data/Presupuesto_2018_gastos_Madrid.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class skos:Concept;
+    	rr:template "organica-madrid:{Centro}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:inScheme];
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:prefLabel ];
+    	rr:objectMap	[ rml:reference "DescripcionCentro"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:narrower];
+    	rr:objectMap	[ rr:template "organica-madrid:{Seccion}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#IdGastoSeccion>
+    rml:logicalSource [
+    	rml:source "data/Presupuesto_2018_gastos_Madrid.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class skos:Concept;
+    	rr:template "organica-madrid:{Seccion}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:inScheme];
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:prefLabel ];
+    	rr:objectMap	[ rml:reference "DescripcionSeccion"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:broader];
+    	rr:objectMap	[ rr:template "organica-madrid:{Centro}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#IdGastoPrograma>
+    rml:logicalSource [
+    	rml:source "data/Presupuesto_2018_gastos_Madrid.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class skos:Concept;
+    	rr:template "prog-gasto-madrid:{Programa}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:inScheme];
+    	rr:objectMap	[ rr:constant "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/prog-gasto-madrid/madrid"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant skos:prefLabel ];
+    	rr:objectMap	[ rml:reference "DescripcionPrograma"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+

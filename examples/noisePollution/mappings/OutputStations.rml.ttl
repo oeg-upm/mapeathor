@@ -1,0 +1,158 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix noise: <http://vocab.ciudadesabiertas.es/def/medio-ambiente/contaminacion-acustica#>.
+@prefix schema: <http://schema.org/>.
+@prefix esequip: <http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/equipamiento-municipal/>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix esequip-kos: <http://vocab.linkeddata.es/datosabiertos/kos/urbanismo-infraestructuras/equipamiento/tipo-equipamiento/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix geo_core: <https://datos.ign.es/def/geo_core#>.
+@prefix geosparql: <http://www.opengis.net/doc/IS/geosparql/1.0#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix emisor-kos: <http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-emisor-predominante/>.
+@prefix medicion-kos: <http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-medicion/>.
+@prefix intervalo-kos: <http://vocab.linkeddata.es/datosabiertos/kos/medio-ambiente/contaminacion-acustica/tipo-intervalo-referencia/>.
+@prefix noise-recurso: <http://vocab.ciudadesabiertas.es/recurso/medio-ambiente/contaminacion-acustica/>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
+@prefix locn: <https://www.w3.org/ns/locn#>.
+@prefix esdir: <http://vocab.linkeddata.es/datosabiertos/def/urbanismo-infraestructuras/direccion-postal#>.
+
+
+<#idEstacion>
+    rml:logicalSource [
+    	rml:source "examples/Contaminacion/estaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class noise:EstacionMedida;
+    	rr:template "noise-recurso:estacion-medida/{identifier}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esequip:tipoEquipamiento];
+    	rr:objectMap	[ rr:constant "esequip-kos:estacion-medida-contaminacion-acustica"; rr:termType rr:IRI; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "nombre"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esequip:fechaAlta ];
+    	rr:objectMap	[ rml:reference "fechaAlta"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant esequip:fechaBaja ];
+    	rr:objectMap	[ rml:reference "fechaBaja"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier];
+    	rr:objectMap	[ rr:template "{identifier} "; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geosparql:hasGeometry];
+    	rr:objectMap	[ rr:template "noise-recurso:punto/{identifier}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:address];
+    	rr:objectMap	[ rr:template "noise-recurso:direccion/{identifier}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idObservacion>
+    rml:logicalSource [
+    	rml:source "examples/Contaminacion/observaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class noise:Observacion;
+    	rr:template "noise-recurso:observacion/{idx}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant noise:validada];
+    	rr:objectMap	[ rr:constant "false"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:resultTime ];
+    	rr:objectMap	[ rml:reference "hasResultTime"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:hasSimpleResult ];
+    	rr:objectMap	[ rml:reference "hasSimpleResult"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:observedProperty];
+    	rr:objectMap	[ rr:template "noise:{observedProperty}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant sosa:madeBySensor];
+    	rr:objectMap	[ rr:template "noise-recurso:estaciondemedida/{identifier}"; rr:termType rr:IRI; rr:datatype xsd:nan];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant noise:tipoMedicion];
+    	rr:objectMap	[ rr:template "medicion-kos:{tipoEmisorPredominante}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant noise:tipoEmisorPredominante];
+    	rr:objectMap	[ rr:template "emisor-kos:{tipoEmisorPredominante}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant noise:tipoIntervaloReferencia];
+    	rr:objectMap	[ rr:template "intervalo-kos:{tipoEmisorPredominante}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPunto>
+    rml:logicalSource [
+    	rml:source "examples/Contaminacion/estaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sf:Point;
+    	rr:template "noise-recurso:punto/{identifier}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo_core:xERTS89 ];
+    	rr:objectMap	[ rml:reference "xETRS89"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo_core:yERTS90 ];
+    	rr:objectMap	[ rml:reference "yETRS89"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:lat ];
+    	rr:objectMap	[ rml:reference "long"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:long ];
+    	rr:objectMap	[ rml:reference "lat"; rr:termType rr:literal; rr:datatype xsd:double ]
+    ];
+.
+
+<#idDireccion>
+    rml:logicalSource [
+    	rml:source "examples/Contaminacion/estaciones.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class esdir:DireccionPostal;
+    	rr:template "noise-recurso:direccion/{identifier}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant locn:fullAddress ];
+    	rr:objectMap	[ rml:reference "streetAddress"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+

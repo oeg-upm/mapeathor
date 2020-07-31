@@ -1,0 +1,117 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix estraf: <http://vocab.ciudadesabiertas.es/def/transporte/trafico#>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix geosparql: <http://www.opengis.net/doc/IS/geosparql/1.0#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <http://schema.org/>.
+@prefix skos-tipo-incidencia: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/trafico/tipo-incidencia/>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix recurso-trafico: <http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/>.
+@prefix sf: <http://www.opengis.net/ont/sf#>.
+
+
+<#idIncidencia>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/incidencias.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class estraf:IncidenciaPlanificada;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/incidencia-planificada/{id_incidencia_nuevo}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "id_incidencia_nuevo"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:description ];
+    	rr:objectMap	[ rml:reference "descripcion"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:startDate ];
+    	rr:objectMap	[ rml:reference "fh_inicio"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:endDate ];
+    	rr:objectMap	[ rml:reference "fh_final"; rr:termType rr:literal; rr:datatype xsd:dateTime ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:esRecurrente ];
+    	rr:objectMap	[ rml:reference "es_recurrente"; rr:termType rr:literal; rr:datatype xsd:boolean ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:recurrencia ];
+    	rr:objectMap	[ rml:reference "recurrencia"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:tipoIncidencia];
+    	rr:objectMap	[ rr:template "skos-tipo-incidencia:{nom_tipo_incidencia}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geosparql:hasGeometry];
+    	rr:objectMap	[ rr:template "recurso-trafico:punto/p-{id_incidencia_nuevo}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant estraf:incidenciaEnTramo];
+    	rr:objectMap	[ rr:template "recurso-trafico:tramot-{id_incidencia_nuevo}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPunto>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/incidencias.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class sf:Point;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/punto/p-{id_incidencia_nuevo}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:lat ];
+    	rr:objectMap	[ rml:reference "latitud"; rr:termType rr:literal; rr:datatype xsd:float ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant geo:long ];
+    	rr:objectMap	[ rml:reference "longitud"; rr:termType rr:literal; rr:datatype xsd:float ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dct:identifier];
+    	rr:objectMap	[ rr:template "p-{id_incidencia_nuevo}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+.
+
+<#idTramo>
+    rml:logicalSource [
+    	rml:source "examples/Traffic/incidencias.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class estraf:Tramo;
+    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/trafico/tramo/t-{id_incidencia_nuevo}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dct:description ];
+    	rr:objectMap	[ rml:reference "tramo"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dct:identifier];
+    	rr:objectMap	[ rr:template "t-{id_incidencia_nuevo}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+.
+

@@ -1,0 +1,73 @@
+prefixes:
+  foaf: "http://xmlns.com/foaf/0.1/"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  dc: "http://purl.org/dc/elements/1.1/"
+  dct: "http://purl.org/dc/terms/"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  owl: "http://www.w3.org/2002/07/owl#"
+  presup-recurso: "http://vocab.ciudadesabiertas.es/recurso/hacienda/presupuesto/"
+  espresup: "http://vocab.ciudadesabiertas.es/def/hacienda/presupuesto#"
+  time: "http://www.w3.org/2006/time/"
+  econ-gasto-madrid: "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid/"
+  organica-madrid: "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica/madrid/"
+  prog-gasto-madrid: "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/programa-gasto/madrid/"
+
+mappings:
+  IdPresupuestoGasto:
+    sources: 
+      - [data/Presupuesto_2018_gastos_Madrid.csv~csv]
+    s: presup-recurso:presupuestoGasto/$(Centro)$(Seccion)-$(Programa)-$(Economico)
+    po:
+      - [a, espresup:PresupuestoGasto]
+      - [espresup:creditoPreuspuestarioInicial, $(ProyPpto2018), xsd:float]
+      - [espresup:clasificacionOrganica, organica-madrid:$(Seccion)~iri, xsd:anyURI]
+      - [espresup:clasificacionProgramaGasto, econ-gasto-madrid:$(Programa)~iri, xsd:anyURI]
+      - p: espresup:clasificacionEconomicaGasto
+        o:
+          - mapping: IdClasifEconomicaGasto
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Economico)]
+                - [str2, $(subconcepto)]
+ 
+  IdClasifEconomicaGasto:
+    sources: 
+      - [data/clasificacion-economica-gasto-madrid.csv~clasificacion-economica-gasto-madrid.csv]
+    s: econ-gasto-madrid:$(subconcepto)
+    po:
+      - [a, skos:Concept]
+      - [skos:inScheme, http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/madrid~iri, xsd:anyURI]
+      - [skos:prefLabel, $(denominacion), xsd:string]
+ 
+  IdGastoCentro:
+    sources: 
+      - [data/Presupuesto_2018_gastos_Madrid.csv~csv]
+    s: organica-madrid:$(Centro)
+    po:
+      - [a, skos:Concept]
+      - [skos:inScheme, http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid~iri, xsd:anyURI]
+      - [skos:prefLabel, $(DescripcionCentro), xsd:string]
+      - [skos:narrower, organica-madrid:$(Seccion)~iri, xsd:anyURI]
+ 
+  IdGastoSeccion:
+    sources: 
+      - [data/Presupuesto_2018_gastos_Madrid.csv~csv]
+    s: organica-madrid:$(Seccion)
+    po:
+      - [a, skos:Concept]
+      - [skos:inScheme, http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/organica-madrid/madrid~iri, xsd:anyURI]
+      - [skos:prefLabel, $(DescripcionSeccion), xsd:string]
+      - [skos:broader, organica-madrid:$(Centro)~iri, xsd:anyURI]
+ 
+  IdGastoPrograma:
+    sources: 
+      - [data/Presupuesto_2018_gastos_Madrid.csv~csv]
+    s: prog-gasto-madrid:$(Programa)
+    po:
+      - [a, skos:Concept]
+      - [skos:inScheme, http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/prog-gasto-madrid/madrid~iri, xsd:anyURI]
+      - [skos:prefLabel, $(DescripcionPrograma), xsd:string]
+ 
