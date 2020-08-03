@@ -134,12 +134,12 @@ class Mapeathor(Resource):
 api.add_resource(Mapeathor, API_URL)
 
 
-def run():
+def run(host="0.0.0.0", port=5000):
     
     print("API URL: "+API_URL)
     print("SWAGGER URL: "+SWAGGER_URL)
     
-    app.run(debug=False)
+    app.run(debug=False, host=host, port=port)
 
 if __name__ == '__main__':
     run()
