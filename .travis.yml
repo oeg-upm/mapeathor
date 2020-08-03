@@ -1,0 +1,13 @@
+language: python
+python:
+- '3.7'
+script: true
+before_deploy:
+- cd code/mapeathor/
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  skip_existing: true
+  user: __token__
+  password:
+    secure: qOIaVTsshLC8jKMlW4IDzX/MMCHKFOwLdJ1grsHeNHRX20ICvllLcjURug1CNAUGt7CQpFCy0fH/rNHjxNZNn5FetaHOku+OhRhEBtESvCWoZWlrrbMJnueMjRnE1+wmk+AJD5YDuMSjqg0B90xxdhwwWVTUCn8ORVKhJ7XQxY0d5mKLgKbLrtBtzBxwF8q2nyfjow5zR9XI0bBsDIcd3F9pp+wwoD8oTGiMKsTeFZ4e/tH01P/CKKs06/kKNFVHWNN1VpmR6sFsFOCo/mY2dZg3DBQCXk+J0EE0nnnSmuWTlz/F8JBPNyGn7n2WDZx3cce3XEE2tgMSYtdDxdDipNOF0vRQGOlxXgXp5inFIADxIkXCnQ6OhrFsda8LFhjCpCvzraae7DOeiytB270vLwXcfSaw8rQDk6squ4rcAi6FppNc0qb6kFM0xPTr/4C9e5EtuH5VJvwXo4LEP7mfTXgi31CZ+9tu1INSCqRb69M9JZ/FR0u4WiSW8ipHk2LFuulTlltP4WBjjndAC9kZpZcRbw0DRkhg2SYIOTWf+rFu95IMmE6e2TuQ9/HDHOZz5W57Us9O26cjR8preOJPk+QrQf1YpMTo4kbBXllgmDiils5AZ1ewxGRvfCIVn0M4Ng2lJMthX+9cs3aoSS/Tr8VrNMawBt85cX/Q1FyeejI=
