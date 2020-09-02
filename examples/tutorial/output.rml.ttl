@@ -1,0 +1,127 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix schema: <http://schema.org/>.
+@prefix tmkosjourney: <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/>.
+@prefix tmjourney: <https://w3id.org/transmodel/journeys#>.
+@prefix tmcommons: <https://w3id.org/transmodel/commons#>.
+@prefix tmorg: <https://w3id.org/transmodel/organisations#>.
+@prefix recurso-autobus: <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/>.
+
+
+<#idLine>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/operator-lines.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Line;
+    	rr:template "recurso-autobus:linea/{line_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "line_id"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:description ];
+    	rr:objectMap	[ rml:reference "line_desc"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:longName ];
+    	rr:objectMap	[ rml:reference "line_long_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:url ];
+    	rr:objectMap	[ rml:reference "line_uri"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:madeUpOf ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#idRoute>;
+    		rr:joinCondition	[ 
+    			rr:child	"route_line"; 
+    			rr:parent	"line_id";
+    		];
+    	];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:presentedBy];
+    	rr:objectMap	[ rr:template "recurso-autobus:presentacion/pres-{line_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idPresentation>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/operator-lines.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmcommons:Presentation;
+    	rr:template "recurso-autobus:presentacion/pres-{line_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:colour ];
+    	rr:objectMap	[ rml:reference "line_color"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:textcolour ];
+    	rr:objectMap	[ rml:reference "line_text_color"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
+<#idOperator>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/operator-lines.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmorg:Operator;
+    	rr:template "recurso-autobus:operador/{agency_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "agency_name"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:url ];
+    	rr:objectMap	[ rml:reference "agency_uri"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmorg:operating];
+    	rr:objectMap	[ rr:template "recurso-autobus:linea/{line_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#idRoute>
+    rml:logicalSource [
+    	rml:source "examples/publicBus/routes.csv";
+    	rml:referenceFormulation ql:csv
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:class tmjourney:Route;
+    	rr:template "recurso-autobus:ruta/{route_id}";
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant dcterms:identifier ];
+    	rr:objectMap	[ rml:reference "route_id"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmjourney:frontText ];
+    	rr:objectMap	[ rml:reference "route_headsign"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant tmcommons:shortName ];
+    	rr:objectMap	[ rml:reference "route_short_name"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+.
+
