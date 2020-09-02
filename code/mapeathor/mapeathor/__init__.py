@@ -599,9 +599,9 @@ def gdriveToXMLX(url):
     
     m = re.search(r'https://docs.google.com/spreadsheets/d/(.*)/', url)
     
-    if not m:
-        
+    if not m:        
         raise Exception("Malformed Google Spreadsheets URL")
+        sys.exit()
     
     docid = m.groups()[0]
     
@@ -623,7 +623,10 @@ def main():
     # Local file
     if(checkFile(args.input_file)):
         inputFile = str(args.input_file)
-    
+    elif (args.input_file[0:8] != 'https://'):
+        print('ERROR: File not found')
+        sys.exit()
+
     # Google Spreadsheet file
     else:
         temp = gdriveToXMLX(args.input_file)
