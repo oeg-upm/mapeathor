@@ -16,6 +16,7 @@ import pkgutil
 import tempfile
 #from mapeathor import gdrive_api
 import requests
+import copy
 
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
@@ -199,7 +200,7 @@ def reFormatFunction(data_function, data):
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
         result[fun]['Source']['FunctionID'] = fun
-
+        #print(result['Fun1']['Source'])
     return(result)
 
 def find_source(function_key, data, functions):
@@ -210,12 +211,16 @@ def find_source(function_key, data, functions):
         if len(data['TriplesMap'][tm]['Predicate_Object']['Function']) != 0:
             for fun in data['TriplesMap'][tm]['Predicate_Object']['Function']:
                 if fun['Object'] == function_key:
+                    #data['TriplesMap'][tm]['Source']['FunctionID'] = function_key
+                    #print(data['TriplesMap'][tm]['Source'])
                     return(data['TriplesMap'][tm]['Source'])
     for fun in functions:
         if len(functions[fun]['Source']) != 0:
             for element in functions[fun]['Predicate_Object']:
                 if element['Value'][2:-1] == function_key:
-                    return(functions[fun]['Source'])
+                    functions[function_key]['Source'] = functions[fun]['Source'].copy()
+                    #functions[function_key]['Source']['FunctionID'] = function_key
+                    return(functions[function_key]['Source'])
 
 def reFormatPredicateObject(data):
     """
