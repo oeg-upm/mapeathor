@@ -437,7 +437,7 @@ def writeSubject(data, path):
     data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
 
     if templatesDir[-8:-1] != 'yarrrml':
-        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\trr:template ' + data['URI'] + ';\n')
+        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\trr:template "' + data['URI'] + '";\n')
         for class_s in data['Class']:
             f.write('\trr:class ' + class_s + ';\n')
         f.write('];\n')
