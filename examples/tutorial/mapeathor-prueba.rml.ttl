@@ -50,7 +50,7 @@
     ];
     rr:predicateObjectMap [
     	rr:predicateMap	[ rr:constant tmcommons:presentedBy];
-    	rr:objectMap	[ rr:template "recurso-autobus:presentacion/pres-{line_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    	rr:objectMap	[ rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-{line_id}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
     ];
 .
 
