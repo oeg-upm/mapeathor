@@ -1,0 +1,60 @@
+prefixes:
+  dcterms: "http://purl.org/dc/terms/"
+  schema: "http://schema.org/"
+  tmkosjourney: "http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/"
+  tmjourney: "https://w3id.org/transmodel/journeys#"
+  tmcommons: "https://w3id.org/transmodel/commons#"
+  tmorg: "https://w3id.org/transmodel/organisations#"
+  recurso-autobus: "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/"
+
+mappings:
+  idLine:
+    sources: 
+      - [examples/tutorial/operator-lines.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/$(line_id)
+    po:
+      - [a, tmjourney:Line]
+      - [dcterms:identifier, $(line_id), xsd:string]
+      - [dcterms:description, $(line_desc), xsd:string]
+      - [tmcommons:longName, $(line_long_name), xsd:string]
+      - [schema:url, $(line_uri)~iri, xsd:anyURI]
+      - [tmcommons:presentedBy, recurso-autobus:presentacion/pres-$(line_id)~iri, xsd:anyURI]
+      - p: tmjourney:madeUpOf
+        o:
+          - mapping: idRoute
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(line_id)]
+                - [str2, $(route_line)]
+ 
+  idPresentation:
+    sources: 
+      - [examples/tutorial/operator-lines.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-$(line_id)
+    po:
+      - [a, tmcommons:Presentation]
+      - [tmcommons:colour, $(line_color), xsd:string]
+      - [tmcommons:textcolour, $(line_text_color), xsd:string]
+ 
+  idOperator:
+    sources: 
+      - [examples/tutorial/operator-lines.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/$(agency_id)
+    po:
+      - [a, tmorg:Operator]
+      - [schema:name, $(agency_name), xsd:string]
+      - [schema:url, $(agency_uri)~iri, xsd:anyURI]
+      - [tmorg:operating, recurso-autobus:linea/$(line_id)~iri, xsd:anyURI]
+ 
+  idRoute:
+    sources: 
+      - [examples/tutorial/routes.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/$(route_id)
+    po:
+      - [a, tmjourney:Route]
+      - [dcterms:identifier, $(route_id), xsd:string]
+      - [tmjourney:frontText, $(route_headsign), xsd:string]
+      - [tmcommons:shortName, $(route_short_name), xsd:string]
+      - [tmjourney:directionType, tmkosjourney:$(direction_id)~iri, xsd:anyURI]
+ 

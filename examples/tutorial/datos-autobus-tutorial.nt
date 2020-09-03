@@ -1,0 +1,91 @@
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Line>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <http://purl.org/dc/terms/identifier> "29"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <http://purl.org/dc/terms/description> "Avenida de Felipe II Manoteras"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <https://w3id.org/transmodel/commons#longName> "FELIPE II-MANOTERAS"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <http://schema.org/url> <http://www.crtm.es/tu-transporte-publico/autobuses-emt/lineas/6__29___.aspx>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <https://w3id.org/transmodel/commons#presentedBy> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-29>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Line>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <http://purl.org/dc/terms/identifier> "51"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <http://purl.org/dc/terms/description> "Puerta del Sol - Sevilla Plaza del Perú"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <https://w3id.org/transmodel/commons#longName> "SOL-PLAZA PERU"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <http://schema.org/url> <http://www.crtm.es/tu-transporte-publico/autobuses-emt/lineas/6__51___.aspx>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <https://w3id.org/transmodel/commons#presentedBy> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-51>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Line>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <http://purl.org/dc/terms/identifier> "52"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <http://purl.org/dc/terms/description> "Puerta del Sol - Sevilla Samtamarca"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <https://w3id.org/transmodel/commons#longName> "SOL/SEVILLA-SANTAMARCA"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <http://schema.org/url> <http://www.crtm.es/tu-transporte-publico/autobuses-emt/lineas/6__52___.aspx>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <https://w3id.org/transmodel/commons#presentedBy> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-52>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Line>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <http://purl.org/dc/terms/identifier> "172"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <http://purl.org/dc/terms/description> "Mar de Cristal Telefónica"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <https://w3id.org/transmodel/commons#longName> "MAR DE CRISTAL-TELEFONICA"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <http://schema.org/url> <http://www.crtm.es/tu-transporte-publico/autobuses-emt/lineas/6__172___.aspx>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <https://w3id.org/transmodel/commons#presentedBy> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-172>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172> <https://w3id.org/transmodel/journeys#madeUpOf> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/commons#Presentation>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-29> <https://w3id.org/transmodel/commons#colour> "0178BC"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-29> <https://w3id.org/transmodel/commons#textcolour> "FFFFFF"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-51> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/commons#Presentation>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-51> <https://w3id.org/transmodel/commons#colour> "0178BC"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-51> <https://w3id.org/transmodel/commons#textcolour> "FFFFFF"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-52> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/commons#Presentation>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-52> <https://w3id.org/transmodel/commons#colour> "0178BC"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-52> <https://w3id.org/transmodel/commons#textcolour> "FFFFFF"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-172> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/commons#Presentation>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-172> <https://w3id.org/transmodel/commons#colour> "0178BC"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-172> <https://w3id.org/transmodel/commons#textcolour> "FFFFFF"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/organisations#Operator>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <http://schema.org/name> "Consorcio Regional de Transportes de Madrid"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <http://schema.org/url> <http://www.crtm.es>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <https://w3id.org/transmodel/organisations#operating> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/29>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <https://w3id.org/transmodel/organisations#operating> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/51>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <https://w3id.org/transmodel/organisations#operating> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/52>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/CRTM> <https://w3id.org/transmodel/organisations#operating> <http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/172>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida> <http://purl.org/dc/terms/identifier> "52-ida"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida> <https://w3id.org/transmodel/journeys#frontText> "Cibeles-Banco de España"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida> <https://w3id.org/transmodel/commons#shortName> "SOL SEVILLA"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-ida> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/1>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta> <http://purl.org/dc/terms/identifier> "52-vuelta"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta> <https://w3id.org/transmodel/journeys#frontText> "Santamarca"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta> <https://w3id.org/transmodel/commons#shortName> "SANTAMARCA"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/52-vuelta> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/0>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida> <http://purl.org/dc/terms/identifier> "172-ida"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida> <https://w3id.org/transmodel/journeys#frontText> "Arequipa"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida> <https://w3id.org/transmodel/commons#shortName> "MAR DE CRISTAL"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-ida> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/1>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta> <http://purl.org/dc/terms/identifier> "172-vuelta"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta> <https://w3id.org/transmodel/journeys#frontText> "Monte del Gozo"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta> <https://w3id.org/transmodel/commons#shortName> "LAS TABLAS"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/172-vuelta> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/0>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta> <http://purl.org/dc/terms/identifier> "29-vuelta"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta> <https://w3id.org/transmodel/journeys#frontText> "Manoteras"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta> <https://w3id.org/transmodel/commons#shortName> "MANOTERAS"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-vuelta> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/0>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida> <http://purl.org/dc/terms/identifier> "29-ida"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida> <https://w3id.org/transmodel/journeys#frontText> "Felipe II"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida> <https://w3id.org/transmodel/commons#shortName> "FELIPE II"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/29-ida> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/1>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta> <http://purl.org/dc/terms/identifier> "51-vuelta"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta> <https://w3id.org/transmodel/journeys#frontText> "Plaza del Perú"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta> <https://w3id.org/transmodel/commons#shortName> "PLAZA PERU"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-vuelta> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/0>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/transmodel/journeys#Route>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida> <http://purl.org/dc/terms/identifier> "51-ida"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida> <https://w3id.org/transmodel/journeys#frontText> "Sol"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida> <https://w3id.org/transmodel/commons#shortName> "SOL"^^<http://www.w3.org/2001/XMLSchema#string>.
+<http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/51-ida> <https://w3id.org/transmodel/journeys#directionType> <http://vocab.linkeddata.es/datosabiertos/kos/transporte/autobus/journey/1>.

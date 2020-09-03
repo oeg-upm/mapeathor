@@ -19,7 +19,7 @@
     rr:subjectMap [
     	a rr:Subject;
     	rr:termType rr:IRI;
-    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/{line_id}";
+    	rr:template http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/linea/{line_id};
     	rr:class tmjourney:Line;
     ];
     rr:predicateObjectMap [
@@ -62,7 +62,7 @@
     rr:subjectMap [
     	a rr:Subject;
     	rr:termType rr:IRI;
-    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-{line_id}";
+    	rr:template http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/presentacion/pres-{line_id};
     	rr:class tmcommons:Presentation;
     ];
     rr:predicateObjectMap [
@@ -83,7 +83,7 @@
     rr:subjectMap [
     	a rr:Subject;
     	rr:termType rr:IRI;
-    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/{agency_id}";
+    	rr:template http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/operador/{agency_id};
     	rr:class tmorg:Operator;
     ];
     rr:predicateObjectMap [
@@ -108,7 +108,7 @@
     rr:subjectMap [
     	a rr:Subject;
     	rr:termType rr:IRI;
-    	rr:template "http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/{route_id}";
+    	rr:template http://vocab.ciudadesabiertas.es/recurso/transporte/autobus/ruta/{route_id};
     	rr:class tmjourney:Route;
     ];
     rr:predicateObjectMap [
