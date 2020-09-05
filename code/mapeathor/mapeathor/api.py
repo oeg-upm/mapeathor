@@ -114,7 +114,7 @@ class Mapeathor(Resource):
             
             temp_out = tempfile.NamedTemporaryFile(prefix="mapeathor-api").name
             
-            if data['file'] is None:
+            if data['file'] is None or data['file'] == "":
                 
                 temp_in = mapeathor.gdriveToXMLX(data['url'])
             
