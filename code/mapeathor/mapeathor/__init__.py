@@ -19,7 +19,8 @@ import requests
 import copy
 
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
+#baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
+baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
 dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
@@ -40,6 +41,7 @@ defaultDataTypes = {
    ],
    "integer":[
       "integer",
+      "int",
       "number"
    ],
    "boolean":[
@@ -47,10 +49,13 @@ defaultDataTypes = {
       "bool"
    ],
    "date":[
-      "date"
+      "date",
    ],
    "time":[
       "time"
+   ],
+   "dateTime":[
+      "datetime"
    ],
    "anyURI":[
       "anyuri",
@@ -319,13 +324,27 @@ def reFormatSource(data):
         elif(element['Feature'].lower() == 'iterator'):
             result['Iterator'] = str(element['Value'])
         elif(element['Feature'].lower() == 'table'):
-            result['Source'] = str(element['Value'])
+            result['Table'] = str(element['Value'])
+        elif(element['Feature'].lower() == 'query'):
+            result['Query'] = str(element['Value'])
+        elif(element['Feature'].lower() == 'sqlversion'):
+            result['SQLVersion'] = str(element['Value'])
         else:
             print("ERROR: " + element + " feature not recognized. The recognized values for the \
-                column 'Feature' in 'Source' are 'source', 'format', 'iterator' and 'table'")
+                column 'Feature' in the sheet 'Source' are 'source', 'format', 'iterator', \
+                'table', 'query' and 'SQLVersion")
             sys.exit()
+
     if('Iterator' not in result.keys()):
-            result['Iterator'] = ''
+        result['Iterator'] = ''
+    if('SQLVersion' not in result.keys()):
+        result['SQLVersion'] = 'SQL2008'
+    if('Source' not in result.keys() and 'Table' in result.keys()):
+        result['Source'] = result['Table']
+        if ('Format' not in result.keys()):
+            result['Format'] = result['SQLVersion']
+
+
     result['ID'] = data[0]['ID']
     return result
 
@@ -406,7 +425,12 @@ def writeSource(data, path):
     for element in data:
         f.write(str(element) + ': \'' + data[element] + '\'\n')
     f.close()
-    go_template.render_template(templatesDir + 'Source.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
+
+    if('Query' in data.keys()):
+        go_template.render_template(templatesDir + 'SourceQuery.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
+    else:
+        go_template.render_template(templatesDir + 'Source.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
+    
     writeResult(data['ID'], 'Source')
 
  

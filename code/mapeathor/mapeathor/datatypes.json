@@ -13,6 +13,7 @@
    ],
    "integer":[
       "integer",
+      "int",
       "number"
    ],
    "boolean":[
@@ -20,10 +21,13 @@
       "bool"
    ],
    "date":[
-      "date"
+      "date",
    ],
    "time":[
       "time"
+   ],
+   "dateTime":[
+      "datetime"
    ],
    "anyURI":[
       "anyuri",
