@@ -114,7 +114,7 @@ class Mapeathor(Resource):
             
             temp_out = tempfile.NamedTemporaryFile(prefix="mapeathor-api").name
             
-            if data['file'] is None:
+            if data['file'] is None or data['file'].filename == "":
                 
                 temp_in = mapeathor.gdriveToXMLX(data['url'])
             
@@ -123,6 +123,8 @@ class Mapeathor(Resource):
                 temp_in = tempfile.NamedTemporaryFile(prefix="mapeathor-api").name
 
                 data['file'].save(temp_in)
+                
+                print(len(temp_in))
             
             mapeathor.setMappingLanguage(data["format"])
             
