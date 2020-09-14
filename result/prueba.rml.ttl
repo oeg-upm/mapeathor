@@ -1,0 +1,80 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix ex: <http://example.com/>.
+
+
+<#EMPLOYED>
+    rml:logicalSource [
+    	rml:source "employees";
+    	rml:referenceFormulation ql:SQL2008
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:template "http://ex.com/employed/{id}";
+    	rr:class schema:Person;
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name];
+    	rr:objectMap	[ rr:constant "kk"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:image ];
+    	rr:objectMap	[
+    		rr:parentTriplesMap	<#NEW>;
+    		rr:joinCondition	[ 
+    			rr:child	"img"; 
+    			rr:parent	"img";
+    		];
+    	];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:jobTitle];
+    	rr:objectMap	[ rr:template "Kk {role}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:description];
+    	rr:objectMap	[ rr:template "http://ex.com/{bio}"; rr:termType rr:IRI; rr:datatype xsd:anyURI];
+    ];
+.
+
+<#NEW>
+    rr:logicalSource [
+    	rr:sqlQuery """select bla from blabla""";
+    	rr:sqlVersion rr:sql2008
+    ];
+    rr:subjectMap [
+    	a rr:Subject;
+    	rr:termType rr:IRI;
+    	rr:template "http://ex.com/news/{news_id}";
+    	rr:class schema:Article;
+    	rr:class owl:Thing;
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:name ];
+    	rr:objectMap	[ rml:reference "title"; rr:termType rr:literal; rr:datatype xsd:string ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:contentReferenceTime ];
+    	rr:objectMap	[ rml:reference "date"; rr:termType rr:literal; rr:datatype xsd:date ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:articleBody ];
+    	rr:objectMap	[ rml:reference "article"; rr:termType rr:IRI; rr:datatype xsd:anyURI ]
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:creator];
+    	rr:objectMap	[ rr:template "{author}kk"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:image];
+    	rr:objectMap	[ rr:template "{img}kk{img}"; rr:termType rr:literal; rr:datatype xsd:string];
+    ];
+    rr:predicateObjectMap [
+    	rr:predicateMap	[ rr:constant schema:about] ;
+    	rr:objectMap	<#Fun1>
+    ];.
+

@@ -1,0 +1,39 @@
+prefixes:
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  ex: "http://example.com/"
+
+mappings:
+  EMPLOYED:
+    sources: 
+      - [employees~SQL2008]
+    s: http://ex.com/employed/$(id)
+    po:
+      - [a, schema:Person]
+      - [schema:name, kk, xsd:string]
+      - [schema:jobTitle, Kk $(role), xsd:string]
+      - [schema:description, http://ex.com/$(bio)~iri, xsd:anyURI]
+      - p: schema:image
+        o:
+          - mapping: NEW
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(img)]
+                - [str2, $(img)]
+ 
+  NEW:
+    sources: 
+      query: |
+      	select bla from blabla;
+      queryFormulation: sql2008
+    s: http://ex.com/news/$(news_id)
+    po:
+      - [a, schema:Article]
+      - [a, owl:Thing]
+      - [schema:name, $(title), xsd:string]
+      - [schema:contentReferenceTime, $(date), xsd:date]
+      - [schema:articleBody, $(article)~iri, xsd:anyURI]
+      - [schema:creator, $(author)kk, xsd:string]
+      - [schema:image, $(img)kk$(img), xsd:string]
+      NEW FUNCTIONS ARE UNDER DEVELOPMENT :(
+         
