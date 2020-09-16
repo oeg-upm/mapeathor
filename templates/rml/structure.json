@@ -1,7 +1,7 @@
 {
 	"unique":[		{
 		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix rml: <http://semweb.mmlab.be/ns/rml#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
-		"file":"Prefixes",
+		"file":"Prefix",
 		"tabs":1,
 		"childs":[],
 		"after":"\n"

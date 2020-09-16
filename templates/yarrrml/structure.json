@@ -2,7 +2,7 @@
   "unique":[
     {
       "before": "prefixes:",
-      "file": "Prefixes",
+      "file": "Prefix",
       "tabs": 2,
       "childs":[],
       "after":"\nmappings:"

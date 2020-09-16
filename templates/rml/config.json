@@ -18,8 +18,8 @@
 		"size":4
 	},
 	"iterator":{
-		"before":"",
-		"after":""
+		"before":"rml:iterator \"",
+		"after":"\""
 	},
 	"extension":"rml.ttl"
 }
