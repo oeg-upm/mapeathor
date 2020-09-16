@@ -321,6 +321,10 @@ def reFormatSource(data):
             result['Source'] = str(element['Value'])
         elif(element['Feature'].lower() == 'format'):
             result['Format'] = str(element['Value'])
+            if result['Format'].lower() == 'json':
+                result['Format'] = 'JSONPath'
+            elif result['Format'].lower() == 'xml':
+                result['Format'] = 'XPath'
         elif(element['Feature'].lower() == 'iterator'):
             result['Iterator'] = str(element['Value'])
         elif(element['Feature'].lower() == 'table'):
