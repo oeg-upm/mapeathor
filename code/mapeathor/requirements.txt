@@ -2,9 +2,7 @@ pandas
 go_template
 argparse
 xlrd
-google-api-python-client
 httplib2
-oauth2client
 configparser
 flask
 flask_swagger

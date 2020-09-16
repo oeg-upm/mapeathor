@@ -19,8 +19,8 @@ import requests
 import copy
 
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-#baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
-baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
+baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
+#baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
 dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
@@ -625,7 +625,7 @@ def setMappingLanguage(language):
 def gdriveToXMLX(url):
     temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False)
     
-    m = re.search(r'https://docs.google.com/spreadsheets/d/(.*)/', url)
+    m = re.search(r'(?:file|spreadsheets)\/d\/(.*)\/', url)
     
     if not m:        
         raise Exception("Malformed Google Spreadsheets URL")
