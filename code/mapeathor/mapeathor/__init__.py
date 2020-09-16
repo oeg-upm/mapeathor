@@ -621,7 +621,7 @@ def setMappingLanguage(language):
 def gdriveToXMLX(url):
     temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False)
     
-    m = re.search(r'https://docs.google.com/spreadsheets/d/(.*)/', url)
+    m = re.search(r'(?:file|spreadsheets)\/d\/(.*)\/', url)
     
     if not m:        
         raise Exception("Malformed Google Spreadsheets URL")
