@@ -19,8 +19,8 @@ import requests
 import copy
 
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-#baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
-baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
+baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
+#baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
 dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
