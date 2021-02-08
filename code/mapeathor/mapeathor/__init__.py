@@ -141,14 +141,14 @@ def reFormatSubject(data):
 
     return(subjects)
 
-def replaceVars(element, type_, datatype_):
+def replaceVars(element, type_, termtype_):
     """
-    Writes the objects 'element' correctly according to their type 'type_' and datatype 'datatype_', returns the 
+    Writes the objects 'element' correctly according to their type 'type_' and datatype 'termtype_', returns the 
     corrected object
     """
     config = json.loads(open(templatesDir + 'config.json').read())
     # Add "" to the constant literal objects in YARRRML
-    if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and datatype_ == 'literal'):
+    if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and termtype_ == 'literal'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
     # Replace '{' and '}' in all but constant objects according to the config.json file of each language
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
@@ -290,7 +290,7 @@ def termTypeIdentifier(element, dataType):
     if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType == "anyURI"):
         return 'IRI', '~iri'
     else: 
-        return 'literal', ''
+        return 'Literal', ''
         
 def predicateTypeIdentifier(element):
     """
