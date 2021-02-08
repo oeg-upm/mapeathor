@@ -1,6 +1,9 @@
 {
    "string":[
-      "string"
+      "string",
+      "nan",
+      " ",
+      ""
    ],
    "decimal":[
       "decimal"
@@ -34,10 +37,5 @@
       "iri",
       "uri",
       "url"
-   ],   
-   "nan":[
-      "nan",
-      " ",
-      ""
    ]
 }

@@ -28,7 +28,10 @@ supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
 defaultDataTypes = {
 
    "string":[
-      "string"
+      "string",
+      "nan",
+      " ",
+      ""
    ],
    "decimal":[
       "decimal"
@@ -62,11 +65,6 @@ defaultDataTypes = {
       "iri",
       "uri",
       "url"
-   ],   
-   "nan":[
-      "nan",
-      " ",
-      ""
    ]
 }
 
@@ -281,6 +279,7 @@ def dataTypeIdentifier(element):
     for key in dataTypes.keys():
         if element.lower().strip() in dataTypes[key]:
             return key
+
     print('WARNING: datatype not recognized (' + element + '), check XSD datatypes')
     return element
 
