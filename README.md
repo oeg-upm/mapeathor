@@ -35,6 +35,8 @@ Here you can see the [Available Languages](./templates).
 The easiest way of running Mapeathor is using the [web service](https://morph.oeg.fi.upm.es/demo/mapeathor) and the [Swagger](https://morph.oeg.fi.upm.es/tool/mapeathor/swagger/) instance. For CLI lovers, the service is available as a [PyPi package](https://pypi.org/project/mapeathor/) and Docker image. The instructions of the latest can be found in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
 
 ## Publications
+Iglesias-Molina, A., Pozo-Gilo, L., Dona, D., Ruckhaus, E., Chaves-Fraga, D., & Corcho, O. (2020, January). *Mapeathor: Simplifying the Specification of Declarative Rules for Knowledge Graph Construction. In ISWC (Demos/Industry).* [Online version](http://ceur-ws.org/Vol-2721/paper488.pdf)
+
 Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Towards the Definition of a Language-Independent Mapping Template for Knowledge Graph Creation. *In Proceedings of the Third International Workshop on Capturing Scientific Knowledge co-located with the 10th International Conference on Knowledge Capture (K-CAP 2019)* (pp. 33-36). [Online version](https://sciknow.github.io/sciknow2019/papers/SciKnow_2019_paper_4.pdf)
 
 ## Authors and contact
