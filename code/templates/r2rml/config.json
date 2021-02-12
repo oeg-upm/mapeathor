@@ -2,12 +2,17 @@
 	"variable":{
 		"template":{
 			"before":"{",
-			"after":"}"
+			"after":"}",
+			"termMap":"rr:template"
 			
 		},
 		"reference":{
 			"before":"\"",
-			"after":"\""
+			"after":"\"",
+			"termMap":"rr:column"
+		},
+		"constant":{
+			"termMap":"rr:constant"
 		},
 		"join_condition":{
 			"before":"",

@@ -143,7 +143,7 @@ def reFormatSubject(data):
 
 def replaceVars(element, type_, termtype_):
     """
-    Writes the objects 'element' correctly according to their type 'type_' and datatype 'termtype_', returns the 
+    Writes the objects 'element' correctly according to their type 'type_' and termtype 'termtype_', returns the 
     corrected object
     """
     config = json.loads(open(templatesDir + 'config.json').read())
@@ -156,6 +156,12 @@ def replaceVars(element, type_, termtype_):
     else:
         result = element
     return result
+
+def replaceTermMap(type_):
+    config = json.loads(open(templatesDir + 'config.json').read())
+    result = config['variable'][type_]['termMap']
+    return result
+
             
 def findChilds(data, ID):
     """
@@ -233,6 +239,7 @@ def reFormatPredicateObject(data):
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
+        element['PredTermMap'] = replaceTermMap(element['PredicateType'])
         element['DataType'] = dataTypeIdentifier(element['DataType'])
         element['TermType'], element['isIRI'] = termTypeIdentifier(element['Object'], element['DataType'])
 
@@ -300,7 +307,7 @@ def predicateTypeIdentifier(element):
     if(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
         return 'constant'
     # For reference 
-    elif(str(element)[:1] == '{' and str(element)[-1:] == '}' and str(element).split(" ")  == 1):
+    elif(str(element)[:1] == '{' and str(element)[-1:] == '}' and len(str(element).split(" "))  == 1):
         return 'reference'
     # For template
     elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
@@ -461,10 +468,12 @@ def writeSubject(data, path):
     """
 
     f = open(tmpDir + 'Subject.txt', 'a+')
+
     data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
+    data['SubTermMap'] = replaceTermMap(data['SubjectType'])
 
     if templatesDir[-8:-1] != 'yarrrml':
-        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\trr:template "' + data['URI'] + '";\n')
+        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\t' + data['SubTermMap'] + ' "' + data['URI'] + '";\n')
         for class_s in data['Class']:
             f.write('\trr:class ' + class_s + ';\n')
         f.write('];\n')
@@ -597,7 +606,7 @@ def generateMapping(inputFile, outputFile=None):
         os.mkdir(resultDir)
    
     if outputFile is None:   
-        outputFile = resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.
+        outputFile = resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.  
 	
     try:
         json = generateJson(inputFile)
@@ -610,7 +619,7 @@ def generateMapping(inputFile, outputFile=None):
     except KeyError:
         print("ERROR: The spreadsheet template is not correct. Check the sheet and column names are correct.")
         sys.exit()
-
+    
     writeValues(json,tmpDir)
 
     outputFile = writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Function'].keys())

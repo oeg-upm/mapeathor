@@ -2,12 +2,14 @@
 	"variable":{
 		"template":{
 			"before":"$(",
-			"after":")"
+			"after":")",
+			"termMap":"rr:template"
 			
 		},
 		"reference":{
 			"before":"$(",
-			"after":")"
+			"after":")",
+			"termMap":"rml:reference"
 		},
 		"join_condition":{
 			"before":"$(",
@@ -15,7 +17,8 @@
 		},
 		"constant":{
 			"before":"\"",
-			"after":"\""
+			"after":"\"",
+			"termMap":"rr:constant"
 		}
 	},
 	"tab":{
