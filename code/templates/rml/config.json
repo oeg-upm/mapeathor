@@ -25,7 +25,7 @@
 		"size":4
 	},
 	"iterator":{
-		"before":"rml:iterator \"",
+		"before":"    rml:iterator ;\n\"",
 		"after":"\""
 	},
 	"extension":"rml.ttl"

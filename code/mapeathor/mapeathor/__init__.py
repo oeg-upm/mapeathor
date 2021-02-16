@@ -148,11 +148,16 @@ def replaceVars(element, type_, termtype_):
     """
     config = json.loads(open(templatesDir + 'config.json').read())
     # Add "" to the constant literal objects in YARRRML
-    if(templatesDir == '../templates/yarrrml/' and type_ == 'constant' and termtype_ == 'literal'):
+    if(templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant' and termtype_ == 'Literal'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
+    
     # Replace '{' and '}' in all but constant objects according to the config.json file of each language
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
+    
+    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template') and (templatesDir[-4:-1] == 'rml' or templatesDir[-6:-1] == 'r2rml')):
+        result = "\"" + element + "\""
+
     else:
         result = element
     return result
@@ -476,7 +481,7 @@ def writeSubject(data, path):
     data['SubTermMap'] = replaceTermMap(data['SubjectType'])
 
     if templatesDir[-8:-1] != 'yarrrml':
-        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\t' + data['SubTermMap'] + ' "' + data['URI'] + '";\n')
+        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
         for class_s in data['Class']:
             f.write('\trr:class ' + class_s + ';\n')
         f.write('];\n')
