@@ -235,7 +235,7 @@ def reFormatPredicateObject(data):
     """
     Rearranges the json contained in 'data' for the Triple Object Maps, and returns it
     """
-    result = {'Join':[], 'Template':[], 'Function':[], 'ReferenceObject':[], 'ConstantObject':[]}
+    result = {'Join':[], 'Function':[], 'POM':[]}
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'} 
     for element in data:
         element['PredicateType'] = predicateTypeIdentifier(element['Predicate'])
@@ -255,15 +255,18 @@ def reFormatPredicateObject(data):
         # Populate Constant key
         elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
             element['ObjectType'] = 'constant'
-            result['ConstantObject'].append(element)
+            element['ObjTermMap'] = replaceTermMap(element['ObjectType'])
+            result['POM'].append(element)
         # Populate Template key
         elif(bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
             element['ObjectType'] = 'template'
-            result['Template'].append(element)
+            element['ObjTermMap'] = replaceTermMap(element['ObjectType'])
+            result['POM'].append(element)
         # Populate Reference key when none of the conditions above are fulfilled
         else:
             element['ObjectType'] = 'reference'
-            result['ReferenceObject'].append(element)
+            element['ObjTermMap'] = replaceTermMap(element['ObjectType'])
+            result['POM'].append(element)
     return result
 
 def dataTypeIdentifier(element):

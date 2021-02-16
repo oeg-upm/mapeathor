@@ -28,15 +28,7 @@
 			},
 			{
 				"before":"",
-				"file":"ConstantObject",
-				"tabs":1,
-				"childs":[],
-				"after":""
-	
-			},
-			{
-				"before":"",
-				"file":"ReferenceObject",
+				"file":"POM",
 				"tabs":1,
 				"childs":[],
 				"after":""
@@ -45,13 +37,6 @@
 			{
 				"before":"",
 				"file":"Join",
-				"tabs":1,
-				"childs":[],
-				"after":""
-			},
-			{
-				"before":"",
-				"file":"Template",
 				"tabs":1,
 				"childs":[],
 				"after":""

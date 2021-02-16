@@ -12,6 +12,8 @@
 			"termMap":"rml:reference"
 		},
 		"constant":{
+			"before":"\"",
+			"after":"\"",
 			"termMap":"rr:constant"
 		},
 		"join_condition":{

@@ -28,21 +28,7 @@
           "childs": [
             {
               "before": "",
-              "file": "ConstantObject",
-              "tabs": 3,
-              "childs": [],
-              "after": ""
-            },
-            {
-              "before": "",
-              "file": "ReferenceObject",
-              "tabs": 3,
-              "childs": [],
-              "after": ""
-            },
-            {
-              "before": "",
-              "file": "Template",
+              "file": "POM",
               "tabs": 3,
               "childs": [],
               "after": ""
