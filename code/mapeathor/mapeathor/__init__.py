@@ -73,7 +73,7 @@ def checkFile(path):
     Checks if the input 'path' is an excel file an can be correctly read, returns a boolean
     """
     try:
-        data = pandas.ExcelFile(path)
+        data = pandas.ExcelFile(path, engine='openpyxl')
         return True
     except:
         return False
@@ -82,7 +82,7 @@ def generateJson(path):
     """
     The input excel file 'path' is translated into JSON format, returns the json
     """
-    data = pandas.ExcelFile(path)
+    data = pandas.ExcelFile(path, engine='openpyxl')
     json = {}
     for sheet_ in data.sheet_names:
         sheet = str(sheet_)

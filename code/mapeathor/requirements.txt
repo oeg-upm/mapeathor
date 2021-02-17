@@ -1,7 +1,7 @@
 pandas
 go_template
 argparse
-xlrd
+openpyxl
 httplib2
 configparser
 flask
