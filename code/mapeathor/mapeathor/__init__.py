@@ -129,7 +129,9 @@ def reFormatSubject(data):
     """
     id_class = {}
     for element in data:
-        if element['ID'] in id_class:
+        if element['ID'] == 'nan':
+            continue
+        elif element['ID'] in id_class:
             id_class[element['ID']].append(element['Class'])
         else:
             id_class[element['ID']] = [element['Class']]
@@ -192,13 +194,13 @@ def reFormatFunction(data_function, data):
     Rearranges the data of functions 'data_function' into the desired structure and adds the source of each function
     with 'data'. The rearranged json is returned.
     """
+    # Empty sheet
     if data_function[0]['Feature'] == 'nan' and data_function[0]['Value'] == 'nan':
         return({})
-    
-    #print(data_function)
 
     result = {}
     for element in data_function:
+        # Blank rows
         if element['FunctionID'] == 'nan':
             continue
 
@@ -220,7 +222,7 @@ def reFormatFunction(data_function, data):
                 print('WARNING: Wrong element in Function', FID)
                 element['ValueType'] = 'rr:constant'
             result[element['FunctionID']]['Predicate_Object'].append(element)
-    print(result)
+
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
         result[fun]['Source']['FunctionID'] = fun
