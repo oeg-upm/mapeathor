@@ -72,6 +72,8 @@ def checkFile(path):
     """
     Checks if the input 'path' is an excel file an can be correctly read, returns a boolean
     """
+    #data = pandas.ExcelFile(path, engine='openpyxl')
+    #print(data)
     try:
         data = pandas.ExcelFile(path, engine='openpyxl')
         return True
@@ -190,8 +192,16 @@ def reFormatFunction(data_function, data):
     Rearranges the data of functions 'data_function' into the desired structure and adds the source of each function
     with 'data'. The rearranged json is returned.
     """
+    if data_function[0]['Feature'] == 'nan' and data_function[0]['Value'] == 'nan':
+        return({})
+    
+    #print(data_function)
+
     result = {}
     for element in data_function:
+        if element['FunctionID'] == 'nan':
+            continue
+
         element['FunctionID'] = str(element['FunctionID'])[1:-1]
         if element['FunctionID'] not in result.keys():
             result[element['FunctionID']] = {'Predicate_Object':[], 'Source':[]}
@@ -210,7 +220,7 @@ def reFormatFunction(data_function, data):
                 print('WARNING: Wrong element in Function', FID)
                 element['ValueType'] = 'rr:constant'
             result[element['FunctionID']]['Predicate_Object'].append(element)
-
+    print(result)
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
         result[fun]['Source']['FunctionID'] = fun
@@ -639,7 +649,7 @@ def setMappingLanguage(language):
     templatesDir = baseTemplatesDir + language.lower() + "/"
     
 def gdriveToXMLX(url):
-    temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False)
+    temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False, suffix=".xlsx")
     
     m = re.search(r'(?:file|spreadsheets)\/d\/(.*)\/', url)
     
@@ -674,7 +684,6 @@ def main():
     # Google Spreadsheet file
     else:
         temp = gdriveToXMLX(args.input_file)
-        
         if checkFile(temp):
             inputFile = temp
         else:
