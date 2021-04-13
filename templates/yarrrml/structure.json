@@ -1,6 +1,13 @@
 {
   "unique":[
     {
+    "before": "",
+    "file":"Base",
+    "tabs":1,
+    "childs":[],
+    "after":"\n"
+
+  },{
       "before": "prefixes:",
       "file": "Prefix",
       "tabs": 2,
@@ -28,21 +35,7 @@
           "childs": [
             {
               "before": "",
-              "file": "ConstantObject",
-              "tabs": 3,
-              "childs": [],
-              "after": ""
-            },
-            {
-              "before": "",
-              "file": "ReferenceObject",
-              "tabs": 3,
-              "childs": [],
-              "after": ""
-            },
-            {
-              "before": "",
-              "file": "Template",
+              "file": "POM",
               "tabs": 3,
               "childs": [],
               "after": ""

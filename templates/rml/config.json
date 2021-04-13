@@ -2,12 +2,19 @@
 	"variable":{
 		"template":{
 			"before":"{",
-			"after":"}"
+			"after":"}",
+			"termMap":"rr:template"
 			
 		},
 		"reference":{
 			"before":"\"",
-			"after":"\""
+			"after":"\"",
+			"termMap":"rml:reference"
+		},
+		"constant":{
+			"before":"\"",
+			"after":"\"",
+			"termMap":"rr:constant"
 		},
 		"join_condition":{
 			"before":"",
@@ -18,7 +25,7 @@
 		"size":4
 	},
 	"iterator":{
-		"before":"rml:iterator \"",
+		"before":"    rml:iterator ;\n\"",
 		"after":"\""
 	},
 	"extension":"rml.ttl"

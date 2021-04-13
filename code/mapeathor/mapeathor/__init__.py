@@ -406,14 +406,32 @@ def writePrefix(data, path):
     """
     for prefix in data['Prefix']:
         f = open(path + 'Prefix.yml', 'a+')
-        for element in prefix:
-            if element == 'Prefix' and ':' in str(prefix[element]):
-                prefix[element] = re.sub(':', '', str(prefix[element]))
-            f.write(str(element) + ': ' + str(prefix[element]) + '\n')
-        f.close()
-        go_template.render_template(templatesDir + 'Prefix.tmpl',tmpDir + 'Prefix.yml', tmpDir + 'Prefix.txt')
-        writeResult('', 'Prefix')
+        f_base = open(path + 'Base.yml', 'a+')
 
+        if ':' in str(prefix['Prefix']):
+            re.sub(':', '', str(prefix['Prefix']))
+        elif prefix['Prefix'] == 'nan' or prefix['URI'] == 'nan':
+            continue
+
+        if prefix['Prefix'] == '@base':
+            f_base.write('URI' + ': ' + str(prefix['URI']) + '\n')
+            f_base.close()
+            go_template.render_template(templatesDir + 'Base.tmpl',tmpDir + 'Base.yml', tmpDir + 'Base.txt')
+            writeResult('', 'Base')  
+
+        else:
+            f.write('Prefix' + ': ' + str(prefix['Prefix']) + '\n')
+            f.write('URI' + ': ' + str(prefix['URI']) + '\n')
+            f.close()
+            go_template.render_template(templatesDir + 'Prefix.tmpl',tmpDir + 'Prefix.yml', tmpDir + 'Prefix.txt')
+            writeResult('', 'Prefix')
+
+        #for element in prefix:
+        #    if element == 'Prefix' and ':' in str(prefix[element]):
+        #        prefix[element] = re.sub(':', '', str(prefix[element]))
+            #if element == 'Prefix' and str(prefix[element] == '@base'):
+        #    f.write(str(element) + ': ' + str(prefix[element]) + '\n')
+               
 def writeTriplesMap(data, path):
     """
     Writes the triples map temporal file from the template with the information in 'data' into the path 'path'
@@ -553,6 +571,7 @@ def writeResult(ID, name):
     final.writelines(delete.readlines())
     delete.close()
     final.close()
+    
     try:
         os.remove(tmpDir + name + '.txt')
         os.remove(tmpDir + name + '.yml')
