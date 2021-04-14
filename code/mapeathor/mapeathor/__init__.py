@@ -351,6 +351,14 @@ def reFormatSource(data):
                 result['Format'] = 'JSONPath'
             elif result['Format'].lower() == 'xml':
                 result['Format'] = 'XPath'
+            elif result['Format'].lower() == 'xquery':
+                result['Format'] = 'XQuery'
+            elif result['Format'].lower() == 'csv':
+                result['Format'] = 'CSV'
+
+            if templatesDir[-8:-1] == 'yarrrml':
+                result['Format'] = str(result['Format']).lower()
+
         elif(element['Feature'].lower() == 'iterator'):
             result['Iterator'] = str(element['Value'])
         elif(element['Feature'].lower() == 'table'):
@@ -647,6 +655,10 @@ def generateMapping(inputFile, outputFile=None):
     if outputFile is None:   
         outputFile = resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.  
 	
+    ## Without try/except
+    #json = generateJson(inputFile)
+    #json = organizeJson(json)
+            
     try:
         json = generateJson(inputFile)
         #print("First JSON: ")
