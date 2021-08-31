@@ -1,0 +1,94 @@
+prefixes:
+  schema: "http://schema.org/"
+  foaf: "http://xmlns.com/foaf/0.1/"
+  org: "https://www.w3.org/ns/org#"
+  essubv: "http://vocab.ciudadesabiertas.es/def/sector-publico/subvencion#"
+  dct: "http://purl.org/dc/terms/"
+  espresp: "http://vocab.ciudadesabiertas.es/def/hacienda/presupuesto#"
+  skos: "http://www.w3.org/2008/05/skos#"
+  esadm: "http://vocab.linkeddata.es/datosabiertos/def/sector-publico/territorio#"
+  essubv-recurso: "http://vocab.ciudadesabiertas.es/recurso/sector-publico/subvencion/"
+  kos-economica-gasto: "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/economica-gasto/"
+  kos-programa-gasto: "http://vocab.linkeddata.es/datosabiertos/kos/hacienda/presupuesto/programa-gasto/"
+  kos-tematica: "http://vocab.linkeddata.es/datosabiertos/kos/sector-publico/subvencion/tematica-ayuntamiento/"
+  kos-entidad: "http://vocab.linkeddata.es/datosabiertos/kos/sector-publico/convenios/tipo-entidad/"
+  kos-instrumento: "http://vocab.linkeddata.es/datosabiertos/kos/sector-publico/subvencion/tipo-instrumento/"
+  kos-procedimiento: "http://vocab.linkeddata.es/page/datosabiertos/kos/sector-publico/convenio/tipo-procedimiento/"
+
+mappings:
+  idSubvencion:
+    sources: 
+      - [subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:subvencion/$(idSubvencion)
+    po:
+      - [a, essubv:Subvencion]
+      - [dct:title, $(title), xsd:string]
+      - [schema:name, $(proyecto), xsd:string]
+      - [essubv:objeto, $(objeto), xsd:string]
+      - [essubv:nominativa, $(nominativa), xsd:boolean]
+      - [essubv:basesReguladoras, $(basesReguladoras)~iri, xsd:anyURI]
+      - [essubv:importeSolicitado, $(importeSolicitado), xsd:double]
+      - [essubv:importeConcedido, $(importeConcedido), xsd:double]
+      - [essubv:fechaSolicitud, $(fechaSolicitud), xsd:date]
+      - [essubv:fechaAdjudicacion, $(fechaAdjudicacion), xsd:date]
+      - [essubv:fechaAcuerdo, $(fechaAcuerdo), xsd:date]
+      - [dct:identifier, $(idSubvencion) , xsd:string]
+      - [essubv:tieneTematica, kos-tematica:$(tematica)~iri, xsd:anyURI]
+      - [essubv:tipoInstrumento, kos-instrumento:$(tipoInstrumento)~iri, xsd:anyURI]
+      - [essubv:tipoProcedimiento, kos-procedimiento:$(tipoProcedimiento)~iri, xsd:anyURI]
+      - [espresp:clasificacionPrograma, kos-programa-gasto:$(clasificacionPrograma)~iri, xsd:anyURI]
+      - [espresp:clasificacionEconomicaGasto, kos-economica-gasto:$(clasificacionEconomicaGasto)~iri, xsd:anyURI]
+      - [essubv:beneficiario, essubv-recurso:$(idBeneficiario)~iri, xsd:anyURI]
+      - [essubv:gestionadoPor, essubv-recurso:$(idGestor)~iri, xsd:anyURI]
+      - [essubv:instrumenta, essubv-recurso:$(instrumenta)~iri, xsd:anyURI]
+ 
+  idOrganizacion1:
+    sources: 
+      - [subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:organizacion/$(idBeneficiario)
+    po:
+      - [a, org:Organization]
+      - [dct:identifier, $(idBeneficiario), xsd:string]
+      - [foaf:name, $(nombreBeneficiario), xsd:string]
+      - [org:classification, kos-entidad:$(clasificacion)~iri, xsd:anyURI]
+ 
+  idOrganizacion2:
+    sources: 
+      - [examples/Subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:organizacion/$(idGestor)
+    po:
+      - [a, org:Organization]
+      - [dct:identifier, $(idGestor), xsd:string]
+      - [foaf:name, $(nombreGestor), xsd:string]
+      - [org:classification, kos-entidad:$(clasificacion)~iri, xsd:anyURI]
+ 
+  idOrganizacion3:
+    sources: 
+      - [subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:organizacion/$(idEntidadFinanciadora)
+    po:
+      - [a, org:Organization]
+      - [dct:identifier, $(idEntidadFinanciadora), xsd:string]
+      - [foaf:name, $(entidadFinanciadora), xsd:string]
+      - [org:classification, kos-entidad:$(clasificacion)~iri, xsd:anyURI]
+ 
+  idOrganizacion4:
+    sources: 
+      - [subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:organizacion/$(idArea)
+    po:
+      - [a, org:Organization]
+      - [dct:identifier, $(idArea), xsd:string]
+      - [foaf:name, $(area), xsd:string]
+      - [org:classification, kos-entidad:$(clasificacion)~iri, xsd:anyURI]
+ 
+  idOrganizacion5:
+    sources: 
+      - [subvenciones/Subvencion.csv~csv]
+    s: essubv-recurso:organizacion/$(idServicio)
+    po:
+      - [a, org:Organization]
+      - [dct:identifier, $(idServicio), xsd:string]
+      - [foaf:name, $(servicio), xsd:string]
+      - [org:classification, kos-entidad:$(clasificacion)~iri, xsd:anyURI]
+ 

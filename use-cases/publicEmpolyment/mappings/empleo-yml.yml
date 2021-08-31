@@ -1,0 +1,40 @@
+prefixes:
+  esempleo: "http://vocab.ciudadesabiertas.es/def/sector-publico/empleo#"
+  dbpedia: "http://dbpedia.org/ontology/"
+  dc: "http://purl.org/dc/elements/1.1/"
+  dct: "http://purl.org/dc/terms/"
+  esadm: "http://vocab.linkeddata.es/datosabiertos/def/sector-publico/territorio#"
+  eli: "http://data.europa.eu/eli/ontology#"
+  geonames: "http://www.geonames.org/ontology#"
+  geosparql: "http://www.opengis.net/ont/geosparql#"
+  owl: "http://www.w3.org/2002/07/owl#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  rdfs: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  schema: "https://schema.org/"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  terms: "http://purl.org/dc/terms/"
+  vann: "http://www.purl.org/vocab/vann/"
+  xml: "http://www.w3.org/XML/1998/namespace"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  esempleo-recurso: "http://vocab.ciudadesabiertas.es/recurso/sector-publico/empleo/"
+  kos-empleo: "http://vocab.linkeddata.es/datosabiertos/kos/sector-publico/empleo/"
+
+mappings:
+  CEP:
+    sources: 
+      - [cep.csv~csv]
+    s: http://vocab.ciudadesabiertas.es/recurso/sector-publico/empleo/cep/$(id)
+    po:
+      - [a, esempleo:ConvocatoriaEmpleoPublico]
+      - [dct:identifier, $(id_cep), xsd:string]
+      - [dct:description, $(descripcion), xsd:string]
+      - [schema:datePublished, $(fechaPublicacion), xsd:date]
+      - [esempleo:estadoPlazo, $(estado), xsd:boolean]
+      - [esempleo:plazo, $(plazo), xsd:string]
+      - [esempleo:numeroPlazasConvocadas, $(plazas), xsd:integer]
+      - [esempleo:listaEsperaExtraordinaria, $(lee), xsd:boolean]
+      - [esempleo:observaciones, $(observaciones), xsd:string]
+      - [esempleo:requisitos, $(requisitos), xsd:string]
+      - [esempleo:grupoProfesional, $(grupo)~iri, xsd:anyURI]
+      - [esadm:municipio, $(municipio)~iri, xsd:anyURI]
+      - [esadm:autonomia, $(autonomia)~iri, xsd:anyURI]
