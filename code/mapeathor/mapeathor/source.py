@@ -4,6 +4,7 @@ import re
 import sys
 import requests
 
+
 def checkFile(path):
     """
     Checks if the input 'path' is an excel file an can be correctly read, returns a boolean

@@ -1,6 +1,7 @@
 import tempfile
 import pkgutil
 
+
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
 #baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
@@ -8,9 +9,11 @@ dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
 
+
 def setMappingLanguage(language):
     global templatesDir
     templatesDir = baseTemplatesDir + language.lower() + "/"
+
 
 defaultDataTypes = {
 
