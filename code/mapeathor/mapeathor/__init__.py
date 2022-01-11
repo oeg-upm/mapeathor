@@ -1,9 +1,3 @@
-'''
-TO DO:
-    * rr:language in pom
-    * functions
-'''
-
 import pandas
 import sys
 import os
@@ -14,71 +8,13 @@ import argparse
 import re
 import pkgutil
 import tempfile
-#from mapeathor import gdrive_api
 import requests
 import copy
 
-tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
-#baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
-dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
-resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
+import global_config
+import source
 
-defaultDataTypes = {
 
-   "string":[
-      "string",
-      "nan",
-      " ",
-      ""
-   ],
-   "decimal":[
-      "decimal"
-   ],
-   "float":[
-      "float"
-   ],
-   "double":[
-      "double"
-   ],
-   "integer":[
-      "integer",
-      "int",
-      "number"
-   ],
-   "boolean":[
-      "boolean",
-      "bool"
-   ],
-   "date":[
-      "date",
-   ],
-   "time":[
-      "time"
-   ],
-   "dateTime":[
-      "datetime"
-   ],
-   "anyURI":[
-      "anyuri",
-      "iri",
-      "uri",
-      "url"
-   ]
-}
-
-def checkFile(path):
-    """
-    Checks if the input 'path' is an excel file an can be correctly read, returns a boolean
-    """
-    #data = pandas.ExcelFile(path, engine='openpyxl')
-    #print(data)
-    try:
-        data = pandas.ExcelFile(path, engine='openpyxl')
-        return True
-    except:
-        return False
 
 def generateJson(path):
     """
@@ -150,16 +86,16 @@ def replaceVars(element, type_, termtype_):
     Writes the objects 'element' correctly according to their type 'type_' and termtype 'termtype_', returns the
     corrected object
     """
-    config = json.loads(open(templatesDir + 'config.json').read())
+    config = json.loads(open(global_config.templatesDir + 'config.json').read())
     # Add "" to the constant literal objects in YARRRML
-    if(templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant' and termtype_ == 'Literal'):
+    if(global_config.templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant' and termtype_ == 'Literal'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
 
     # Replace '{' and '}' in all but constant objects according to the config.json file of each language
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
 
-    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template') and (templatesDir[-4:-1] == 'rml' or templatesDir[-6:-1] == 'r2rml')):
+    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template') and (global_config.templatesDir[-4:-1] == 'rml' or global_config.templatesDir[-6:-1] == 'r2rml')):
         result = "\"" + element + "\""
 
     else:
@@ -167,7 +103,7 @@ def replaceVars(element, type_, termtype_):
     return result
 
 def replaceTermMap(type_):
-    config = json.loads(open(templatesDir + 'config.json').read())
+    config = json.loads(open(global_config.templatesDir + 'config.json').read())
     result = config['variable'][type_]['termMap']
     return result
 
@@ -296,14 +232,14 @@ def dataTypeIdentifier(element):
 
     try:
 
-        data = open(dataTypesFile).read()
+        data = open(global_config.dataTypesFile).read()
 
         dataTypes = json.loads()
 
 
     except:
 
-        dataTypes = defaultDataTypes
+        dataTypes = global_config.defaultDataTypes
 
     for key in dataTypes.keys():
         if element.lower().strip() in dataTypes[key]:
@@ -358,7 +294,7 @@ def reFormatSource(data):
             elif result['Format'].lower() == 'csv':
                 result['Format'] = 'CSV'
 
-            if templatesDir[-8:-1] == 'yarrrml':
+            if global_config.templatesDir[-8:-1] == 'yarrrml':
                 result['Format'] = str(result['Format']).lower()
 
         elif(element['Feature'].lower() == 'iterator'):
@@ -392,8 +328,8 @@ def writeValues(data, path):
     """
     Redirects the data to the specific functions to write the 'data' into the file 'path'
     """
-    if not os.path.isdir(tmpDir):
-        os.mkdir(tmpDir)
+    if not os.path.isdir(global_config.tmpDir):
+        os.mkdir(global_config.tmpDir)
 
     writePrefix(data,path)
     for triplesmap in data['TriplesMap']:
@@ -403,7 +339,7 @@ def writeValues(data, path):
         writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'], path)
 
     # Functions implemented only in RML
-    if templatesDir[-5:-1] == '/rml':
+    if global_config.templatesDir[-5:-1] == '/rml':
         for function in data['Function']:
             writeFunctionMap(function, path)
             writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
@@ -426,14 +362,14 @@ def writePrefix(data, path):
         if prefix['Prefix'] == '@base':
             f_base.write('URI' + ': ' + str(prefix['URI']) + '\n')
             f_base.close()
-            go_template.render_template(templatesDir + 'Base.tmpl',tmpDir + 'Base.yml', tmpDir + 'Base.txt')
+            go_template.render_template(global_config.templatesDir + 'Base.tmpl',global_config.tmpDir + 'Base.yml', global_config.tmpDir + 'Base.txt')
             writeResult('', 'Base')
 
         else:
             f.write('Prefix' + ': ' + str(prefix['Prefix']) + '\n')
             f.write('URI' + ': ' + str(prefix['URI']) + '\n')
             f.close()
-            go_template.render_template(templatesDir + 'Prefix.tmpl',tmpDir + 'Prefix.yml', tmpDir + 'Prefix.txt')
+            go_template.render_template(global_config.templatesDir + 'Prefix.tmpl',global_config.tmpDir + 'Prefix.yml', global_config.tmpDir + 'Prefix.txt')
             writeResult('', 'Prefix')
 
         #for element in prefix:
@@ -449,7 +385,7 @@ def writeTriplesMap(data, path):
     f = open(path + 'TriplesMap.yml', 'a+')
     f.write('ID: ' + str(data) + '\n')
     f.close()
-    go_template.render_template(templatesDir + 'TriplesMap.tmpl',tmpDir + 'TriplesMap.yml', tmpDir + 'TriplesMap.txt')
+    go_template.render_template(global_config.templatesDir + 'TriplesMap.tmpl',global_config.tmpDir + 'TriplesMap.yml', global_config.tmpDir + 'TriplesMap.txt')
     writeResult(str(data), 'TriplesMap')
 
 def writePredicateObjects(data, path):
@@ -469,7 +405,7 @@ def writePredicateObjects(data, path):
                 for element in predicateObjects:
                     f.write(str(element) + ': \'' + predicateObjects[element] + '\'\n')
                 f.close()
-                go_template.render_template(templatesDir + key + '.tmpl',tmpDir + key + '.yml', tmpDir + key + '.txt')
+                go_template.render_template(global_config.templatesDir + key + '.tmpl',global_config.tmpDir + key + '.yml', global_config.tmpDir + key + '.txt')
                 writeResult(data[key][0]['ID'], key)
 
 def writeSource(data, path):
@@ -477,7 +413,7 @@ def writeSource(data, path):
     Writes the source temporal file from the template with the information in 'data' into the path 'path'
     """
     f = open(path + 'Source.yml', 'a+')
-    config  = json.loads(open(templatesDir + 'config.json').read())
+    config  = json.loads(open(global_config.templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
         data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
     for element in data:
@@ -485,9 +421,9 @@ def writeSource(data, path):
     f.close()
 
     if('Query' in data.keys()):
-        go_template.render_template(templatesDir + 'SourceQuery.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
+        go_template.render_template(global_config.templatesDir + 'SourceQuery.tmpl',global_config.tmpDir + 'Source.yml', global_config.tmpDir + 'Source.txt')
     else:
-        go_template.render_template(templatesDir + 'Source.tmpl',tmpDir + 'Source.yml', tmpDir + 'Source.txt')
+        go_template.render_template(global_config.templatesDir + 'Source.tmpl',global_config.tmpDir + 'Source.yml', global_config.tmpDir + 'Source.txt')
 
     writeResult(data['ID'], 'Source')
 
@@ -506,7 +442,7 @@ def writeSubjectTemp(data, path):
             for i in range(0, len(data[element])):
                 f.write(element + str(i) + ': ' + data[element][i] + '\n')
     f.close()
-    go_template.render_template(templatesDir + 'Subject.tmpl',tmpDir + 'Subject.yml', tmpDir + 'Subject.txt')
+    go_template.render_template(global_config.templatesDir + 'Subject.tmpl',global_config.tmpDir + 'Subject.yml', global_config.tmpDir + 'Subject.txt')
     writeResult(data['ID'], 'Subject')
 
 
@@ -515,12 +451,12 @@ def writeSubject(data, path):
     Writes the subject temporal file from the template with the information in 'data' into the path 'path'
     """
 
-    f = open(tmpDir + 'Subject.txt', 'a+')
+    f = open(global_config.tmpDir + 'Subject.txt', 'a+')
 
     data['URI'] = replaceVars(data['URI'], data['SubjectType'], 'nan')
     data['SubTermMap'] = replaceTermMap(data['SubjectType'])
 
-    if templatesDir[-8:-1] != 'yarrrml':
+    if global_config.templatesDir[-8:-1] != 'yarrrml':
         f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
         for class_s in data['Class']:
             f.write('\trr:class ' + class_s + ';\n')
@@ -541,7 +477,7 @@ def writeFunctionMap(data, path):
     f = open(path + 'FunctionMap.yml', 'a+')
     f.write('FunctionID: ' + str(data) + '\n')
     f.close()
-    go_template.render_template(templatesDir + 'FunctionMap.tmpl', tmpDir + 'FunctionMap.yml', tmpDir + 'FunctionMap.txt')
+    go_template.render_template(global_config.templatesDir + 'FunctionMap.tmpl', global_config.tmpDir + 'FunctionMap.yml', global_config.tmpDir + 'FunctionMap.txt')
     writeResult(str(data), 'FunctionMap')
 
 def writeFunctionSource(data, path):
@@ -549,13 +485,13 @@ def writeFunctionSource(data, path):
     Writes the source of function temporal file from the template with the information in 'data' into the path 'path'
     """
     f = open(path + 'FunctionSource.yml', 'a+')
-    config  = json.loads(open(templatesDir + 'config.json').read())
+    config  = json.loads(open(global_config.templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
         data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
     for element in data:
         f.write(str(element) + ': \'' + data[element] + '\'\n')
     f.close()
-    go_template.render_template(templatesDir + 'FunctionSource.tmpl',tmpDir + 'FunctionSource.yml', tmpDir + 'FunctionSource.txt')
+    go_template.render_template(global_config.templatesDir + 'FunctionSource.tmpl',global_config.tmpDir + 'FunctionSource.yml', global_config.tmpDir + 'FunctionSource.txt')
     writeResult(data['FunctionID'], 'FunctionSource')
 
 def writeFunctionPOM(data, path):
@@ -569,22 +505,22 @@ def writeFunctionPOM(data, path):
         for element in pom:
             f.write(str(element) + ': \'' + pom[element] + '\'\n')
         f.close()
-        go_template.render_template(templatesDir + 'FunctionPOM.tmpl', tmpDir + 'FunctionPOM.yml', tmpDir + 'FunctionPOM.txt')
+        go_template.render_template(global_config.templatesDir + 'FunctionPOM.tmpl', global_config.tmpDir + 'FunctionPOM.yml', global_config.tmpDir + 'FunctionPOM.txt')
         writeResult(pom['FunctionID'], 'FunctionPOM')
 
 def writeResult(ID, name):
     """
     Writes the temporal files assigning ID and names for the different parts of the mapping
     """
-    delete = open(tmpDir + name + '.txt', 'r')
-    final = open(resultDir + ID + '.' + name + '.' + 'result.txt', 'a+')
+    delete = open(global_config.tmpDir + name + '.txt', 'r')
+    final = open(global_config.resultDir + ID + '.' + name + '.' + 'result.txt', 'a+')
     final.writelines(delete.readlines())
     delete.close()
     final.close()
 
     try:
-        os.remove(tmpDir + name + '.txt')
-        os.remove(tmpDir + name + '.yml')
+        os.remove(global_config.tmpDir + name + '.txt')
+        os.remove(global_config.tmpDir + name + '.yml')
     except:
         pass
 
@@ -593,8 +529,8 @@ def writeFinalFile(path_, idTMList, idFList):
     Gathers all the temporal files identified with 'idTMList' and 'idFList' and writes
     it in the final mapping file in 'path_'
     """
-    data = json.loads(open(templatesDir  + 'structure.json').read())
-    config = json.loads(open(templatesDir + 'config.json').read())
+    data = json.loads(open(global_config.templatesDir  + 'structure.json').read())
+    config = json.loads(open(global_config.templatesDir + 'config.json').read())
 
     if not path_.endswith(str(config['extension'])):
         path = path_ + '.' +  str(config['extension'])
@@ -616,8 +552,8 @@ def recursiveWrite(tabs, parent, finalFile, id_):
     Writes the temporal files in one recursively
     """
     for data in range(0, len(parent)):
-        file_ = resultDir + id_ + '.' + parent[data]['file'] + '.result.txt'
-        config = json.loads(open(templatesDir + 'config.json').read())
+        file_ = global_config.resultDir + id_ + '.' + parent[data]['file'] + '.result.txt'
+        config = json.loads(open(global_config.templatesDir + 'config.json').read())
         exists = os.path.isfile(file_)
         if(exists):
             f = open(file_, 'r')
@@ -649,13 +585,13 @@ def generateMapping(inputFile, outputFile=None):
     General function with the flow of the script to generate and organize the JSON file with the data from
     'inputFile', and write it in the mapping file
     """
-    if os.path.isdir(resultDir):
-        cleanDir(resultDir)
+    if os.path.isdir(global_config.resultDir):
+        cleanDir(global_config.resultDir)
     else:
-        os.mkdir(resultDir)
+        os.mkdir(global_config.resultDir)
 
     if outputFile is None:
-        outputFile = resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.
+        outputFile = global_config.resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.
 
     ## Without try/except
     #json = generateJson(inputFile)
@@ -673,44 +609,23 @@ def generateMapping(inputFile, outputFile=None):
         print("ERROR: The spreadsheet template is not correct. Check the sheet and column names are correct.")
         sys.exit()
 
-    writeValues(json,tmpDir)
+    writeValues(json,global_config.tmpDir)
 
     outputFile = writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Function'].keys())
     return outputFile
     #print(json)
-
-def setMappingLanguage(language):
-    global templatesDir
-    templatesDir = baseTemplatesDir + language.lower() + "/"
-
-def gdriveToXMLX(url):
-    temp = tempfile.NamedTemporaryFile(prefix="mapeathor-gdrive", delete=False, suffix=".xlsx")
-
-    m = re.search(r'(?:file|spreadsheets)\/d\/(.*)\/', url)
-
-    if not m:
-        raise Exception("Malformed Google Spreadsheets URL")
-        sys.exit()
-
-    docid = m.groups()[0]
-
-    url = 'https://docs.google.com/spreadsheets/d/'+docid+'/export?exportFormat=xlsx'
-
-    r = requests.get(url)
-    temp.write(r.content)
-    return temp.name
 
 
 def main():
     parser = argparse.ArgumentParser("mapeathor")
     parser.add_argument("-i", "--input_file", required=True, help="Input Excel file or Google SpreadSheet URL")
     parser.add_argument("-o", "--output_file", required=False, help="Name and path for output file", default="output")
-    parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(supportedLanguages)))
+    parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(global_config.supportedLanguages)))
     args = parser.parse_args()
     inputFile = ''
 
     # Local file
-    if(checkFile(args.input_file)):
+    if(source.checkFile(args.input_file)):
         inputFile = str(args.input_file)
     elif (args.input_file[0:8] != 'https://'):
         print('ERROR: File not found')
@@ -718,19 +633,19 @@ def main():
 
     # Google Spreadsheet file
     else:
-        temp = gdriveToXMLX(args.input_file)
-        if checkFile(temp):
+        temp = source.gdriveToXMLX(args.input_file)
+        if source.checkFile(temp):
             inputFile = temp
         else:
             print("ERROR: The downloaded document is not a spreadsheet")
             sys.exit()
 
-    if(args.language.lower() not in supportedLanguages):
+    if(args.language.lower() not in global_config.supportedLanguages):
         print("ERROR: The selected Language is not supported by the moment.")
-        print("Suporteds Languages: " + str(supportedLanguages))
+        print("Suporteds Languages: " + str(global_config.supportedLanguages))
         sys.exit()
     else:
-        setMappingLanguage(args.language)
+        global_config.setMappingLanguage(args.language)
         print('Generating mapping file')
         outputFile = generateMapping(inputFile, args.output_file)
         print("Your mapping file is in "+outputFile)
