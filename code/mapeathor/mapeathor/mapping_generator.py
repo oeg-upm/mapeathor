@@ -1,7 +1,6 @@
 import pandas
 import sys
 import os
-import go_template
 import json
 import re
 import copy

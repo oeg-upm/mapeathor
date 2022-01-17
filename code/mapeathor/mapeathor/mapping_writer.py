@@ -1,6 +1,7 @@
 import os
 import go_template
 import json
+from jinja2 import Environment, FileSystemLoader
 
 import global_config
 import utils
@@ -32,9 +33,12 @@ def writePrefix(data, path):
     """
     Writes the prefixes temporal file from the template with the information in 'data' into the path 'path'
     """
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+    base_template = env.get_template('Base.tmpl')
+    prefix_template = env.get_template("Prefix.tmpl")
+
     for prefix in data['Prefix']:
-        f = open(path + 'Prefix.yml', 'a+')
-        f_base = open(path + 'Base.yml', 'a+')
 
         if ':' in str(prefix['Prefix']):
             re.sub(':', '', str(prefix['Prefix']))
@@ -42,23 +46,18 @@ def writePrefix(data, path):
             continue
 
         if prefix['Prefix'] == '@base':
-            f_base.write('URI' + ': ' + str(prefix['URI']) + '\n')
-            f_base.close()
-            go_template.render_template(global_config.templatesDir + 'Base.tmpl',global_config.tmpDir + 'Base.yml', global_config.tmpDir + 'Base.txt')
+            base_output = base_template.render(prefixes=prefix)
+            f = open(global_config.tmpDir + 'Base.txt', 'w')
+            f.write(base_output + "\n")
+            f.close()
             writeResult('', 'Base')
 
         else:
-            f.write('Prefix' + ': ' + str(prefix['Prefix']) + '\n')
-            f.write('URI' + ': ' + str(prefix['URI']) + '\n')
+            prefix_output = prefix_template.render(prefixes=prefix)
+            f = open(global_config.tmpDir + 'Prefix.txt', 'w')
+            f.write(prefix_output + "\n")
             f.close()
-            go_template.render_template(global_config.templatesDir + 'Prefix.tmpl',global_config.tmpDir + 'Prefix.yml', global_config.tmpDir + 'Prefix.txt')
             writeResult('', 'Prefix')
-
-        #for element in prefix:
-        #    if element == 'Prefix' and ':' in str(prefix[element]):
-        #        prefix[element] = re.sub(':', '', str(prefix[element]))
-            #if element == 'Prefix' and str(prefix[element] == '@base'):
-        #    f.write(str(element) + ': ' + str(prefix[element]) + '\n')
 
 
 def writeTriplesMap(data, path):
