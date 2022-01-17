@@ -1,5 +1,4 @@
 pandas
-go_template
 argparse
 openpyxl
 httplib2
@@ -9,3 +8,4 @@ flask_swagger
 flask_swagger_ui
 flask_restful
 requests
+jinja2

@@ -1,5 +1,4 @@
 import os
-import go_template
 import json
 from jinja2 import Environment, FileSystemLoader
 
@@ -64,10 +63,15 @@ def writeTriplesMap(data, path):
     """
     Writes the triples map temporal file from the template with the information in 'data' into the path 'path'
     """
-    f = open(path + 'TriplesMap.yml', 'a+')
-    f.write('ID: ' + str(data) + '\n')
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+    template = env.get_template('TriplesMap.tmpl')
+
+    triples_maps = {'ID' : str(data)}
+    output = template.render(tm=triples_maps)
+    f = open(global_config.tmpDir + 'TriplesMap.txt', 'w')
+    f.write(output + "\n")
     f.close()
-    go_template.render_template(global_config.templatesDir + 'TriplesMap.tmpl',global_config.tmpDir + 'TriplesMap.yml', global_config.tmpDir + 'TriplesMap.txt')
     writeResult(str(data), 'TriplesMap')
 
 
@@ -75,20 +79,24 @@ def writePredicateObjects(data, path):
     """
     Writes the Predicate_Object temporal file from the template with the information in 'data' into the path 'path'
     """
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+
     for key in data:
         if(len(data[key]) > 0):
             for predicateObjects in data[key]:
-                f = open(path + key + '.yml', 'a+')
+                template = env.get_template(key + '.tmpl')
+
                 predicateObjects['Object'] = utils.replaceVars(str(predicateObjects['Object']), str(predicateObjects['ObjectType']), str(predicateObjects['TermType']))
                 predicateObjects['Predicate'] = utils.replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']), 'nan')
                 if( 'InnerRef' in predicateObjects.keys() and 'OuterRef' in predicateObjects.keys()):
                     predicateObjects['InnerRef'] = utils.replaceVars(str(predicateObjects['InnerRef']), 'join_condition', 'nan')
                     predicateObjects['OuterRef'] = utils.replaceVars(str(predicateObjects['OuterRef']), 'join_condition', 'nan')
 
-                for element in predicateObjects:
-                    f.write(str(element) + ': \'' + predicateObjects[element] + '\'\n')
+                output = template.render(pom=predicateObjects)
+                f = open(global_config.tmpDir + key + '.txt', 'w')
+                f.write(output + "\n")
                 f.close()
-                go_template.render_template(global_config.templatesDir + key + '.tmpl',global_config.tmpDir + key + '.yml', global_config.tmpDir + key + '.txt')
                 writeResult(data[key][0]['ID'], key)
 
 
@@ -96,25 +104,29 @@ def writeSource(data, path):
     """
     Writes the source temporal file from the template with the information in 'data' into the path 'path'
     """
-    f = open(path + 'Source.yml', 'a+')
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+
     config  = json.loads(open(global_config.templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
         data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
-    for element in data:
-        f.write(str(element) + ': \'' + data[element] + '\'\n')
-    f.close()
 
     if('Query' in data.keys()):
-        go_template.render_template(global_config.templatesDir + 'SourceQuery.tmpl',global_config.tmpDir + 'Source.yml', global_config.tmpDir + 'Source.txt')
+        template = env.get_template('SourceQuery.tmpl')
     else:
-        go_template.render_template(global_config.templatesDir + 'Source.tmpl',global_config.tmpDir + 'Source.yml', global_config.tmpDir + 'Source.txt')
+        template = env.get_template('Source.tmpl')
 
+    output = template.render(source=data)
+    f = open(global_config.tmpDir + 'Source.txt', 'w')
+    f.write(output + "\n")
+    f.close()
     writeResult(data['ID'], 'Source')
 
 
 def writeSubjectTemp(data, path):
     """
     NOT IN USE
+    USES GO_TEMPLATE -- Now jinja is used
     Writes the subject temporal file from the template with the information in 'data' into the path 'path'
     """
     f = open(path + 'Subject.yml', 'a+')
@@ -158,10 +170,15 @@ def writeFunctionMap(data, path):
     """
     Writes the function map temporal file from the template with the information in 'data' into the path 'path'
     """
-    f = open(path + 'FunctionMap.yml', 'a+')
-    f.write('FunctionID: ' + str(data) + '\n')
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+    template = env.get_template('FunctionMap.tmpl')
+
+    fun_tm = {'FunctionID' : data}
+    output = template.render(fun_tm=fun_tm)
+    f = open(global_config.tmpDir + 'FunctionMap.txt', 'w')
+    f.write(output + "\n")
     f.close()
-    go_template.render_template(global_config.templatesDir + 'FunctionMap.tmpl', global_config.tmpDir + 'FunctionMap.yml', global_config.tmpDir + 'FunctionMap.txt')
     writeResult(str(data), 'FunctionMap')
 
 
@@ -169,14 +186,18 @@ def writeFunctionSource(data, path):
     """
     Writes the source of function temporal file from the template with the information in 'data' into the path 'path'
     """
-    f = open(path + 'FunctionSource.yml', 'a+')
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+    template = env.get_template('FunctionSource.tmpl')
+
     config  = json.loads(open(global_config.templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
         data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
-    for element in data:
-        f.write(str(element) + ': \'' + data[element] + '\'\n')
+
+    output = template.render(source=data)
+    f = open(global_config.tmpDir + 'FunctionSource.txt', 'w')
+    f.write(output + "\n")
     f.close()
-    go_template.render_template(global_config.templatesDir + 'FunctionSource.tmpl',global_config.tmpDir + 'FunctionSource.yml', global_config.tmpDir + 'FunctionSource.txt')
     writeResult(data['FunctionID'], 'FunctionSource')
 
 
@@ -184,14 +205,18 @@ def writeFunctionPOM(data, path):
     """
     Writes the Predicate_Object of function temporal file from the template with the information in 'data' into the path 'path'
     """
+    file_loader = FileSystemLoader(global_config.templatesDir)
+    env = Environment(loader=file_loader)
+    template = env.get_template('FunctionPOM.tmpl')
+
     for pom in data:
-        f = open(path + 'FunctionPOM.yml', 'a+')
         if pom['Feature'] != 'fno:executes' and str(pom['Value'])[0] != '<':
             pom['Value'] = '\"' + pom['Value'] + '\"'
-        for element in pom:
-            f.write(str(element) + ': \'' + pom[element] + '\'\n')
+
+        output = template.render(pom=pom)
+        f = open(global_config.tmpDir + 'FunctionPOM.txt', 'w')
+        f.write(output + "\n")
         f.close()
-        go_template.render_template(global_config.templatesDir + 'FunctionPOM.tmpl', global_config.tmpDir + 'FunctionPOM.yml', global_config.tmpDir + 'FunctionPOM.txt')
         writeResult(pom['FunctionID'], 'FunctionPOM')
 
 
