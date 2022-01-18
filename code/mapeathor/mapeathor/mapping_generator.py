@@ -5,9 +5,9 @@ import json
 import re
 import copy
 
-import global_config
-import mapping_writer
-import utils
+from .global_config import *
+from .mapping_writer import *
+from .utils import *
 
 def generateJson(path):
     """
