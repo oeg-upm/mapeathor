@@ -1,0 +1,11 @@
+argparse
+configparser
+flask
+flask_restful
+flask_swagger
+flask_swagger_ui
+httplib2
+jinja2
+openpyxl
+pandas
+requests

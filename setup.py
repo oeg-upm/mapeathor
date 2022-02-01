@@ -1,5 +1,6 @@
-import setuptools
 import time
+
+from setuptools import setup, find_packages
 
 v_time = str(int(time.time()))
 
@@ -9,7 +10,7 @@ with open("README.md", "r") as fh:
 with open("requirements.txt") as r:
     requirements = r.read().split("\n")[0:-1]
 
-setuptools.setup(
+setup(
     name="mapeathor",
     version="1.0.0."+v_time,
     author="Ana Iglesias-Molina",
@@ -19,8 +20,14 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/oeg-upm/Mapeathor",
+    project_urls={
+        'Documentation': 'https://github.com/oeg-upm/Mapeathor/wiki',
+        'Source code': 'https://github.com/oeg-upm/Mapeathor/tree/master/src/mapeathor',
+        'Issue tracker': 'https://github.com/oeg-upm/Mapeathor/issues',
+    },
     include_package_data=True,
-    packages=setuptools.find_packages(),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",

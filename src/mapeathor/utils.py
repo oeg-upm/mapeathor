@@ -1,7 +1,7 @@
 import json
 import re
 
-from .global_config import *
+from . import global_config
 
 
 def replaceVars(element, type_, termtype_):

@@ -1,11 +1,11 @@
 import tempfile
 import pkgutil
+import os
 
 
 tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-baseTemplatesDir = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"templates/"
-#baseTemplatesDir = '/home/aiglesias/Mapeathor/code/templates/'
-dataTypesFile = pkgutil.get_loader("mapeathor").get_filename().replace("__init__.py", "")+"dataTypes.json"
+baseTemplatesDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates') + '/'
+dataTypesFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'dataTypes.json')
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
 

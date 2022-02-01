@@ -2,8 +2,8 @@ import os
 import json
 from jinja2 import Environment, FileSystemLoader
 
-from .global_config import *
-from .utils import *
+from . import global_config
+from . import utils
 
 
 def writeValues(data, path):

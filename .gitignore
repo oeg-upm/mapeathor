@@ -5,6 +5,8 @@ venv/
 build/
 dist/
 code/mapeathor/mapeathor.egg-info/
+data/
+result/
 
 
 __pycache__/
@@ -16,4 +18,3 @@ __pycache__/
 .DS_Store
 
 *.pyc
-
