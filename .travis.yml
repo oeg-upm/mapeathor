@@ -3,7 +3,7 @@ python:
 - '3.7'
 script: true
 before_deploy:
-- cd code/mapeathor/
+- cd src/
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel

@@ -4,7 +4,7 @@ log/
 venv/
 build/
 dist/
-code/mapeathor/mapeathor.egg-info/
+src/mapeathor.egg-info/
 data/
 result/
 
