@@ -4,6 +4,7 @@ import argparse
 from . import global_config
 from . import source
 from . import mapping_generator
+from ._version import __version__
 
 
 def main():
@@ -11,6 +12,7 @@ def main():
     parser.add_argument("-i", "--input_file", required=True, help="Input Excel file or Google SpreadSheet URL")
     parser.add_argument("-o", "--output_file", required=False, help="Name and path for output file", default="output")
     parser.add_argument("-l", "--language", required=True, help=("Supported Languages: " + str(global_config.supportedLanguages)))
+    parser.add_argument("-v", "--version", help=("Version"), action="version", version="Mapeathor " + __version__)
     args = parser.parse_args()
     inputFile = ''
 
