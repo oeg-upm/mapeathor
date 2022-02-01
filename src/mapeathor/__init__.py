@@ -1,9 +1,9 @@
 import sys
 import argparse
 
-from .global_config import *
-from .source import *
-from .mapping_generator import *
+from . import global_config
+from . import source
+from . import mapping_generator
 
 
 def main():
