@@ -1,11 +1,11 @@
-import time
+import os
+import re 
 
 from setuptools import setup, find_packages
 
-#v_time = str(int(time.time()))
 
 # borrowed from SQLAlchemy
-with open(os.path.join(os.path.dirname(__file__), 'src', 'morph_kgc', '_version.py')) as file:
+with open(os.path.join(os.path.dirname(__file__), 'src', 'mapeathor', '_version.py')) as file:
     version = (re.compile(r""".*__version__ = ["'](.*?)['"]""", re.S).match(file.read()).group(1))
 
 with open("README.md", "r") as fh:
