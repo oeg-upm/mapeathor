@@ -2,7 +2,11 @@ import time
 
 from setuptools import setup, find_packages
 
-v_time = str(int(time.time()))
+#v_time = str(int(time.time()))
+
+# borrowed from SQLAlchemy
+with open(os.path.join(os.path.dirname(__file__), 'src', 'morph_kgc', '_version.py')) as file:
+    version = (re.compile(r""".*__version__ = ["'](.*?)['"]""", re.S).match(file.read()).group(1))
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -12,7 +16,7 @@ with open("requirements.txt") as r:
 
 setup(
     name="mapeathor",
-    version="1.0.0."+v_time,
+    version=version,
     author="Ana Iglesias-Molina",
     author_email="ana.iglesiasm@upm.es",
     license="Apache 2.0",
