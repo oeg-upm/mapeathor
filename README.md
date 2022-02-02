@@ -1,8 +1,8 @@
- [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)  
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
- [![PyPi Build](https://api.travis-ci.com/oeg-upm/Mapeathor.svg)](https://travis-ci.com/github/oeg-upm/Mapeathor)
+ [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
+ [![PyPI status](https://img.shields.io/pypi/status/mapeathor)](https://pypi.python.org/pypi/mapeathor)
 
 <p align="center"> 
  <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/> 
