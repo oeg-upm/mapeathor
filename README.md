@@ -1,34 +1,35 @@
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
+ [![DOI](https://zenodo.org/badge/191048535.svg)](https://zenodo.org/badge/latestdoi/191048535)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
  [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
  [![PyPI status](https://img.shields.io/pypi/status/mapeathor)](https://pypi.python.org/pypi/mapeathor)
 
-<p align="center"> 
- <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/> 
+<p align="center">
+ <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/>
 </p>
 
 
 # Mapeathor
 #### Mapeathor translates your mapping rules specified in spreadsheets to a mapping language.  
 
-[Mapeathor](https://morph.oeg.fi.upm.es/tool/mapeathor) is a simple spreadsheet parser able to generate mapping rules in three mapping languages: R2RML, RML (with extension to functions from FnO) and YARRRML. It takes the mapping rules expressed in a spreadsheet and transforms them into the desired language. The spreadsheet template is designed to facilitate the mapping rules' writting, with the aim of being language independent, and thus, lowering the barrier of generating mappings for non-expert users. 
+[Mapeathor](https://morph.oeg.fi.upm.es/tool/mapeathor) is a simple spreadsheet parser able to generate mapping rules in three mapping languages: R2RML, RML (with extension to functions from FnO) and YARRRML. It takes the mapping rules expressed in a spreadsheet and transforms them into the desired language. The spreadsheet template is designed to facilitate the mapping rules' writting, with the aim of being language independent, and thus, lowering the barrier of generating mappings for non-expert users.
 
-<p align="center"> 
- <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/workflow.png" alt="workflow" width="600"/> 
+<p align="center">
+ <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/workflow.png" alt="workflow" width="600"/>
 </p>
 
 ## Example
 A more detailed explanation is provided in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
 
-### First Step: Fill the xlsx template with the transformation rules 
-The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions. The spreadsheet can be in XLSX format or a Google Spreadsheet. Here is an example of the structure of the spreadsheet. 
+### First Step: Fill the xlsx template with the transformation rules
+The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions. The spreadsheet can be in XLSX format or a Google Spreadsheet. Here is an example of the structure of the spreadsheet.
 
-<p align="center"> 
- <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/sheets.png" alt="sheets" width="500"/> 
+<p align="center">
+ <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/sheets.png" alt="sheets" width="500"/>
 </p>
 
-### Second Step: Choose the output language 
+### Second Step: Choose the output language
 Here you can see the [Available Languages](./templates).
 
 ### Third Step: Run it!
@@ -43,4 +44,3 @@ Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Toward
 - [Ana Iglesias-Molina](https://github.com/anaigmo) (ana.iglesiasm@upm.es)
 - [Luis Pozo](https://github.com/w0xter) (luis.pozo@upm.es)
 - [Daniel Doña](https://github.com/daniel-dona) (daniel.dona@xnor.ga)
-
