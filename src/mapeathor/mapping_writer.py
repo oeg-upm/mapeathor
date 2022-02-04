@@ -149,16 +149,27 @@ def writeSubject(data, path):
 
     f = open(global_config.tmpDir + 'Subject.txt', 'a+')
 
+    # Evaluate if URI is nan, because after it doesn't work calling utils.replaceVars
+    if data['URI'] == 'nan':
+        isnan = True
+    else:
+        isnan = False
+
     data['URI'] = utils.replaceVars(data['URI'], data['SubjectType'], 'nan')
     data['SubTermMap'] = utils.replaceTermMap(data['SubjectType'])
 
     if global_config.templatesDir[-8:-1] != 'yarrrml':
-        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:IRI;\n\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
+        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:' + data['SubjectTermType'] + ';\n')
+        if not isnan:
+            f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
+
         for class_s in data['Class']:
             f.write('\trr:class ' + class_s + ';\n')
         f.write('];\n')
     else:
-        f.write('s: ' + data['URI'] + '\npo:\n')
+        if not isnan:
+            f.write('s: ' + data['URI'] + '\n')
+        f.write('po:\n')
         for class_s in data['Class']:
             f.write('  - [a, ' + class_s + ']\n')
 

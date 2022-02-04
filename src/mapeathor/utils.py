@@ -61,6 +61,17 @@ def termTypeIdentifier(element, dataType):
     else:
         return 'Literal', ''
 
+def subjectTermTypeIdentifier(element):
+    """
+    Identifies the termtype of the subject 'element' based on if it is formatted as an IRI or not
+    """
+    if(len(str(element).split(":")) == 2 or "http" in str(element)):
+        return 'IRI'
+    elif element == 'nan':
+        return 'BlankNode'
+    else:
+        return 'BlankNode'
+
 
 def predicateTypeIdentifier(element):
     """
@@ -77,7 +88,7 @@ def predicateTypeIdentifier(element):
         return 'template'
     # Constant when not recognized
     else:
-        print("WARNING: type not identified for predicate '" + element + "', 'constant' assigned")
+        #print("WARNING: type not identified for predicate '" + element + "', 'constant' assigned")
         return 'constant'
 
 

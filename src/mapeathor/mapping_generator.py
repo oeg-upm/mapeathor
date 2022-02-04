@@ -49,6 +49,7 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID'])
         json['TriplesMap'][subject['ID']]['Subject'] = subject
         json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = utils.predicateTypeIdentifier(subject['URI'])
+        json['TriplesMap'][subject['ID']]['Subject']['SubjectTermType'] = utils.subjectTermTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['Predicate_Object'])
     json['Function'] = reFormatFunction(data['Function'], json)
