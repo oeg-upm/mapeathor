@@ -11,8 +11,8 @@ RUN apt-get update && \
     apt-get clean
 
 
-COPY . /Mapeathor
-RUN cp /Mapeathor/run.sh .
-RUN cd /Mapeathor/code && pip3 install -r requirements.txt 
+COPY . /mapeathor
+RUN cp /mapeathor/run.sh .
+RUN cd /mapeathor && pip3 install -r requirements.txt
 
 CMD ["tail", "-f", "/dev/null"]
