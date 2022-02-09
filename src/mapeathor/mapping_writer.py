@@ -88,7 +88,8 @@ def writePredicateObjects(data, path):
                 template = env.get_template(key + '.tmpl')
 
                 predicateObjects['Object'] = utils.replaceVars(str(predicateObjects['Object']), str(predicateObjects['ObjectType']), str(predicateObjects['TermType']))
-                predicateObjects['Predicate'] = utils.replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']), 'nan')
+                if not str(predicateObjects['PredicateType']) == "constant":
+                    predicateObjects['Predicate'] = utils.replaceVars(str(predicateObjects['Predicate']), str(predicateObjects['PredicateType']), 'nan')
                 if( 'InnerRef' in predicateObjects.keys() and 'OuterRef' in predicateObjects.keys()):
                     predicateObjects['InnerRef'] = utils.replaceVars(str(predicateObjects['InnerRef']), 'join_condition', 'nan')
                     predicateObjects['OuterRef'] = utils.replaceVars(str(predicateObjects['OuterRef']), 'join_condition', 'nan')
