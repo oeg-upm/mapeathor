@@ -3,7 +3,6 @@
  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6025390.svg)](https://doi.org/10.5281/zenodo.6025390)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
  [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
- [![PyPI status](https://img.shields.io/pypi/status/mapeathor)](https://pypi.python.org/pypi/mapeathor)
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/Square_logo_mapeathor.png" alt="workflow" width="150"/>
