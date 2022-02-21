@@ -29,7 +29,7 @@ The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObje
 </p>
 
 ### Second Step: Choose the output language
-Here you can see the [Available Languages](./templates).
+One of three options can be chosen: R2RML, RML or YARRRML.
 
 ### Third Step: Run it!
 The easiest way of running Mapeathor is using the [web service](https://morph.oeg.fi.upm.es/demo/mapeathor) and the [Swagger](https://morph.oeg.fi.upm.es/tool/mapeathor/swagger/) instance. For CLI lovers, the service is available as a [PyPi package](https://pypi.org/project/mapeathor/) and Docker image. The instructions of the latest can be found in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
