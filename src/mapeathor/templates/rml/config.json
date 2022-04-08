@@ -4,7 +4,7 @@
 			"before":"{",
 			"after":"}",
 			"termMap":"rr:template"
-			
+
 		},
 		"reference":{
 			"before":"\"",
@@ -25,8 +25,8 @@
 		"size":4
 	},
 	"iterator":{
-		"before":"    rml:iterator ;\n\"",
-		"after":"\""
+		"before":"    rml:iterator \"",
+		"after":"\";\n"
 	},
 	"extension":"rml.ttl"
 }

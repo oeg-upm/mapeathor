@@ -45,6 +45,7 @@ def organizeJson(data):
     json['Prefix'] = data['Prefix']
     json['TriplesMap'] = {}
     formated_subjects = reFormatSubject(data['Subject'])
+    function_reference = False
     for subject in formated_subjects:
         json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID'])
         json['TriplesMap'][subject['ID']]['Subject'] = subject
@@ -52,7 +53,14 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Subject']['SubjectTermType'] = utils.subjectTermTypeIdentifier(subject['URI'])
         json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
         json['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['Predicate_Object'])
-    json['Function'] = reFormatFunction(data['Function'], json)
+        if json['TriplesMap'][subject['ID']]['Predicate_Object']['Function'] != []:
+            function_reference = True
+
+    # If function references in TMs, process functions
+    if function_reference:
+        json['Function'] = reFormatFunction(data['Function'], json)
+    else:
+        json['Function'] = {}
     return json
 
 
@@ -135,8 +143,7 @@ def reFormatFunction(data_function, data):
 
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
-        result[fun]['Source']['FunctionID'] = fun
-        #print(result['Fun1']['Source'])
+
     return(result)
 
 
@@ -144,20 +151,32 @@ def find_source(function_key, data, functions):
     """
     Finds the source of the 'function_key' in 'data' or in 'functions', and returns it
     """
+    # To fund sources in regular triples maps
     for tm in data['TriplesMap']:
         if len(data['TriplesMap'][tm]['Predicate_Object']['Function']) != 0:
             for fun in data['TriplesMap'][tm]['Predicate_Object']['Function']:
                 if fun['Object'] == function_key:
                     #data['TriplesMap'][tm]['Source']['FunctionID'] = function_key
                     #print(data['TriplesMap'][tm]['Source'])
-                    return(data['TriplesMap'][tm]['Source'])
+                    functions[function_key]['Source'] = data['TriplesMap'][tm]['Source'].copy()
+                    functions[function_key]['Source']['FunctionID'] = function_key
+                    return(functions[function_key]['Source'])
+
     for fun in functions:
         if len(functions[fun]['Source']) != 0:
             for element in functions[fun]['Predicate_Object']:
                 if element['Value'][2:-1] == function_key:
                     functions[function_key]['Source'] = functions[fun]['Source'].copy()
-                    #functions[function_key]['Source']['FunctionID'] = function_key
+                    functions[function_key]['Source']['FunctionID'] = function_key
                     return(functions[function_key]['Source'])
+        else:
+            # To capture sources from input functions
+            for pom in functions[fun]['Predicate_Object']:
+                if str(pom['Value'][:2]) == '<#' and str(pom['Value'])[-1:] == '>' and pom['FunctionID'] == function_key :
+                    functions[function_key]['Source'] = functions[pom['Value'][2:-1]]['Source'].copy()
+                    functions[function_key]['Source']['FunctionID'] = function_key
+                    return(functions[function_key]['Source'])
+
 
 
 def reFormatPredicateObject(data):

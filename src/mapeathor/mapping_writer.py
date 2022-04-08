@@ -204,7 +204,7 @@ def writeFunctionSource(data, path):
 
     config  = json.loads(open(global_config.templatesDir + 'config.json').read())
     if(data['Iterator'] != ''):
-        data['Iterator'] = str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
+        data['Iterator'] = '\n    ' + str(config['iterator']['before']) + str(data['Iterator']) + str(config['iterator']['after'])
 
     output = template.render(source=data)
     f = open(global_config.tmpDir + 'FunctionSource.txt', 'w')
