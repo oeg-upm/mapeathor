@@ -164,15 +164,18 @@ def writeSubject(data, path):
         if not isnan:
             f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
 
-        for class_s in data['Class']:
-            f.write('\trr:class ' + class_s + ';\n')
+        if data['Class'] != ['nan']:
+            for class_s in data['Class']:
+                f.write('\trr:class ' + class_s + ';\n')
         f.write('];\n')
     else:
         if not isnan:
             f.write('s: ' + data['URI'] + '\n')
         f.write('po:\n')
-        for class_s in data['Class']:
-            f.write('  - [a, ' + class_s + ']\n')
+
+        if data['Class'] != ['nan']:
+            for class_s in data['Class']:
+                f.write('  - [a, ' + class_s + ']\n')
 
     f.close()
     writeResult(data['ID'], 'Subject')
