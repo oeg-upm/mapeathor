@@ -223,7 +223,10 @@ def writeFunctionPOM(data, path):
 
     for pom in data:
         if pom['Feature'] != 'fno:executes' and str(pom['Value'])[0] != '<':
-            pom['Value'] = '\"' + pom['Value'] + '\"'
+            pom['Value'] = '[ \"' + pom['Value'] + '\" ]'
+        elif str(pom['Value'])[0] == '<' and str(pom['Value'])[0] == '<' and str(pom['Value'])[-1] == '>':
+            pom['Value'] = pom['Value']
+
 
         output = template.render(pom=pom)
         f = open(global_config.tmpDir + 'FunctionPOM.txt', 'w')
