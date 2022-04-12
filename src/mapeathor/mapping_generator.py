@@ -55,7 +55,8 @@ def organizeJson(data):
         json['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['Predicate_Object'])
         if json['TriplesMap'][subject['ID']]['Predicate_Object']['Function'] != []:
             function_reference = True
-
+        if 'Graph' in json['TriplesMap'][subject['ID']]['Subject']:
+            json['TriplesMap'][subject['ID']]['Subject']['GraphType'] = utils.predicateTypeIdentifier(subject['Graph'])
     # If function references in TMs, process functions
     if function_reference:
         json['Function'] = reFormatFunction(data['Function'], json)

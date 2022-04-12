@@ -4,7 +4,7 @@
 			"before":"$(",
 			"after":")",
 			"termMap":"rr:template"
-			
+
 		},
 		"reference":{
 			"before":"$(",
@@ -16,8 +16,8 @@
 			"after":")"
 		},
 		"constant":{
-			"before":"\"",
-			"after":"\"",
+			"before":"",
+			"after":"",
 			"termMap":"rr:constant"
 		}
 	},

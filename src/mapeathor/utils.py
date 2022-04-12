@@ -11,7 +11,7 @@ def replaceVars(element, type_, termtype_):
     """
     config = json.loads(open(global_config.templatesDir + 'config.json').read())
     # Add "" to the constant literal objects in YARRRML
-    if(global_config.templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant' and termtype_ == 'Literal'):
+    if(global_config.templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
 
     # Replace '{' and '}' in all but constant objects according to the config.json file of each language

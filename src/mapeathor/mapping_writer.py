@@ -159,18 +159,33 @@ def writeSubject(data, path):
     data['URI'] = utils.replaceVars(data['URI'], data['SubjectType'], 'nan')
     data['SubTermMap'] = utils.replaceTermMap(data['SubjectType'])
 
+    if 'Graph' in data:
+        data['Graph'] = utils.replaceVars(data['Graph'], data['GraphType'], 'nan')
+        data['GraphTermMap'] = utils.replaceTermMap(data['GraphType'])
+
     if global_config.templatesDir[-8:-1] != 'yarrrml':
-        f.write('rr:subjectMap [\n\ta rr:Subject;\n\trr:termType rr:' + data['SubjectTermType'] + ';\n')
+        f.write('rr:subjectMap [\n\ta rr:Subject ;\n\trr:termType rr:' + data['SubjectTermType'] + ' ;\n')
         if not isnan:
-            f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ';\n')
+            f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ' ;\n')
 
         if data['Class'] != ['nan']:
             for class_s in data['Class']:
-                f.write('\trr:class ' + class_s + ';\n')
+                f.write('\trr:class ' + class_s + ' ;\n')
+
+        if 'Graph' in data:
+            if data['Graph'] != '"nan"':
+                f.write('\trr:graphMap [ ' + data['GraphTermMap'] + ' ' + data['Graph'] + ' ] ;\n')
+
+
         f.write('];\n')
     else:
         if not isnan:
-            f.write('s: ' + data['URI'] + '\n')
+            f.write('subjects: ' + data['URI'] + '\n')
+
+        if 'Graph' in data:
+            if data['Graph'] != '"nan"':
+                f.write('graph: ' + data['Graph'] + '\n')
+
         f.write('po:\n')
 
         if data['Class'] != ['nan']:
