@@ -1,6 +1,6 @@
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6025390.svg)](https://doi.org/10.5281/zenodo.6025390)
+ [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5973906.svg)](https://doi.org/10.5281/zenodo.5973906)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
  [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
 
@@ -40,6 +40,6 @@ Iglesias-Molina, A., Pozo-Gilo, L., Dona, D., Ruckhaus, E., Chaves-Fraga, D., & 
 Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Towards the Definition of a Language-Independent Mapping Template for Knowledge Graph Creation. *In Proceedings of the Third International Workshop on Capturing Scientific Knowledge co-located with the 10th International Conference on Knowledge Capture (K-CAP 2019)* (pp. 33-36). [Online version](https://sciknow.github.io/sciknow2019/papers/SciKnow_2019_paper_4.pdf)
 
 ## Authors and contact
-- [Ana Iglesias-Molina](https://github.com/anaigmo) (ana.iglesiasm@upm.es)
-- [Luis Pozo](https://github.com/w0xter) (luis.pozo@upm.es)
-- [Daniel Doña](https://github.com/daniel-dona) (daniel.dona@xnor.ga)
+- [Ana Iglesias-Molina](https://github.com/anaigmo) - [ana.iglesiasm@upm.es](mailto:ana.iglesiasm@upm.es)
+- [Luis Pozo](https://github.com/w0xter)
+- [Daniel Doña](https://github.com/daniel-dona)
