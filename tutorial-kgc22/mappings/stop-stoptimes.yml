@@ -1,0 +1,64 @@
+base: "http://example.com/"
+
+
+prefixes:
+  schema: "https://schema.org/"
+  ex: "http://ex.com/"
+  foaf: "http://xmlns.com/foaf/0.1/"
+  dc: "http://purl.org/dc/elements/1.1/"
+  rev: "http://purl.org/stuff/rev#"
+  gtfs: "http://vocab.gtfs.org/terms#"
+  geo: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  dct: "http://purl.org/dc/terms/"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+
+mappings:
+  STOPS:
+    sources:
+      - [data/STOPS.csv~csv]
+    subjects: http://transport.linkeddata.es/madrid/metro/stops/$(stop_id)
+    po:
+      - [a, gtfs:Stop]
+      - [gtfs:code, $(stop_code), xsd:string]
+      - [dct:identifier, $(stop_id), xsd:string]
+      - [foaf:name, $(stop_name), xsd:string]
+      - [dct:description, $(stop_desc), xsd:string]
+      - [geo:lat, $(stop_lat), xsd:double]
+      - [geo:long, $(stop_lon), xsd:double]
+      - [gtfs:zone, $(zone_id), xsd:string]
+      - [foaf:page, $(stop_url)~iri, xsd:anyURI]
+      - [gtfs:locationType, http://transport.linkeddata.es/resource/LocationType/$(location_type)~iri, xsd:anyURI]
+      - [gtfs:timeZone, $(stop_timezone), xsd:string]
+      - [gtfs:wheelchairAccessible, http://transport.linkeddata.es/resource/WheelchairBoardingStatus/$(wheelchair_boarding)~iri, xsd:anyURI]
+      - p: gtfs:parentStation
+        o:
+          - mapping: STOPS
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(parent_station)]
+                - [str2, $(stop_id)]
+ 
+  STOPTIMES:
+    sources:
+      - [data/STOP_TIMES.csv~csv]
+    subjects: http://transport.linkeddata.es/madrid/metro/stoptimes/$(trip_id)-$(stop_id)-$(arrival_time)
+    po:
+      - [a, gtfs:StopTime]
+      - [gtfs:arrivalTime, $(arrival_time), xsd:duration]
+      - [gtfs:departureTime, $(departure_time), xsd:duration]
+      - [gtfs:stopSequence, $(stop_sequence), xsd:integer]
+      - [gtfs:headsign, $(stop_headsign), xsd:string]
+      - [gtfs:pickupType, http://transport.linkeddata.es/resource/PickupType/$(pickup_type)~iri, xsd:anyURI]
+      - [gtfs:dropOffType, http://transport.linkeddata.es/resource/DropOffType/$(drop_off_type)~iri, xsd:anyURI]
+      - [gtfs:distanceTraveled, $(shape_dist_traveled), xsd:string]
+      - p: gtfs:stop
+        o:
+          - mapping: STOPS
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(stop_id)]
+                - [str2, $(stop_id)]
+ 
