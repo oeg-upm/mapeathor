@@ -1,1 +1,1 @@
-@prefix {{prefixes.Prefix}}: <{{prefixes.URI}}>.
+@prefix {% if prefixes.Prefix not in ['nan','NaN','NAN',''] %}{{prefixes.Prefix}}{% endif %}: <{{prefixes.URI}}>.

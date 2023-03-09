@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from jinja2 import Environment, FileSystemLoader
 
 from . import global_config
@@ -41,8 +42,10 @@ def writePrefix(data, path):
 
         if ':' in str(prefix['Prefix']):
             re.sub(':', '', str(prefix['Prefix']))
-        elif prefix['Prefix'] == 'nan' or prefix['URI'] == 'nan':
+        elif prefix['URI'] == 'nan':
             continue
+        elif prefix['Prefix'] == 'nan':
+            re.sub('nan', '', str(prefix['Prefix']))
 
         if prefix['Prefix'] == '@base':
             base_output = base_template.render(prefixes=prefix)
