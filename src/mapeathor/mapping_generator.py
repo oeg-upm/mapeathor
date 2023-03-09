@@ -190,6 +190,7 @@ def reFormatPredicateObject(data):
         element['PredicateType'] = utils.predicateTypeIdentifier(element['Predicate'])
         element['PredTermMap'] = utils.replaceTermMap(element['PredicateType'])
         element['DataType'] = utils.dataTypeIdentifier(element['DataType'])
+        element['Language'] = element['Language'].lower()
         element['TermType'], element['isIRI'] = utils.termTypeIdentifier(element['Object'], element['DataType'])
 
         # Populate Join key

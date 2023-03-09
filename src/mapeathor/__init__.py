@@ -34,7 +34,7 @@ def main():
 
     # Wrong language or not supported
     if(args.language.lower() not in global_config.supportedLanguages):
-        print("ERROR: The selected Language is not supported by the moment.")
+        print("ERROR: The selected Language is not supported at the moment.")
         print("Supporteds Languages: " + str(global_config.supportedLanguages))
         sys.exit()
     else: # Create mapping
