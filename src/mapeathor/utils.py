@@ -58,6 +58,8 @@ def termTypeIdentifier(element, dataType):
     """
     if(len(str(element).split(":")) == 2 or "http" in str(element) or dataType == "anyURI"):
         return 'IRI', '~iri'
+    elif dataType == "BlankNode":
+        return 'BlankNode', '~iri'
     else:
         return 'Literal', ''
 

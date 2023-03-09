@@ -1,1 +1,1 @@
-- [{{pom.Predicate}}, {{pom.Object}}{{pom.isIRI}}{% if not pom.TermType=="IRI"%}, xsd:{{pom.DataType}}{% endif %}{% if pom.Language not in ['nan','NaN','NAN',''] %}, {{pom.Language}}~lang{% endif %}]
+- [{{pom.Predicate}}, {{pom.Object}}{{pom.isIRI}}{% if not pom.TermType=="IRI" and not pom.TermType=="BlankNode"%}, xsd:{{pom.DataType}}{% endif %}{% if pom.Language not in ['nan','NaN','NAN',''] %}, {{pom.Language}}~lang{% endif %}]

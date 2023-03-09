@@ -55,5 +55,10 @@ defaultDataTypes = {
       "iri",
       "uri",
       "url"
-   ]
+   ],
+"BlankNode":[
+   "blanknode",
+   "blank node",
+   "bn"
+]
 }
