@@ -18,7 +18,7 @@ def replaceVars(element, type_, termtype_):
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
 
-    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template') and (global_config.templatesDir[-4:-1] == 'rml' or global_config.templatesDir[-6:-1] == 'r2rml')):
+    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template' or (termtype_ == 'IRI' and element[0:4] == 'http')) and (global_config.templatesDir[-4:-1] == 'rml' or global_config.templatesDir[-6:-1] == 'r2rml')):
         result = "\"" + element + "\""
 
     else:
