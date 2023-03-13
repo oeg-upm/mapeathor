@@ -35,7 +35,6 @@ classifiers = [
   'Intended Audience :: Information Technology',
   'Intended Audience :: Science/Research',
   'Topic :: Software Development :: Pre-processors',
-  'Topic :: Database',
   'Topic :: Utilities',
   'Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator',
 ]
