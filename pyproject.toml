@@ -1,0 +1,59 @@
+[build-system]
+requires = ['hatchling>=1.11.0']
+build-backend = 'hatchling.build'
+
+[project.urls]
+Documentation = 'https://github.com/oeg-upm/mapeathor/wiki'
+Source = 'https://github.com/oeg-upm/mapeathor/'
+Tracker = 'https://github.com/oeg-upm/mapeathor/issues'
+CI = 'https://github.com/oeg-upm/mapeathor/actions'
+Homepage = 'https://morph.oeg.fi.upm.es/tool/mapeathor'
+History = 'https://github.com/oeg-upm/mapeathor/actions'
+#Sponsor = ''
+
+[project]
+name = 'mapeathor'
+description = 'Mapeathor translates your mapping rules specified in spreadsheets to a mapping language.'
+readme = 'README.md'
+keywords = ['Mapeathor', 'R2RML', 'RML', 'YARRRML', 'Knowledge Graph', 'Data Integration']
+authors = [
+  {name = 'Ana Iglesias-Molina', email = 'ana.iglesiasm@upm.es'}
+]
+license = 'Apache-2.0'
+classifiers = [
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'License :: OSI Approved :: Apache Software License',
+  'Operating System :: OS Independent',
+  'Development Status :: 5 - Production/Stable',
+  'Environment :: Console',
+  'Intended Audience :: Information Technology',
+  'Intended Audience :: Science/Research',
+  'Topic :: Software Development :: Pre-processors',
+  'Topic :: Database',
+  'Topic :: Utilities',
+  'Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator',
+]
+requires-python = '>=3.6'
+dynamic = ['version']
+dependencies = [
+  'pandas',
+  'argparse',
+  'openpyxl',
+  'httplib2',
+  'configparser',
+  'flask',
+  'flask_swagger',
+  'flask_swagger_ui',
+  'flask_restful',
+  'requests',
+  'jinja2'
+]
+
+[tool.hatch.version]
+path = 'src/mapeathor/_version.py'
