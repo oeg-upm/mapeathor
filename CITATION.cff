@@ -1,0 +1,25 @@
+title: "Mapeathor: Simplifying the Specification of Declarative Rules for Knowledge Graph Construction"
+license: Apache-2.0
+authors:
+  - family-names: Iglesias-Molina
+    given-names: Ana
+    orcid: "http://orcid.org/0000-0001-5375-8024"
+cff-version: 1.0.0
+preferred-citation:
+  authors:
+    - family-names: Iglesias-Molina
+      given-names: Ana
+    - family-names: Pozo-Gilo
+      given-names: Luis
+    - family-names: Doña
+      given-names: Daniel
+    - family-names: Ruckhaus
+      given-names: Edna
+    - family-names: Chaves-Fraga
+      given-names: David
+    - family-names: Corcho
+      given-names: Oscar
+  title: "Mapeathor: Simplifying the Specification of Declarative Rules for Knowledge Graph Construction"
+  type: inproceedings
+  booktitle: ISWC (Demos/Industry)
+  year: 2020
