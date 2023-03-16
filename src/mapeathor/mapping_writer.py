@@ -19,14 +19,14 @@ def writeValues(data, path):
         writeTriplesMap(triplesmap, path)
         writeSubject(data['TriplesMap'][triplesmap]['Subject'], path)
         writeSource(data['TriplesMap'][triplesmap]['Source'], path)
-        writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'], path)
+        writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'],data['Function'], path)
 
     # Functions implemented only in RML
     if global_config.templatesDir[-5:-1] == '/rml':
         for function in data['Function']:
-            writeFunctionMap(function, path)
+            writeFunctionMap(function,data['Function'][function]['Executes'], path)
             writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
-            writeFunctionSource(data['Function'][function]['Source'], path)
+            #writeFunctionSource(data['Function'][function]['Source'], path)
 
 
 def writePrefix(data, path):
@@ -78,7 +78,7 @@ def writeTriplesMap(data, path):
     writeResult(str(data), 'TriplesMap')
 
 
-def writePredicateObjects(data, path):
+def writePredicateObjects(data, functions, path):
     """
     Writes the Predicate_Object temporal file from the template with the information in 'data' into the path 'path'
     """
@@ -96,6 +96,10 @@ def writePredicateObjects(data, path):
                 if( 'InnerRef' in predicateObjects.keys() and 'OuterRef' in predicateObjects.keys()):
                     predicateObjects['InnerRef'] = utils.replaceVars(str(predicateObjects['InnerRef']), 'join_condition', 'nan')
                     predicateObjects['OuterRef'] = utils.replaceVars(str(predicateObjects['OuterRef']), 'join_condition', 'nan')
+                if key == 'Function':
+                    for fun_pom in data[key]:
+                        fun_pom['Returns'] = functions[fun_pom['Object']]['Returns']
+                        
 
                 output = template.render(pom=predicateObjects)
                 f = open(global_config.tmpDir + key + '.txt', 'w')
@@ -199,7 +203,7 @@ def writeSubject(data, path):
     writeResult(data['ID'], 'Subject')
 
 
-def writeFunctionMap(data, path):
+def writeFunctionMap(function_id,function_execution, path):
     """
     Writes the function map temporal file from the template with the information in 'data' into the path 'path'
     """
@@ -207,16 +211,17 @@ def writeFunctionMap(data, path):
     env = Environment(loader=file_loader)
     template = env.get_template('FunctionMap.tmpl')
 
-    fun_tm = {'FunctionID' : data}
+    fun_tm = {'FunctionID' : function_id, 'Execution' : function_execution}
     output = template.render(fun_tm=fun_tm)
     f = open(global_config.tmpDir + 'FunctionMap.txt', 'w')
     f.write(output + "\n")
     f.close()
-    writeResult(str(data), 'FunctionMap')
+    writeResult(str(function_id), 'FunctionMap')
 
 
 def writeFunctionSource(data, path):
     """
+    DEPRECATED FOR NEW FNML SPEC
     Writes the source of function temporal file from the template with the information in 'data' into the path 'path'
     """
     file_loader = FileSystemLoader(global_config.templatesDir)
@@ -243,8 +248,8 @@ def writeFunctionPOM(data, path):
     template = env.get_template('FunctionPOM.tmpl')
 
     for pom in data:
-        if pom['Feature'] != 'fno:executes' and str(pom['Value'])[0] != '<':
-            pom['Value'] = '[ \"' + pom['Value'] + '\" ]'
+        if str(pom['Value'])[0] != '<':
+            pom['Value'] = '\"' + pom['Value'] + '\"'
         elif str(pom['Value'])[0] == '<' and str(pom['Value'])[0] == '<' and str(pom['Value'])[-1] == '>':
             pom['Value'] = pom['Value']
 

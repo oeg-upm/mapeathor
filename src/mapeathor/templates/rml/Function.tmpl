@@ -1,4 +1,7 @@
 rr:predicateObjectMap [
-	rr:predicateMap	[ {{pom.PredTermMap}} {{pom.Predicate}}] ;
-	rr:objectMap	<#{{pom.Object}}>
+  rr:predicateMap	[ {{pom.PredTermMap}} {{pom.Predicate}}] ;
+  rr:objectMap	[
+	  fnml:execution <#{{pom.Object}}> ;
+	  fnml:return {{pom.Returns}} ;
+	];
 ];

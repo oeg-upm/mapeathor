@@ -41,5 +41,3 @@ Iglesias-Molina, A., Chaves-Fraga, D., Priyatna, F., & Corcho, O. (2019). Toward
 
 ## Authors and contact
 - [Ana Iglesias-Molina](https://github.com/anaigmo) - [ana.iglesiasm@upm.es](mailto:ana.iglesiasm@upm.es)
-- [Luis Pozo](https://github.com/w0xter)
-- [Daniel Doña](https://github.com/daniel-dona)

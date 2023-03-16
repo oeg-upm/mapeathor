@@ -129,18 +129,23 @@ def reFormatFunction(data_function, data):
             FID = element['FunctionID']
 
         if element['FunctionID'] == FID:
-            if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
-                element['ValueType'] = 'rr:constant'
-            elif(str(element['Value'])[:1] == '{' and str(element['Value'])[-1:] == '}'):
-                element['Value'] = str(element['Value'])[1:-1]
-                element['ValueType'] = 'rml:reference'
-            elif(str(element['Value'])[:1] == '<' and str(element['Value'])[-1:] == '>'):
-                element['Value'] = '<#' + str(element['Value'])[1:]
-                element['ValueType'] = ''
+            if element['Feature'] == 'executes':
+                result[element['FunctionID']]['Executes'] = element['Value']
+            elif element['Feature'] == 'returns':
+                result[element['FunctionID']]['Returns'] = element['Value']
             else:
-                print('WARNING: Wrong element in Function', FID)
-                element['ValueType'] = 'rr:constant'
-            result[element['FunctionID']]['Predicate_Object'].append(element)
+                if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
+                    element['ValueType'] = 'rr:constant'
+                elif(str(element['Value'])[:1] == '{' and str(element['Value'])[-1:] == '}'):
+                    element['Value'] = str(element['Value'])[1:-1]
+                    element['ValueType'] = 'rml:reference'
+                elif(str(element['Value'])[:1] == '<' and str(element['Value'])[-1:] == '>'):
+                    element['Value'] = '<#' + str(element['Value'])[1:]
+                    element['ValueType'] = ''
+                else:
+                    print('WARNING: Wrong element in Function', FID)
+                    element['ValueType'] = 'rr:constant'
+                result[element['FunctionID']]['Predicate_Object'].append(element)
 
     for fun in result:
         result[fun]['Source'] = find_source(fun, data, result)
