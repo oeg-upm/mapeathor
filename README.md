@@ -1,6 +1,6 @@
  [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5973906.svg)](https://doi.org/10.5281/zenodo.5973906)
+ [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5973906.svg)](https://doi.org/10.5281/zenodo.7713200)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
  [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
 
