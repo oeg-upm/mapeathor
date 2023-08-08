@@ -20,6 +20,6 @@ preferred-citation:
     - family-names: Corcho
       given-names: Oscar
   title: "Mapeathor: Simplifying the Specification of Declarative Rules for Knowledge Graph Construction"
-  type: inproceedings
+  type: proceedings
   booktitle: ISWC (Demos/Industry)
   year: 2020
