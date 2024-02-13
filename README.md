@@ -22,7 +22,7 @@
 A more detailed explanation is provided in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
 
 ### First Step: Fill the xlsx template with the transformation rules
-The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions. The spreadsheet can be in XLSX format or a Google Spreadsheet. Here is an example of the structure of the spreadsheet.
+The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions. The spreadsheet can be in XLSX format or a Google Spreadsheet. **Careful!** When using Google Spreasheets, the sharing option must be enabled. Here is an example of the structure of the spreadsheet.
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/new_sheets.png" alt="sheets" width="500"/>
