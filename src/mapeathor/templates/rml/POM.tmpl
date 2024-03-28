@@ -1,4 +1,7 @@
-rr:predicateObjectMap [
-	rr:predicateMap	[ {{pom.PredTermMap}} {{pom.Predicate}}];
-	rr:objectMap	[ {{pom.ObjTermMap}} {{pom.Object}}; rr:termType rr:{{pom.TermType}}{% if not pom.TermType=="IRI" and not pom.TermType=="BlankNode"%}; rr:datatype xsd:{{pom.DataType}}{% endif %}{% if pom.Language not in ['nan','NaN','NAN',''] %}; rr:language "{{pom.Language}}"{% endif %} ]
+rml:predicateObjectMap [
+	rml:predicateMap	[ {{pom.PredTermMap}} {{pom.Predicate}}];
+	rml:objectMap	[ {{pom.ObjTermMap}} {{pom.Object}};
+		rml:termType rml:{{pom.TermType}}{% if not pom.TermType=="IRI" and not pom.TermType=="BlankNode"%};
+		rml:datatype xsd:{{pom.DataType}}{% endif %}{% if pom.Language not in ['nan','NaN','NAN',''] %};
+		rml:language "{{pom.Language}}"{% endif %} ]
 ];

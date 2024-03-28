@@ -30,9 +30,9 @@ API_URL = '/api/'  # Our API url (can of course be a local resource)
 
 # Call factory function to create our blueprint
 swaggerui_blueprint = get_swaggerui_blueprint(
-    SWAGGER_URL,  
+    SWAGGER_URL,
     API_URL,
-    config={ 
+    config={
         'app_name': "Mapeathor"
     },
 )
@@ -46,13 +46,13 @@ class Mapeathor(Resource):
         swag['info']['version'] = "1.0.0"
         swag['info']['title'] = "Mapeathor"
         return jsonify(swag)
-        
+
     def post(self):
-        
+
         """
         Translate mapping document
         ---
-        
+
         components:
           schemas:
             Excel:
@@ -60,7 +60,7 @@ class Mapeathor(Resource):
               properties:
                 format:
                   type: string
-                  enum: [ "rml", "r2rml", "yarrrml"]
+                  enum: [ "rml", "rml2014", "r2rml", "yarrrml"]
                 file:
                   type: file
                   description: XLS[X] file to convert
@@ -69,7 +69,7 @@ class Mapeathor(Resource):
               properties:
                 format:
                   type: string
-                  enum: [ "rml", "r2rml", "yarrrml"]
+                  enum: [ "rml", "rml2014", "r2rml", "yarrrml"]
                 url:
                   type: string
                   description: Google Spreadsheet url to convert
@@ -83,7 +83,7 @@ class Mapeathor(Resource):
             - in: formData
               name: format
               type: text
-              enum: [ "rml", "r2rml", "yarrrml"]
+              enum: [ "rml", "rml2014", "r2rml", "yarrrml"]
               description: Mapping output format
             - in: formData
               name: url
@@ -101,48 +101,47 @@ class Mapeathor(Resource):
             '500':
                 description: 'Internal tool error'
         """
-        
+
         data = parser.parse_args()
-        
+
         print(data)
-        
+
         if data['file'] is None and data['url'] is None:
             return {'message':'File or URL not found'}
         if data['format'] is None:
             return {'message':'No output mapping format specified'}
         else:
-            
+
             temp_out = tempfile.NamedTemporaryFile(prefix="mapeathor-api").name
-            
+
             if data['file'] is None or data['file'].filename == "":
-                
+
                 temp_in = mapeathor.gdriveToXMLX(data['url'])
-            
+
             else:
-                
+
                 temp_in = tempfile.NamedTemporaryFile(prefix="mapeathor-api").name
 
                 data['file'].save(temp_in)
-                
+
                 print(len(temp_in))
-            
+
             mapeathor.setMappingLanguage(data["format"])
-            
+
             outputFile = mapeathor.generateMapping(temp_in, temp_out)
-            
+
             return send_file(outputFile, as_attachment=True)
-            
+
 
 api.add_resource(Mapeathor, API_URL)
 
 
 def run(host="0.0.0.0", port=5000):
-    
+
     print("API URL: "+API_URL)
     print("SWAGGER URL: "+SWAGGER_URL)
-    
+
     app.run(debug=False, host=host, port=port)
 
 if __name__ == '__main__':
     run()
-

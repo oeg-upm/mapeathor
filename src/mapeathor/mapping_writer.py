@@ -22,7 +22,7 @@ def writeValues(data, path):
         writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'],data['Function'], path)
 
     # Functions implemented only in RML
-    if global_config.templatesDir[-5:-1] == '/rml':
+    if global_config.templatesDir[-5:-1] == '/rml' or global_config.templatesDir[-8:-1] == 'rml2014':
         for function in data['Function']:
             writeFunctionMap(function,data['Function'][function]['Executes'], path)
             writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
@@ -99,7 +99,7 @@ def writePredicateObjects(data, functions, path):
                 if key == 'Function':
                     for fun_pom in data[key]:
                         fun_pom['Returns'] = functions[fun_pom['Object']]['Returns']
-                        
+
 
                 output = template.render(pom=predicateObjects)
                 f = open(global_config.tmpDir + key + '.txt', 'w')
@@ -170,7 +170,7 @@ def writeSubject(data, path):
         data['Graph'] = utils.replaceVars(data['Graph'], data['GraphType'], 'nan')
         data['GraphTermMap'] = utils.replaceTermMap(data['GraphType'])
 
-    if global_config.templatesDir[-8:-1] != 'yarrrml':
+    if global_config.templatesDir[-8:-1] == 'rml2014' or global_config.templatesDir[-6:-1] == 'r2rml':
         f.write('rr:subjectMap [\n\ta rr:Subject ;\n\trr:termType rr:' + data['SubjectTermType'] + ' ;\n')
         if not isnan:
             f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ' ;\n')
@@ -183,8 +183,23 @@ def writeSubject(data, path):
             if data['Graph'] != '"nan"':
                 f.write('\trr:graphMap [ ' + data['GraphTermMap'] + ' ' + data['Graph'] + ' ] ;\n')
 
+        f.write('];\n')
+
+    elif global_config.templatesDir[-4:-1] == 'rml':
+        f.write('rml:subjectMap [\n\ta rml:Subject ;\n\trml:termType rml:' + data['SubjectTermType'] + ' ;\n')
+        if not isnan:
+            f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ' ;\n')
+
+        if data['Class'] != ['nan']:
+            for class_s in data['Class']:
+                f.write('\trml:class ' + class_s + ' ;\n')
+
+        if 'Graph' in data:
+            if data['Graph'] != '"nan"':
+                f.write('\trml:graphMap [ ' + data['GraphTermMap'] + ' ' + data['Graph'] + ' ] ;\n')
 
         f.write('];\n')
+
     else:
         if not isnan:
             f.write('subjects: ' + data['URI'] + '\n')

@@ -135,7 +135,10 @@ def reFormatFunction(data_function, data):
                 result[element['FunctionID']]['Returns'] = element['Value']
             else:
                 if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
-                    element['ValueType'] = 'rr:constant'
+                    if global_config.templatesDir[-8:-1] == 'rml2014':
+                        element['ValueType'] = 'rr:constant'
+                    else:
+                        element['ValueType'] = 'rml:constant'
                 elif(str(element['Value'])[:1] == '{' and str(element['Value'])[-1:] == '}'):
                     element['Value'] = str(element['Value'])[1:-1]
                     element['ValueType'] = 'rml:reference'
@@ -144,7 +147,10 @@ def reFormatFunction(data_function, data):
                     element['ValueType'] = ''
                 else:
                     print('WARNING: Wrong element in Function', FID)
-                    element['ValueType'] = 'rr:constant'
+                    if global_config.templatesDir[-8:-1] == 'rml2014':
+                        element['ValueType'] = 'rr:constant'
+                    else:
+                        element['ValueType'] = 'rml:constant'
                 result[element['FunctionID']]['Predicate_Object'].append(element)
 
     for fun in result:

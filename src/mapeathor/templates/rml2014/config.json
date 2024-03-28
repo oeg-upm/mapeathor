@@ -3,7 +3,7 @@
 		"template":{
 			"before":"{",
 			"after":"}",
-			"termMap":"rml:template"
+			"termMap":"rr:template"
 
 		},
 		"reference":{
@@ -14,7 +14,7 @@
 		"constant":{
 			"before":"\"",
 			"after":"\"",
-			"termMap":"rml:constant"
+			"termMap":"rr:constant"
 		},
 		"join_condition":{
 			"before":"",

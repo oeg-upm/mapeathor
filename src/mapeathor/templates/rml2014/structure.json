@@ -1,6 +1,6 @@
 {
 	"unique":[		{
-		"before":"@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix rml: <https://w3id.org/rml/>.",
+		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix rml: <http://semweb.mmlab.be/ns/rml#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
 		"file":"Prefix",
 		"tabs":1,
 		"childs":[],
@@ -19,7 +19,7 @@
 		"file":"TriplesMap",
 		"tabs":1,
 		"childs":[
-
+			
 			{
 				"before":"",
 				"file":"Source",
@@ -39,7 +39,7 @@
 				"tabs":1,
 				"childs":[],
 				"after":""
-
+	
 			},
 			{
 				"before":"",
@@ -80,5 +80,5 @@
 		"after":"    ]\n.\n"
 		}
 	]
-
+	
 }

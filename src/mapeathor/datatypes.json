@@ -42,5 +42,9 @@
       "blanknode",
       "blank node",
       "bn"
-   ]
+   ],
+     "gYear":[
+        "year",
+        "gyear"
+      ]
 }

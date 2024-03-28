@@ -7,7 +7,7 @@ tmpDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 baseTemplatesDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates') + '/'
 dataTypesFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'dataTypes.json')
 resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
-supportedLanguages = {'rml', 'r2rml', 'yarrrml'}
+supportedLanguages = {'rml', 'rml2014', 'r2rml', 'yarrrml'}
 
 
 def setMappingLanguage(language):
@@ -56,9 +56,13 @@ defaultDataTypes = {
       "uri",
       "url"
    ],
-"BlankNode":[
-   "blanknode",
-   "blank node",
-   "bn"
-]
+   "BlankNode":[
+      "blanknode",
+      "blank node",
+      "bn"
+    ],
+    "gYear":[
+       "year",
+       "gyear"
+     ]
 }

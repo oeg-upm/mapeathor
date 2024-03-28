@@ -1,6 +1,6 @@
 {
 	"unique":[		{
-		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n@prefix ql: <http://semweb.mmlab.be/ns/ql#>.",
+		"before":"@prefix rr: <http://www.w3.org/ns/r2rml#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.",
 		"file":"Prefix",
 		"tabs":1,
 		"childs":[],
@@ -39,7 +39,7 @@
 				"tabs":1,
 				"childs":[],
 				"after":""
-	
+
 			},
 			{
 				"before":"",
@@ -52,5 +52,5 @@
 		"after":".\n"
 		}
 	]
-	
+
 }
