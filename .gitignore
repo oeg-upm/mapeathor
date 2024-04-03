@@ -18,3 +18,5 @@ __pycache__/
 .DS_Store
 
 *.pyc
+
+tmp.json
