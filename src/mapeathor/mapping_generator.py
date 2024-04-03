@@ -14,12 +14,12 @@ def generateJson(path):
     The input excel file 'path' is translated into JSON format, returns the json
     """
     data = pandas.ExcelFile(path, engine='openpyxl')
-    json = {}
+    tmpjson = {}
     for sheet_ in data.sheet_names:
         sheet = str(sheet_)
-        json[sheet] = {}
-        json[sheet] = generateJsonCols(data.parse(sheet))
-    return json
+        tmpjson[sheet] = {}
+        tmpjson[sheet] = generateJsonCols(data.parse(sheet))
+    return tmpjson
 
 
 def generateJsonCols(data):
@@ -41,28 +41,28 @@ def organizeJson(data):
     """
     Rearranges the data in JSON format into the desired structure, returns the resulting json
     """
-    json = {}
-    json['Prefix'] = data['Prefix']
-    json['TriplesMap'] = {}
+    tmpjson = {}
+    tmpjson['Prefix'] = data['Prefix']
+    tmpjson['TriplesMap'] = {}
     formated_subjects = reFormatSubject(data['Subject'])
     function_reference = False
     for subject in formated_subjects:
-        json['TriplesMap'][subject['ID']] = findChilds(data, subject['ID'])
-        json['TriplesMap'][subject['ID']]['Subject'] = subject
-        json['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = utils.predicateTypeIdentifier(subject['URI'])
-        json['TriplesMap'][subject['ID']]['Subject']['SubjectTermType'] = utils.subjectTermTypeIdentifier(subject['URI'])
-        json['TriplesMap'][subject['ID']]['Source'] = reFormatSource(json['TriplesMap'][subject['ID']]['Source'])
-        json['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(json['TriplesMap'][subject['ID']]['Predicate_Object'])
-        if json['TriplesMap'][subject['ID']]['Predicate_Object']['Function'] != []:
+        tmpjson['TriplesMap'][subject['ID']] = findChilds(data, subject['ID'])
+        tmpjson['TriplesMap'][subject['ID']]['Subject'] = subject
+        tmpjson['TriplesMap'][subject['ID']]['Subject']['SubjectType'] = utils.predicateTypeIdentifier(subject['URI'])
+        tmpjson['TriplesMap'][subject['ID']]['Subject']['SubjectTermType'] = utils.subjectTermTypeIdentifier(subject['URI'])
+        tmpjson['TriplesMap'][subject['ID']]['Source'] = reFormatSource(tmpjson['TriplesMap'][subject['ID']]['Source'])
+        tmpjson['TriplesMap'][subject['ID']]['Predicate_Object']  =  reFormatPredicateObject(tmpjson['TriplesMap'][subject['ID']]['Predicate_Object'])
+        if tmpjson['TriplesMap'][subject['ID']]['Predicate_Object']['Function'] != []:
             function_reference = True
-        if 'Graph' in json['TriplesMap'][subject['ID']]['Subject']:
-            json['TriplesMap'][subject['ID']]['Subject']['GraphType'] = utils.predicateTypeIdentifier(subject['Graph'])
+        if 'Graph' in tmpjson['TriplesMap'][subject['ID']]['Subject']:
+            tmpjson['TriplesMap'][subject['ID']]['Subject']['GraphType'] = utils.predicateTypeIdentifier(subject['Graph'])
     # If function references in TMs, process functions
     if function_reference:
-        json['Function'] = reFormatFunction(data['Function'], json)
+        tmpjson['Function'] = reFormatFunction(data['Function'], tmpjson)
     else:
-        json['Function'] = {}
-    return json
+        tmpjson['Function'] = {}
+    return tmpjson
 
 
 def reFormatSubject(data):
@@ -135,7 +135,7 @@ def reFormatFunction(data_function, data):
                 result[element['FunctionID']]['Returns'] = element['Value']
             else:
                 if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
-                    if global_config.templatesDir[-8:-1] == 'rml2014':
+                    if global_config.language == 'rml2014':
                         element['ValueType'] = 'rr:constant'
                     else:
                         element['ValueType'] = 'rml:constant'
@@ -147,7 +147,7 @@ def reFormatFunction(data_function, data):
                     element['ValueType'] = ''
                 else:
                     print('WARNING: Wrong element in Function', FID)
-                    if global_config.templatesDir[-8:-1] == 'rml2014':
+                    if global_config.language == 'rml2014':
                         element['ValueType'] = 'rr:constant'
                     else:
                         element['ValueType'] = 'rml:constant'
@@ -209,7 +209,7 @@ def reFormatPredicateObject(data):
             element['ObjectType'] = 'reference'
             result['Join'].append(element)
         # Populate Function key
-        elif(str(element['Object'])[:1] == '<' and str(element['Object'])[-1:] == '>'):
+        elif(bool(re.search("^<[^<]+>$", str(element['Object'])))):
             element['ObjectType'] = 'reference'
             element['Object'] = str(element['Object'])[1:-1]
             result['Function'].append(element)
@@ -250,7 +250,7 @@ def reFormatSource(data):
             elif result['Format'].lower() == 'csv':
                 result['Format'] = 'CSV'
 
-            if global_config.templatesDir[-8:-1] == 'yarrrml':
+            if global_config.language == 'yarrrml':
                 result['Format'] = str(result['Format']).lower()
 
         elif(element['Feature'].lower() == 'iterator'):
@@ -299,18 +299,20 @@ def generateMapping(inputFile, outputFile=None):
     #json = organizeJson(json)
 
     try:
-        json = generateJson(inputFile)
+        tmpjson = generateJson(inputFile)
         #print("First JSON: ")
         #print(str(json).replace('\'', '\"'))
-        json = organizeJson(json)
+        tmpjson = organizeJson(tmpjson)
         #print("Second JSON: ")
         #print(str(json).replace('\'', '\"'))
+        #with open('tmp.json', 'w') as file:
+        #    json.dump(tmpjson, file, indent=4)
         # sys.exit()
     except KeyError:
         print("ERROR: The spreadsheet template is not correct. Check the sheet and column names are correct.")
         sys.exit()
 
-    mapping_writer.writeValues(json,global_config.tmpDir)
+    mapping_writer.writeValues(tmpjson,global_config.tmpDir)
 
-    outputFile = mapping_writer.writeFinalFile(outputFile, json['TriplesMap'].keys(), json['Function'].keys())
+    outputFile = mapping_writer.writeFinalFile(outputFile, tmpjson['TriplesMap'].keys(), tmpjson['Function'].keys())
     return outputFile

@@ -22,7 +22,7 @@ def writeValues(data, path):
         writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'],data['Function'], path)
 
     # Functions implemented only in RML
-    if global_config.templatesDir[-5:-1] == '/rml' or global_config.templatesDir[-8:-1] == 'rml2014':
+    if global_config.language == 'rml' or global_config.language == 'rml2014':
         for function in data['Function']:
             writeFunctionMap(function,data['Function'][function]['Executes'], path)
             writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
@@ -170,7 +170,7 @@ def writeSubject(data, path):
         data['Graph'] = utils.replaceVars(data['Graph'], data['GraphType'], 'nan')
         data['GraphTermMap'] = utils.replaceTermMap(data['GraphType'])
 
-    if global_config.templatesDir[-8:-1] == 'rml2014' or global_config.templatesDir[-6:-1] == 'r2rml':
+    if global_config.language == 'rml2014' or global_config.language == 'r2rml':
         f.write('rr:subjectMap [\n\ta rr:Subject ;\n\trr:termType rr:' + data['SubjectTermType'] + ' ;\n')
         if not isnan:
             f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ' ;\n')
@@ -185,7 +185,7 @@ def writeSubject(data, path):
 
         f.write('];\n')
 
-    elif global_config.templatesDir[-4:-1] == 'rml':
+    elif global_config.language == 'rml':
         f.write('rml:subjectMap [\n\ta rml:Subject ;\n\trml:termType rml:' + data['SubjectTermType'] + ' ;\n')
         if not isnan:
             f.write('\t' + data['SubTermMap'] + ' ' + data['URI'] + ' ;\n')

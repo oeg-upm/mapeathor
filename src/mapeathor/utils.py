@@ -11,14 +11,14 @@ def replaceVars(element, type_, termtype_):
     """
     config = json.loads(open(global_config.templatesDir + 'config.json').read())
     # Add "" to the constant literal objects in YARRRML
-    if(global_config.templatesDir[-8:-1] == 'yarrrml' and type_ == 'constant'):
+    if(global_config.language == 'yarrrml' and type_ == 'constant'):
         result = str(config['variable'][type_]['before']) + element + str(config['variable'][type_]['after'])
 
     # Replace '{' and '}' in all but constant objects according to the config.json file of each language
     elif(type_ != 'constant' and str(config['variable'][type_]['before']) != '{' and str(config['variable'][type_]['after']) != '}'):
         result = element.replace("{", str(config['variable'][type_]['before'])).replace("}", config['variable'][type_]['after'])
 
-    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template' or (termtype_ == 'IRI' and element[0:4] == 'http')) and (global_config.templatesDir[-4:-1] == 'rml' or global_config.templatesDir[-6:-1] == 'r2rml')):
+    elif(((termtype_ != 'IRI' and type_ == 'constant') or type_ == 'template' or (termtype_ == 'IRI' and element[0:4] == 'http')) and (global_config.language == 'rml' or global_config.language == 'r2rml')):
         result = "\"" + element + "\""
 
     else:
@@ -79,15 +79,19 @@ def predicateTypeIdentifier(element):
     """
     Identifies the type of the predicate, distinguishing between constant, reference and template, and returns it
     """
-    # For constant
-    if(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
-        return 'constant'
     # For reference
-    elif(str(element)[:1] == '{' and str(element)[-1:] == '}' and len(str(element).split(" "))  == 1):
+    if(str(element)[:1] == '{' and str(element)[-1:] == '}' and len(str(element).split(" "))  == 1):
         return 'reference'
     # For template
     elif(bool(re.search("{.+}.+", str(element))) or bool(re.search(".+{.+}", str(element)))):
         return 'template'
+    # For star maps
+    #elif(bool(re.search("^<<.+>>$", str(element)))):
+    #    print("\n\n\n")
+    #    return 'starmap'
+    # For constant
+    elif(len(str(element).split(":")) == 2 and "{" not in str(element) and "}" not in str(element)):
+        return 'constant'
     # Constant when not recognized
     else:
         #print("WARNING: type not identified for predicate '" + element + "', 'constant' assigned")

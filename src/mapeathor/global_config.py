@@ -10,9 +10,12 @@ resultDir = tempfile.TemporaryDirectory(prefix="mapeathor").name+"/"
 supportedLanguages = {'rml', 'rml2014', 'r2rml', 'yarrrml'}
 
 
-def setMappingLanguage(language):
+def setMappingLanguage(lang):
     global templatesDir
-    templatesDir = baseTemplatesDir + language.lower() + "/"
+    global language
+
+    templatesDir = baseTemplatesDir + lang.lower() + "/"
+    language = lang.lower()
 
 
 defaultDataTypes = {
