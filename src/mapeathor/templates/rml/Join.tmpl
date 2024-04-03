@@ -1,10 +1,11 @@
 rml:predicateObjectMap [
 	rml:predicateMap	[ {{pom.PredTermMap}} {{pom.Predicate}} ];
 	rml:objectMap	[
-		rml:parentTriplesMap	<#{{pom.ReferenceID}}>;
+		rml:termType rml:IRI ;
+		rml:parentTriplesMap	<#{{pom.ReferenceID}}> ;
 		rml:joinCondition	[
-			rml:child	"{{pom.InnerRef}}";
-			rml:parent	"{{pom.OuterRef}}";
+			rml:child	"{{pom.InnerRef}}" ;
+			rml:parent	"{{pom.OuterRef}}" ;
 		];
 	];
 ];
