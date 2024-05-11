@@ -1,6 +1,5 @@
- [![Generic badge](https://img.shields.io/badge/Status-Developing-yellow)](https://shields.io/)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/oeg-upm/Mapeathor/blob/master/LICENSE)
- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7713200.svg)](https://doi.org/10.5281/zenodo.7713200)
+ [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5973906.svg)](https://doi.org/10.5281/zenodo.5973906)
  [![version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
  [![Latest PyPI version](https://img.shields.io/pypi/v/mapeathor?style=flat)](https://pypi.python.org/pypi/mapeathor)
 
@@ -21,7 +20,7 @@
 ## Example
 A more detailed explanation is provided in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
 
-### First Step: Fill the xlsx template with the transformation rules
+### First Step: Fill the spreadseet template with the transformation rules
 The template has five mandatory sheets, *Prefixes, Source, Subject PredicateObjectMap* and *Functions*. The last one can be left blank in case there are no functions. The spreadsheet can be in XLSX format or a Google Spreadsheet. **Careful!** When using Google Spreasheets, the sharing option must be enabled. Here is an example of the structure of the spreadsheet.
 
 <p align="center">
