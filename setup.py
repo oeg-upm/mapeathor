@@ -19,7 +19,7 @@ setup(
     version=version,
     author="Ana Iglesias-Molina",
     author_email="ana.iglesiasm@upm.es",
-    #license="Apache 2.0",
+    license_files = ('LICENSE'),
     description="Mapeathor is a simple spreadsheet parser able to generate mapping rules in three mapping languages: R2RML, RML (releases on 2014 and 2023) and YARRRML.",
     long_description=long_description,
     long_description_content_type="text/markdown",
