@@ -25,8 +25,8 @@
 		"size":2
 	},
 	"iterator":{
-		"before":", ",
-		"after":""
+		"before":", '",
+		"after":"'"
 	},
 	"extension":"yml"
 }
